@@ -14,8 +14,8 @@ import java.time.LocalDate;
 @Table(name = "Products_Spare_Parts_SC")
 public class ProductsSparePartsSC {
     @Id
-    @Column(name = "ID_Products_Part_Type_SC")
-    private String idProductsPartTypeSc;
+    @Column(name = "ID_Products_Part_SC")
+    private String idProductsPartSc;
 
     @Column(name = "Description")
     private String description;

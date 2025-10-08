@@ -1,11 +1,10 @@
 package com.warrantyclaim.warrantyclaim_api.entity;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,9 +12,11 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 @Table(name = "Products_Spare_Parts_Type_SC")
 public class ProductsSparePartsTypeSC {
+
     @Id
     @Column(name = "ID_Products_Part_Type_SC")
     private String idProductsPartTypeSc;
@@ -49,5 +50,4 @@ public class ProductsSparePartsTypeSC {
 
     @ManyToMany(mappedBy = "productsSparePartsTypeSCs")
     private List<WarrantyPolicy> warrantyPolicies = new ArrayList<>();
-
 }

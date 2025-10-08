@@ -2,18 +2,22 @@ package com.warrantyclaim.warrantyclaim_api.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 @Table(name = "SC_Staff")
 public class ScStaff {
+
     @Id
     @Column(name = "SC_StaffID")
     private String scStaffId;
@@ -21,6 +25,7 @@ public class ScStaff {
     @Column(name = "Account_Name")
     private String accountName;
 
+    @Column(name = "Age")
     private Integer age;
 
     @Column(name = "Email")
@@ -36,13 +41,11 @@ public class ScStaff {
     private String password;
 
     @OneToMany(mappedBy = "scStaff")
-    private List<PartsRequest> partsRequests;
+    private List<PartsRequest> partsRequests = new ArrayList<>();
 
     @OneToMany(mappedBy = "scStaff")
-    private List<WarrantyClaim> warrantyClaims;
+    private List<WarrantyClaim> warrantyClaims = new ArrayList<>();
 
     @OneToMany(mappedBy = "scStaff")
-    private List<Report> reports;
+    private List<Report> reports = new ArrayList<>();
 }
-
-

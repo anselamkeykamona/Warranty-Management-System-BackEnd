@@ -1,0 +1,42 @@
+package com.warrantyclaim.warrantyclaim_api.entity;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+
+import java.time.LocalDate;
+import java.util.List;
+
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+@Table(name = "SC_Technician")
+public class ScTechnician {
+    @Id
+    @Column(name = "SC_TechnicianID")
+    private String scTechnicianId;
+
+    @Column(name = "Name")
+    private String name;
+
+    @Column(name = "Email")
+    private String email;
+
+    @Column(name = "Phone_Number")
+    private String phoneNumber;
+
+    @Column(name = "Date_of_Birth")
+    private LocalDate dateOfBirth;
+
+    @Column(name = "Password")
+    private String password;
+
+    @Column(name = "Specialty")
+    private String specialty;
+
+    @OneToMany(mappedBy = "scTechnician")
+    private List<WorkAssign> workAssigns;
+}

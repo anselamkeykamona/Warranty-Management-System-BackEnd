@@ -1,7 +1,10 @@
 package com.warrantyclaim.warrantyclaim_api.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +16,7 @@ import java.util.List;
 @Setter
 @Table(name = "Electric_Vehicle_Type")
 public class ElectricVehicleType {
+
     @Id
     @Column(name = "ID_Electric_Vehicle_Type")
     private String idElectricVehicleType;
@@ -46,5 +50,4 @@ public class ElectricVehicleType {
 
     @ManyToMany(mappedBy = "electricVehicleTypes")
     private List<ServiceCampaigns> serviceCampaigns = new ArrayList<>();
-
 }

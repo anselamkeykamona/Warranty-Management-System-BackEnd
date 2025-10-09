@@ -1,8 +1,10 @@
 package com.warrantyclaim.warrantyclaim_api.entity;
 
-
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
@@ -13,6 +15,7 @@ import java.time.LocalDate;
 @Setter
 @Table(name = "Parts_Request")
 public class PartsRequest {
+
     @Id
     @Column(name = "RequestID")
     private String requestId;
@@ -43,4 +46,3 @@ public class PartsRequest {
     @JoinColumn(name = "SC_StaffID")
     private ScStaff scStaff;
 }
-

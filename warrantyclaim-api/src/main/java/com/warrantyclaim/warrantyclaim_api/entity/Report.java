@@ -1,8 +1,10 @@
 package com.warrantyclaim.warrantyclaim_api.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
-
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @NoArgsConstructor
@@ -11,6 +13,7 @@ import lombok.*;
 @Setter
 @Table(name = "Report")
 public class Report {
+
     @Id
     @Column(name = "ID_Report")
     private String idReport;

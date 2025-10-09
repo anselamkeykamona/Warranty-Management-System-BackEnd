@@ -1,7 +1,11 @@
 package com.warrantyclaim.warrantyclaim_api.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -14,6 +18,7 @@ import java.util.List;
 @Setter
 @Table(name = "EVM_Staff")
 public class EVMStaff {
+
     @Id
     @Column(name = "EVM_Staff_ID")
     private String evmStaffId;

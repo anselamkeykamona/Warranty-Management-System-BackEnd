@@ -1,8 +1,10 @@
 package com.warrantyclaim.warrantyclaim_api.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
-
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ import java.util.List;
 @Setter
 @Table(name = "Service_Campaigns")
 public class ServiceCampaigns {
+
     @Id
     @Column(name = "CampaignsID")
     private String campaignsId;
@@ -47,7 +50,7 @@ public class ServiceCampaigns {
     private List<WorkAssign> workAssigns = new ArrayList<>();
 
     @ManyToMany
-    @JoinTable (
+    @JoinTable(
             name = "Electric_Vehicle_Type_Service_Campaigns",
             joinColumns = @JoinColumn(name = "CampaignsID"),
             inverseJoinColumns = @JoinColumn(name = "ID_Electric_Vehicle_Type")

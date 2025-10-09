@@ -1,10 +1,12 @@
 package com.warrantyclaim.warrantyclaim_api.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor
@@ -13,12 +15,13 @@ import java.time.LocalDate;
 @Setter
 @Table(name = "Work_Assign")
 public class WorkAssign {
+
     @Id
-    @Column(name = "WorkAssign_ID")
+    @Column(name = "Work_Assign_ID")
     private String workAssignId;
 
-    @Column(name = "Assign_Date")
-    private LocalDate assignDate;
+    @Column(name = "Work_Assign_Date")
+    private LocalDateTime workAssignDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ClaimID")

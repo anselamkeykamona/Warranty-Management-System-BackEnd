@@ -2,15 +2,17 @@ package com.warrantyclaim.warrantyclaim_api.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 @Table(name = "Products_Spare_Parts_SC")
 public class ProductsSparePartsSC {
     @Id
@@ -20,23 +22,27 @@ public class ProductsSparePartsSC {
     @Column(name = "Description")
     private String description;
 
-    @Column(name = "Part_Name")
-    private String partName;
+    @Id
+    @Column(name = "ID_Product_Serial_SC")
+    private String idProductSerialSc;
 
-    @Column(name = "Year_Model_Year")
-    private Integer yearModelYear;
+    @Column(name = "Name_Product")
+    private String nameProduct;
 
-    @Column(name = "Total_Amount_of_Product")
-    private Integer totalAmountOfProduct;
+    @Column(name = "Year_of_Manufacture")
+    private LocalDate yearOfManufacture;
 
     @Column(name = "Price")
-    private Double price;
+    private Float price;
 
-    @Column(name = "Manufacturer")
-    private String manufacturer;
+    @Column(name = "Warranty_Period")
+    private Integer warrantyPeriod;
 
-    @Column(name = "Condition")
-    private String condition;
+    @Column(name = "Description")
+    private String description;
+
+    @Column(name = "Brand")
+    private String brand;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_Products_Part_Type_SC")

@@ -15,6 +15,12 @@ import java.time.LocalDate;
 @Setter
 @Table(name = "Products_Spare_Parts_SC")
 public class ProductsSparePartsSC {
+    @Id
+    @Column(name = "ID_Products_Part_SC")
+    private String idProductsPartSc;
+
+    @Column(name = "Description")
+    private String description;
 
     @Id
     @Column(name = "ID_Product_Serial_SC")

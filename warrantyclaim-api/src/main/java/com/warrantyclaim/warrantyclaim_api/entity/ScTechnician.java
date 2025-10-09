@@ -1,6 +1,8 @@
 package com.warrantyclaim.warrantyclaim_api.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,13 +27,15 @@ public class ScTechnician {
     @Column(name = "Name")
     private String name;
 
-    @Column(name = "Email")
+    @Column(name = "Email", unique = true)
+    @Email(message = "Email Invalid format!!!")
     private String email;
 
     @Column(name = "Phone_Number")
     private String phoneNumber;
 
     @Column(name = "Date_of_Birth")
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate dateOfBirth;
 
     @Column(name = "Password")

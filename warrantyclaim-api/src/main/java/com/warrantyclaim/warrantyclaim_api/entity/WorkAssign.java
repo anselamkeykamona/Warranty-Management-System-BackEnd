@@ -1,5 +1,6 @@
 package com.warrantyclaim.warrantyclaim_api.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,6 +22,7 @@ public class WorkAssign {
     private String workAssignId;
 
     @Column(name = "Work_Assign_Date")
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDateTime workAssignDate;
 
     @ManyToOne(fetch = FetchType.LAZY)

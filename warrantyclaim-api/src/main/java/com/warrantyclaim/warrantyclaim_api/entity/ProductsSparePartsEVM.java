@@ -1,22 +1,21 @@
 package com.warrantyclaim.warrantyclaim_api.entity;
 
-
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
 
-
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
+@Table(name = "Products_Spare_Parts_EVM")
 @Getter
 @Setter
-@Table(name = "Products_Spare_Parts_Type_EVM")
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProductsSparePartsEVM {
+
     @Id
     @Column(name = "ID_Product_Serial_EVM")
-    private String idProductSerialEvm;
+    private String id;
 
     @Column(name = "Name_Product")
     private String nameProduct;
@@ -36,8 +35,7 @@ public class ProductsSparePartsEVM {
     @Column(name = "Description")
     private String description;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_product_serial_evm")
+    @JoinColumn(name = "ID_Products_Part_Type_EVM")
     private ProductsSparePartsTypeEVM productsSparePartsTypeEVM;
 }

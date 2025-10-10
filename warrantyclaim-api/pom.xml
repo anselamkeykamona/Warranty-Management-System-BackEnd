@@ -26,9 +26,10 @@
 		<tag/>
 		<url/>
 	</scm>
-	<properties>
-		<java.version>21</java.version>
-	</properties>
+    <properties>
+        <java.version>17</java.version>
+    </properties>
+
 	<dependencies>
         <!-- https://mvnrepository.com/artifact/com.mysql/mysql-connector-j -->
 
@@ -57,9 +58,26 @@
 			<scope>test</scope>
 		</dependency>
 
+        <!-- VALIDATION -->
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+        <!-- Spring Securyti -->
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
 
 
-	</dependencies>
+
+
+
+
+    </dependencies>
 
 	<build>
 		<plugins>

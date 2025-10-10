@@ -3,20 +3,19 @@ package com.warrantyclaim.warrantyclaim_api.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "Products_Spare_Parts_Type_EVM")
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Setter
-@Getter
-@Table(name = "Products_Spare_Parts_Type_EVM")
 public class ProductsSparePartsTypeEVM {
+
     @Id
     @Column(name = "ID_Products_Part_Type_EVM")
-    private String idProductsPartTypeEvm;
+    private String id;
 
     @Column(name = "Description")
     private String description;
@@ -27,7 +26,7 @@ public class ProductsSparePartsTypeEVM {
     @Column(name = "Year_Model_Year")
     private Integer yearModelYear;
 
-    @Column(name = "Total_Amount_of_Product")
+    @Column(name = "Total_Amount_Of_Product")
     private Integer totalAmountOfProduct;
 
     @Column(name = "Price")
@@ -39,10 +38,6 @@ public class ProductsSparePartsTypeEVM {
     @Column(name = "Condition")
     private String condition;
 
-    @OneToMany(mappedBy = "productsSparePartsTypeEVM")
-    private List<ProductsSparePartsEVM> productsSparePartsEVMs = new ArrayList<>();
-
-    @ManyToMany(mappedBy = "productsSparePartsTypeEVMs")
-    private List<WarrantyPolicy> warrantyPolicies = new ArrayList<>();
-
+    @OneToMany(mappedBy = "productsSparePartsTypeEVM", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProductsSparePartsEVM> productsSparePartsEVM;
 }

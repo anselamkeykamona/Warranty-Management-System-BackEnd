@@ -34,7 +34,7 @@ public class WarrantyPolicy {
             joinColumns = @JoinColumn(name = "id_warranty_policy"),
             inverseJoinColumns = @JoinColumn(name = "id_products_part_type_evm")
     )
-    private List<ProductsSparePartsTypeEVM> productsSparePartsTypeEVMS = new ArrayList<>();
+    private List<ProductsSparePartsTypeEVM> productsSparePartsTypeEVMs = new ArrayList<>();
 
     @ManyToMany
     @JoinTable (

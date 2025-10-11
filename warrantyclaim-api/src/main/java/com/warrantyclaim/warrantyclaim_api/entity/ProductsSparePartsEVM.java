@@ -1,7 +1,11 @@
 package com.warrantyclaim.warrantyclaim_api.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 
 import java.time.LocalDate;
 
@@ -9,8 +13,7 @@ import java.time.LocalDate;
 @Table(name = "Products_Spare_Parts_EVM")
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Table(name = "Products_Spare_Parts_EVM")
 public class ProductsSparePartsEVM {
 
     @Id
@@ -27,7 +30,7 @@ public class ProductsSparePartsEVM {
     private String brand;
 
     @Column(name = "Price")
-    private Double price;
+    private Float price;
 
     @Column(name = "Warranty_Period")
     private Integer warrantyPeriod;

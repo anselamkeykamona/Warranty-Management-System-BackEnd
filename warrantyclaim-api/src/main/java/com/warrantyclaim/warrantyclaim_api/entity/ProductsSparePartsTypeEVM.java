@@ -1,7 +1,11 @@
 package com.warrantyclaim.warrantyclaim_api.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 
 import java.util.List;
 
@@ -30,7 +34,7 @@ public class ProductsSparePartsTypeEVM {
     private Integer totalAmountOfProduct;
 
     @Column(name = "Price")
-    private Double price;
+    private Float price;
 
     @Column(name = "Manufacturer")
     private String manufacturer;
@@ -38,6 +42,9 @@ public class ProductsSparePartsTypeEVM {
     @Column(name = "Condition")
     private String condition;
 
-    @OneToMany(mappedBy = "productsSparePartsTypeEVM", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProductsSparePartsEVM> productsSparePartsEVM;
+    @OneToMany(mappedBy = "productsSparePartsTypeEVM")
+    private List<ProductsSparePartsEVM> productsSparePartsEVMList = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "productsSparePartsTypeEVMs")
+    private List<WarrantyPolicy> warrantyPolicies = new ArrayList<>();
 }

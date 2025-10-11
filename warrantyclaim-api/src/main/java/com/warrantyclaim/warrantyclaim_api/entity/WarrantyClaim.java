@@ -3,8 +3,9 @@ package com.warrantyclaim.warrantyclaim_api.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -13,7 +14,9 @@ import java.time.LocalDate;
 @Setter
 @Table(name = "Warranty_Claim")
 public class WarrantyClaim {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "ClaimID")
     private String claimId;
 
@@ -35,11 +38,17 @@ public class WarrantyClaim {
     @Column(name = "Email")
     private String email;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Vehicle_ID")
     private ElectricVehicle electricVehicle;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "SC_StaffID", nullable = false)
+    @JoinColumn(name = "SC_StaffID")
     private ScStaff scStaff;
+
+    @OneToMany(mappedBy = "warrantyClaim")
+    private List<ProductsSparePartsSC> productsSparePartsSCList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "warrantyClaim")
+    private List<WorkAssign> workAssigns = new ArrayList<>();
 }

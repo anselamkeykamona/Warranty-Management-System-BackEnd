@@ -3,6 +3,8 @@ package com.warrantyclaim.warrantyclaim_api.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,10 +23,23 @@ public class WarrantyClaimCreateRequestDTO { // this information for creating   
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate claimDate;
 
-    @Email(message = "Email Invalid")
+    @Pattern(regexp = "^[0-9]{10}$", message = "Phone number must be exactly 10 digits")
+    private String phoneNumber;
+
+//    @NotBlank(message = "Require Picture for verification!!")
+//    private String picture;
+
+    @NotBlank(message = "Customer name is required")
+    @Size(max = 100, message = "Customer name must not exceed 100 characters")
+    private String customerName;
+
+    @NotBlank(message = "Status for warranty claim is needed!!!")
+    private String status;
+
+    @Email(message = "Invalid email format")
     private String email;
 
-    @NotBlank(message = "Require Picture for verification!!")
-    private String picture;
+    @NotBlank(message = "Vehicle ID is required")
+    private String vehicleId;
 
 }

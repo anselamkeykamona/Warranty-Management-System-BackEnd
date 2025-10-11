@@ -3,6 +3,7 @@ package com.warrantyclaim.warrantyclaim_api.service.Implement;
 import com.warrantyclaim.warrantyclaim_api.dto.WarrantyClaimCreateRequestDTO;
 import com.warrantyclaim.warrantyclaim_api.dto.WarrantyClaimListResponseDTO;
 import com.warrantyclaim.warrantyclaim_api.dto.WarrantyClaimResponseDTO;
+import com.warrantyclaim.warrantyclaim_api.dto.WarrantyClaimUpdateRequestDTO;
 import com.warrantyclaim.warrantyclaim_api.entity.ElectricVehicle;
 import com.warrantyclaim.warrantyclaim_api.entity.ScStaff;
 import com.warrantyclaim.warrantyclaim_api.entity.ScTechnician;
@@ -59,5 +60,27 @@ public class WarrantyClaimServiceImp implements WarrantyClaimService {
     public Page<WarrantyClaimListResponseDTO> getAllClaims(Pageable pageable) {
         Page<WarrantyClaim> claims = warrantyClaimRepository.findAll(pageable);
         return claims.map(warrantyClaimMapper::toListResponse);
+    }
+
+    @Override
+    public WarrantyClaimResponseDTO updateClaim(String claimId, WarrantyClaimUpdateRequestDTO request) {
+        WarrantyClaim claim = warrantyClaimRepository.findById(claimId)
+                .orElseThrow(() -> new ResourceNotFoundException("Warranty claim not found with ID: " + claimId));
+        ElectricVehicle electricVehicle = electricVehicleRepository.findById(request.getElectricVehicleId()) // for testing exception
+                .orElseThrow(() -> new ResourceNotFoundException("There is no Electric Vehicle with this ID!!!"));
+
+
+        // Update staff if provided
+//        if (request.getScStaffId() != null && !request.getScStaffId().isEmpty()) {
+//            SCStaff staff = scStaffRepository.findById(request.getScStaffId())
+//                    .orElseThrow(() -> new ResourceNotFoundException("Staff not found with ID: " + request.getScStaffId()));
+//            claim.setScStaff(staff);
+//        }
+
+        // Update other fields
+        warrantyClaimMapper.updateEntity(claim, request);
+        claim.setElectricVehicle(electricVehicle);
+        WarrantyClaim updatedClaim = warrantyClaimRepository.save(claim);
+        return warrantyClaimMapper.toResponseWarrantyClaim(updatedClaim);
     }
 }

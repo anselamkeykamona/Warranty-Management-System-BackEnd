@@ -73,6 +73,30 @@ public class WarrantyClaimMapper {
         return response;
     }
 
+    public void updateEntity(WarrantyClaim claim, WarrantyClaimUpdateRequestDTO request) {
+        if (request == null || claim == null)
+            return;
+
+        if (request.getCustomerName() != null) {
+            claim.setCustomerName(request.getCustomerName());
+        }
+        if (request.getCustomerPhone() != null) {
+            claim.setCustomerPhone(request.getCustomerPhone());
+        }
+        if (request.getIssueDescription() != null) {
+            claim.setIssueDescription(request.getIssueDescription());
+        }
+        if (request.getStatus() != null) {
+            claim.setStatus(request.getStatus());
+        }
+        if (request.getEmail() != null) {
+            claim.setEmail(request.getEmail());
+        }
+
+
+        // Staff should be updated in service layer
+    }
+
     //------------------------------------------------------------------------------------------
     //Helper for info nested object
 

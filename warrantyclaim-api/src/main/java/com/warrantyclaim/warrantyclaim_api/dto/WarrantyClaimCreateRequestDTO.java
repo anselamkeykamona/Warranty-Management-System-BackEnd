@@ -34,6 +34,8 @@ public class WarrantyClaimCreateRequestDTO { // this information for creating   
     private String customerName;
 
     @NotBlank(message = "Status for warranty claim is needed!!!")
+    @Pattern(regexp = "^(PENDING|IN_PROGRESS|APPROVED|REJECTED|COMPLETED)$",
+            message = "Status must be one of: PENDING, IN_PROGRESS, APPROVED, REJECTED, COMPLETED")
     private String status;
 
     @Email(message = "Invalid email format")

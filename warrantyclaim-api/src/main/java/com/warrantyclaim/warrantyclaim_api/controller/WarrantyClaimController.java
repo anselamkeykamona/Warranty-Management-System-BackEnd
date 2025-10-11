@@ -1,0 +1,55 @@
+package com.warrantyclaim.warrantyclaim_api.controller;
+
+import com.warrantyclaim.warrantyclaim_api.dto.WarrantyClaimCreateRequestDTO;
+import com.warrantyclaim.warrantyclaim_api.dto.WarrantyClaimListResponseDTO;
+import com.warrantyclaim.warrantyclaim_api.dto.WarrantyClaimResponseDTO;
+import com.warrantyclaim.warrantyclaim_api.service.WarrantyClaimService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequiredArgsConstructor
+@CrossOrigin(origins = "*") // Configure as needed
+@RequestMapping("/api/WarrantyClaim")
+public class WarrantyClaimController {
+
+    private final WarrantyClaimService warrantyClaimService;
+
+    @PostMapping
+    public ResponseEntity<WarrantyClaimResponseDTO> createWarrantyClaim(@RequestBody WarrantyClaimCreateRequestDTO warrantyClaimCreateRequestDTO) {
+        System.out.println("✅ Controller reached: ");
+        WarrantyClaimResponseDTO saveWarrantyClaim = null;
+        try {
+            saveWarrantyClaim = warrantyClaimService.createWarrantyClaim(warrantyClaimCreateRequestDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(saveWarrantyClaim);
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<WarrantyClaimListResponseDTO>> getAllClaims(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "claimDate") String sortBy,
+            @RequestParam(defaultValue = "desc") String sortDir) {
+
+        Sort sort = sortDir.equalsIgnoreCase("asc")
+                ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+        Page<WarrantyClaimListResponseDTO> response = warrantyClaimService.getAllClaims(pageable);
+        return ResponseEntity.ok(response);
+    }
+
+}

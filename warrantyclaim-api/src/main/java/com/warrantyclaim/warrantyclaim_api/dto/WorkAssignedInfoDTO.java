@@ -18,4 +18,5 @@ public class WorkAssignedInfoDTO {
 
     private String technicianName;
     private String technicianId;
+
 }

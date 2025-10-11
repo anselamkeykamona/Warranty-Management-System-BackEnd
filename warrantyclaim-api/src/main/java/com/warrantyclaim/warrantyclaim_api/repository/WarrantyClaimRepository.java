@@ -12,4 +12,5 @@ public interface WarrantyClaimRepository extends JpaRepository<WarrantyClaim, St
 
     public List<WarrantyClaim> findByCustomerName(String customerName);
 
+
 }

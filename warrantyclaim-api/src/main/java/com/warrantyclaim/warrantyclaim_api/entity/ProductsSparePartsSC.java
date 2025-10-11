@@ -38,9 +38,6 @@ public class ProductsSparePartsSC {
     @Column(name = "Warranty_Period")
     private Integer warrantyPeriod;
 
-    @Column(name = "Description")
-    private String description;
-
     @Column(name = "Brand")
     private String brand;
 

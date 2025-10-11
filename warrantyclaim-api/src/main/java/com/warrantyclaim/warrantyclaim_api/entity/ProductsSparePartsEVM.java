@@ -10,8 +10,7 @@ import lombok.Setter;
 import java.time.LocalDate;
 
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
+@Table(name = "Products_Spare_Parts_EVM")
 @Getter
 @Setter
 @Table(name = "Products_Spare_Parts_EVM")
@@ -19,7 +18,7 @@ public class ProductsSparePartsEVM {
 
     @Id
     @Column(name = "ID_Product_Serial_EVM")
-    private String idProductSerialEvm;
+    private String id;
 
     @Column(name = "Name_Product")
     private String nameProduct;

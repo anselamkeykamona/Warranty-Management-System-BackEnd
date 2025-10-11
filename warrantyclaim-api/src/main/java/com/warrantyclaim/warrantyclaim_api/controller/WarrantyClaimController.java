@@ -3,6 +3,7 @@ package com.warrantyclaim.warrantyclaim_api.controller;
 import com.warrantyclaim.warrantyclaim_api.dto.WarrantyClaimCreateRequestDTO;
 import com.warrantyclaim.warrantyclaim_api.dto.WarrantyClaimListResponseDTO;
 import com.warrantyclaim.warrantyclaim_api.dto.WarrantyClaimResponseDTO;
+import com.warrantyclaim.warrantyclaim_api.dto.WarrantyClaimUpdateRequestDTO;
 import com.warrantyclaim.warrantyclaim_api.service.WarrantyClaimService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -52,4 +53,11 @@ public class WarrantyClaimController {
         return ResponseEntity.ok(response);
     }
 
+    @PutMapping("/{claimId}")
+    public ResponseEntity<WarrantyClaimResponseDTO> updateClaim(
+            @PathVariable String claimId,
+            @RequestBody WarrantyClaimUpdateRequestDTO request) {
+        WarrantyClaimResponseDTO response = warrantyClaimService.updateClaim(claimId, request);
+        return ResponseEntity.ok(response);
+    }
 }

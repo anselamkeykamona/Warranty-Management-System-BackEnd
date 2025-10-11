@@ -46,7 +46,7 @@ public class WarrantyClaimServiceImp implements WarrantyClaimService {
 //            staff = scStaffRepository.findById(warrantyClaimRequest.getScStaffId())
 //                    .orElseThrow(() -> new ResourceNotFoundException("Staff not found with ID: " + warrantyClaimRequest.getScStaffId()));
 //        }
-
+a
 
         WarrantyClaim warrantyClaim = warrantyClaimMapper.toEntityWarrantyClaim(warrantyClaimRequest);
         warrantyClaim.setElectricVehicle(electricVehicle);

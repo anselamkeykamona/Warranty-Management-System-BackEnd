@@ -7,19 +7,21 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "Products_Spare_Parts_Type_EVM")
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Setter
+@Getter
+@Table(name = "Products_Spare_Parts_Type_EVM")
 public class ProductsSparePartsTypeEVM {
 
     @Id
     @Column(name = "ID_Products_Part_Type_EVM")
-    private String id;
+    private String idProductsPartTypeEvm;
 
     @Column(name = "Description")
     private String description;

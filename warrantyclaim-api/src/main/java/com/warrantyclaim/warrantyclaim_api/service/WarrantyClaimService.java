@@ -14,4 +14,6 @@ public interface WarrantyClaimService {
     public Page<WarrantyClaimListResponseDTO> getAllClaims(Pageable pageable);
 
     public WarrantyClaimResponseDTO updateClaim(String claimId, WarrantyClaimUpdateRequestDTO request);
+
+    public WarrantyClaimDetailResponse getClaimById(String claimId);
 }

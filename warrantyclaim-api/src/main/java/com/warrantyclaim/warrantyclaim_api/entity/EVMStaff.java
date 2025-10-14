@@ -18,29 +18,24 @@ import java.util.List;
 @Setter
 @Table(name = "EVM_Staff")
 public class EVMStaff {
-
     @Id
-    @Column(name = "EVM_Staff_ID")
-    private String evmStaffId;
+    @Column(name = "EVM_Staff_ID", length = 50)
+    private String id;
 
-    @Column(name = "Name")
+    @Column(length = 100)
     private String name;
 
-    @Column(name = "Email")
+    @Column(length = 100)
     private String email;
 
-    @Column(name = "PhoneNumber")
+    @Column(length = 20)
     private String phoneNumber;
 
-    @Column(name = "Password")
+    @Column(length = 100)
     private String password;
 
-    @Column(name = "Department")
+    @Column(length = 100)
     private String department;
 
-    @Column(name = "DateOfBirth")
     private LocalDate dateOfBirth;
-
-    @OneToMany(mappedBy = "evmStaff")
-    private List<Report> reports = new ArrayList<>();
 }

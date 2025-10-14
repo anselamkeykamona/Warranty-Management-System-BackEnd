@@ -1,21 +1,13 @@
 package com.warrantyclaim.warrantyclaim_api.service.Implement;
 
-import com.warrantyclaim.warrantyclaim_api.dto.WarrantyClaimCreateRequestDTO;
-import com.warrantyclaim.warrantyclaim_api.dto.WarrantyClaimListResponseDTO;
-import com.warrantyclaim.warrantyclaim_api.dto.WarrantyClaimResponseDTO;
-import com.warrantyclaim.warrantyclaim_api.dto.WarrantyClaimUpdateRequestDTO;
+import com.warrantyclaim.warrantyclaim_api.dto.*;
 import com.warrantyclaim.warrantyclaim_api.entity.ElectricVehicle;
-import com.warrantyclaim.warrantyclaim_api.entity.ScStaff;
-import com.warrantyclaim.warrantyclaim_api.entity.ScTechnician;
 import com.warrantyclaim.warrantyclaim_api.entity.WarrantyClaim;
 import com.warrantyclaim.warrantyclaim_api.exception.ResourceNotFoundException;
 import com.warrantyclaim.warrantyclaim_api.mapper.WarrantyClaimMapper;
 import com.warrantyclaim.warrantyclaim_api.repository.ElectricVehicleRepository;
-import com.warrantyclaim.warrantyclaim_api.repository.ScStaffRepository;
 import com.warrantyclaim.warrantyclaim_api.repository.WarrantyClaimRepository;
-import com.warrantyclaim.warrantyclaim_api.repository.WorkAssignRepository;
 import com.warrantyclaim.warrantyclaim_api.service.WarrantyClaimService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,7 +41,7 @@ public class WarrantyClaimServiceImp implements WarrantyClaimService {
 
 
         WarrantyClaim warrantyClaim = warrantyClaimMapper.toEntityWarrantyClaim(warrantyClaimRequest);
-        warrantyClaim.setElectricVehicle(electricVehicle);
+        warrantyClaim.setVehicle(electricVehicle);
         warrantyClaimRepository.save(warrantyClaim);
 
         return warrantyClaimMapper.toResponseWarrantyClaim(warrantyClaim);
@@ -79,8 +71,13 @@ public class WarrantyClaimServiceImp implements WarrantyClaimService {
 
         // Update other fields
         warrantyClaimMapper.updateEntity(claim, request);
-        claim.setElectricVehicle(electricVehicle);
+        claim.setVehicle(electricVehicle);
         WarrantyClaim updatedClaim = warrantyClaimRepository.save(claim);
         return warrantyClaimMapper.toResponseWarrantyClaim(updatedClaim);
+    }
+
+    @Override
+    public WarrantyClaimDetailResponseDTO getClaimById(String claimId) {
+        return null;
     }
 }

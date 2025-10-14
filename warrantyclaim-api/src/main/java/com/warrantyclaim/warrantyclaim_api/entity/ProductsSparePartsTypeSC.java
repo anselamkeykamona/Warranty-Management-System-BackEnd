@@ -14,40 +14,26 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
+
 @Table(name = "Products_Spare_Parts_Type_SC")
 public class ProductsSparePartsTypeSC {
-
     @Id
-    @Column(name = "ID_Products_Part_Type_SC")
-    private String idProductsPartTypeSc;
+    @Column(name = "ID_Products_Part_Type_SC", length = 50)
+    private String id;
 
-    @Column(name = "Description")
+    @Column(length = 45)
     private String description;
 
-    @Column(name = "Part_Name")
+    @Column(name = "Part_Name", length = 100)
     private String partName;
 
-    @Column(name = "Year_Model_Year")
     private Integer yearModelYear;
-
-    @Column(name = "Total_Amount_Of_Product")
     private Integer totalAmountOfProduct;
-
-    @Column(name = "Price")
     private Float price;
 
-    @Column(name = "Manufacturer")
+    @Column(length = 100)
     private String manufacturer;
 
-    @Column(name = "Condition")
+    @Column(name = "Condition", length = 50)
     private String condition;
-
-    @OneToMany(mappedBy = "productsSparePartsTypeSC")
-    private List<PartsRequest> partsRequests = new ArrayList<>();
-
-    @OneToMany(mappedBy = "productsSparePartsTypeSC")
-    private List<ProductsSparePartsSC> productsSparePartsSCList = new ArrayList<>();
-
-    @ManyToMany(mappedBy = "productsSparePartsTypeSCs")
-    private List<WarrantyPolicy> warrantyPolicies = new ArrayList<>();
 }

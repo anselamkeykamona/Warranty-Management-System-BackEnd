@@ -34,7 +34,7 @@ public class WarrantyClaimMapper {
         }
 
         WarrantyClaimResponseDTO response = new WarrantyClaimResponseDTO();
-        response.setClaimId(warrantyClaim.getClaimId());
+        response.setClaimId(warrantyClaim.getId());
         response.setClaimDate(warrantyClaim.getClaimDate());
         response.setIssueDescription(warrantyClaim.getIssueDescription());
         response.setStatus(warrantyClaim.getStatus());
@@ -43,8 +43,8 @@ public class WarrantyClaimMapper {
         response.setCustomerPhone(warrantyClaim.getCustomerPhone());
 
         // Map vehicle
-        if (warrantyClaim.getElectricVehicle() != null) {
-            response.setVehicle(toVehicleBasicInfoDTO(warrantyClaim.getElectricVehicle()));
+        if (warrantyClaim.getVehicle() != null) {
+            response.setVehicle(toVehicleBasicInfoDTO(warrantyClaim.getVehicle()));
         }
 //
 //        // Map staff
@@ -59,15 +59,15 @@ public class WarrantyClaimMapper {
         if (claim == null) return null;
 
         WarrantyClaimListResponseDTO response = new WarrantyClaimListResponseDTO();
-        response.setClaimId(claim.getClaimId());
+        response.setClaimId(claim.getId());
         response.setCustomerName(claim.getCustomerName());
         response.setCustomerPhone(claim.getCustomerPhone());
         response.setClaimDate(claim.getClaimDate());
         response.setStatus(claim.getStatus());
 
-        if (claim.getElectricVehicle() != null) {
-            response.setVehicleVin(claim.getElectricVehicle().getVin());
-            response.setVehicleName(claim.getElectricVehicle().getVehicleName());
+        if (claim.getVehicle() != null) {
+            response.setVehicleVin(claim.getVehicle().getVin());
+            response.setVehicleName(claim.getVehicle().getName());
         }
 
         return response;
@@ -104,8 +104,8 @@ public class WarrantyClaimMapper {
         if (vehicle == null) return null;
 
         VehicleBasicInfoDTO info = new VehicleBasicInfoDTO();
-        info.setVehicleId(vehicle.getVehicleId());
-        info.setVehicleName(vehicle.getVehicleName());
+        info.setVehicleId(vehicle.getId());
+        info.setVehicleName(vehicle.getName());
         info.setVin(vehicle.getVin());
         info.setOwner(vehicle.getOwner());
         info.setEmail(vehicle.getEmail());
@@ -113,38 +113,25 @@ public class WarrantyClaimMapper {
         return info;
     }
 
-    public StaffBasicInfoDTO toStaffBasicInfoDTO(ScStaff staff) {
+    public StaffBasicInfoDTO toStaffBasicInfoDTO(SCStaff staff) {
         if (staff == null) return null;
 
         StaffBasicInfoDTO info = new StaffBasicInfoDTO();
-        info.setStaffId(staff.getScStaffId());
+        info.setStaffId(staff.getId());
         info.setAccountName(staff.getAccountName());
         info.setEmail(staff.getEmail());
         info.setPhoneNumber(staff.getPhoneNumber());
         return info;
     }
 
-    private WorkAssignedInfoDTO toWorkAssignmentInfo(WorkAssign workAssign) {
-        if (workAssign == null) return null;
 
-        WorkAssignedInfoDTO info = new WorkAssignedInfoDTO();
-        info.setWorkAssignId(workAssign.getWorkAssignId());
-        info.setWorkAssignDate(workAssign.getWorkAssignDate());
-
-        if (workAssign.getScTechnician() != null) {
-            info.setTechnicianId(workAssign.getScTechnician().getScTechnicianId());
-            info.setTechnicianName(workAssign.getScTechnician().getName());
-        }
-
-        return info;
-    }
 
     public SparePartInfoDTO toSparePartInfo(ProductsSparePartsSC part) {
         if (part == null) return null;
 
         SparePartInfoDTO info = new SparePartInfoDTO();
-        info.setPartId(part.getIdProductSerialSc());
-        info.setNameProduct(part.getNameProduct());
+        info.setPartId(part.getId());
+        info.setNameProduct(part.getName());
         info.setBrand(part.getBrand());
         info.setPrice(part.getPrice());
         info.setWarrantyPeriod(part.getWarrantyPeriod());

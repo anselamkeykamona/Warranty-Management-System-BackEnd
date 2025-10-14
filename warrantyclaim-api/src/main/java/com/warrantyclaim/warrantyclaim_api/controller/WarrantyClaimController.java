@@ -27,13 +27,7 @@ public class WarrantyClaimController {
     @PostMapping
     public ResponseEntity<WarrantyClaimResponseDTO> createWarrantyClaim(@RequestBody WarrantyClaimCreateRequestDTO warrantyClaimCreateRequestDTO) {
         System.out.println("✅ Controller reached: ");
-        WarrantyClaimResponseDTO saveWarrantyClaim = null;
-        try {
-            saveWarrantyClaim = warrantyClaimService.createWarrantyClaim(warrantyClaimCreateRequestDTO);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        WarrantyClaimResponseDTO saveWarrantyClaim = warrantyClaimService.createWarrantyClaim(warrantyClaimCreateRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(saveWarrantyClaim);
     }
 

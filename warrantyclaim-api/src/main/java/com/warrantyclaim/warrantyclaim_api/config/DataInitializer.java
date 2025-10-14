@@ -2,6 +2,7 @@ package com.warrantyclaim.warrantyclaim_api.config;
 
 import com.warrantyclaim.warrantyclaim_api.entity.Role;
 import com.warrantyclaim.warrantyclaim_api.entity.User;
+import com.warrantyclaim.warrantyclaim_api.enums.Role;
 import com.warrantyclaim.warrantyclaim_api.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;

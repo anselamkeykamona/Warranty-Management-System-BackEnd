@@ -14,36 +14,41 @@ import java.util.List;
 @Setter
 @Table(name = "Warranty_Claim")
 public class WarrantyClaim {
-    @Id
-    @Column(name = "ClaimID", length = 50)
-    private String id;
 
-    @Column(length = 100)
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "ClaimID")
+    private String claimId;
+
+    @Column(name = "CustomerName")
     private String customerName;
 
-    @Column(length = 20)
+    @Column(name = "CustomerPhone")
     private String customerPhone;
 
+    @Column(name = "ClaimDate")
     private LocalDate claimDate;
 
-    @Column(length = 100)
+    @Column(name = "IssueDescription")
     private String issueDescription;
 
-    @Column(length = 50)
+    @Column(name = "Status")
     private String status;
 
-    @Column(length = 100)
+    @Column(name = "Email")
     private String email;
 
-    @ManyToOne
-    @JoinColumn(name = "Vehicle_VIN_ID")
-    private ElectricVehicle vehicle;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "Vehicle_ID")
+    private ElectricVehicle electricVehicle;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "SC_StaffID")
-    private SCStaff staff;
+    private ScStaff scStaff;
 
-    @ManyToOne
-    @JoinColumn(name = "SC_TechnicianID")
-    private SCTechnician technician;
+    @OneToMany(mappedBy = "warrantyClaim")
+    private List<ProductsSparePartsSC> productsSparePartsSCList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "warrantyClaim")
+    private List<WorkAssign> workAssigns = new ArrayList<>();
 }

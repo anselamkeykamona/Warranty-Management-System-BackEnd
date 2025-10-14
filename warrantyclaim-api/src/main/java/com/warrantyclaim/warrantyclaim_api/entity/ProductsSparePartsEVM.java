@@ -18,27 +18,28 @@ import java.time.LocalDate;
 public class ProductsSparePartsEVM {
 
     @Id
-    @Column(name = "ID_Product_Serial_EVM", length = 50)
-    private String id;
+    @Column(name = "ID_Product_Serial_EVM")
+    private String idProductSerialEvm;
 
-    @Column(name = "Name_Product", length = 100)
-    private String name;
+    @Column(name = "Name_Product")
+    private String nameProduct;
 
     @Column(name = "Year_of_Manufacture")
     private LocalDate yearOfManufacture;
 
-    @Column(length = 100)
+    @Column(name = "Brand")
     private String brand;
 
+    @Column(name = "Price")
     private Float price;
 
     @Column(name = "Warranty_Period")
     private Integer warrantyPeriod;
 
-    @Column(length = 45)
+    @Column(name = "Description")
     private String description;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_Products_Part_Type_EVM")
-    private ProductsSparePartsTypeEVM partType;
+    private ProductsSparePartsTypeEVM productsSparePartsTypeEVM;
 }

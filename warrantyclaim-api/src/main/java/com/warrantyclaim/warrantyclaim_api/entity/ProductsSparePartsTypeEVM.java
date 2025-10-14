@@ -20,13 +20,13 @@ import java.util.List;
 public class ProductsSparePartsTypeEVM {
 
     @Id
-    @Column(name = "ID_Products_Part_Type_EVM", length = 50)
-    private String id;
+    @Column(name = "ID_Products_Part_Type_EVM")
+    private String idProductsPartTypeEvm;
 
-    @Column(length = 45)
+    @Column(name = "Description")
     private String description;
 
-    @Column(name = "Part_Name", length = 100)
+    @Column(name = "Part_Name")
     private String partName;
 
     @Column(name = "Year_Model_Year")
@@ -35,11 +35,18 @@ public class ProductsSparePartsTypeEVM {
     @Column(name = "Total_Amount_Of_Product")
     private Integer totalAmountOfProduct;
 
+    @Column(name = "Price")
     private Float price;
 
-    @Column(length = 100)
+    @Column(name = "Manufacturer")
     private String manufacturer;
 
-    @Column(name = "Condition", length = 50)
+    @Column(name = "Condition")
     private String condition;
+
+    @OneToMany(mappedBy = "productsSparePartsTypeEVM")
+    private List<ProductsSparePartsEVM> productsSparePartsEVMList = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "productsSparePartsTypeEVMs")
+    private List<WarrantyPolicy> warrantyPolicies = new ArrayList<>();
 }

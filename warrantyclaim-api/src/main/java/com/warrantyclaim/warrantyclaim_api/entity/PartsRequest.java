@@ -16,34 +16,26 @@ import java.time.LocalDate;
 @Setter
 @Table(name = "Parts_Request")
 public class PartsRequest {
-
     @Id
-    @Column(name = "RequestID")
-    private String requestId;
+    @Column(name = "RequestID", length = 50)
+    private String id;
 
-    @Column(name = "PartNumber")
+    @Column(name = "PartNumber", length = 50)
     private String partNumber;
 
-    @Column(name = "PartName")
+    @Column(name = "PartName", length = 100)
     private String partName;
 
-    @Column(name = "Quantity")
     private Integer quantity;
-
-    @Column(name = "RequestDate")
     private LocalDate requestDate;
-
-    @Column(name = "Status")
     private String status;
-
-    @Column(name = "DeliveryDate")
     private LocalDate deliveryDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "ID_Products_Part_Type_SC")
-    private ProductsSparePartsTypeSC productsSparePartsTypeSC;
+    private ProductsSparePartsTypeSC partType;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "SC_StaffID")
-    private ScStaff scStaff;
+    private SCStaff staff;
 }

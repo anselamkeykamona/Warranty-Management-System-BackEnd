@@ -17,38 +17,21 @@ import java.util.List;
 @Setter
 @Table(name = "Electric_Vehicle_Type")
 public class ElectricVehicleType {
-
     @Id
-    @Column(name = "ID_Electric_Vehicle_Type")
-    private String idElectricVehicleType;
+    @Column(name = "ID_Electric_Vehicle_Type", length = 50)
+    private String id;
 
-    @Column(name = "Description")
+    @Column(length = 100)
     private String description;
 
-    @Column(name = "Model_Name")
+    @Column(name = "Model_Name", length = 100)
     private String modelName;
 
-    @Column(name = "Year_Model_Year")
     private Integer yearModelYear;
 
-    @Column(name = "Battery_Type")
+    @Column(name = "Battery_Type", length = 100)
     private String batteryType;
 
-    @Column(name = "Price")
     private Float price;
-
-    @Column(name = "Quantity")
     private Integer quantity;
-
-    @OneToMany(mappedBy = "electricVehicleType")
-    private List<ElectricVehicle> electricVehicles = new ArrayList<>();
-
-    @ManyToMany(mappedBy = "electricVehicleTypes")
-    private List<WarrantyPolicy> warrantyPolicies = new ArrayList<>();
-
-    @ManyToMany(mappedBy = "electricVehicleTypes")
-    private List<Recall> recalls = new ArrayList<>();
-
-    @ManyToMany(mappedBy = "electricVehicleTypes")
-    private List<ServiceCampaigns> serviceCampaigns = new ArrayList<>();
 }

@@ -21,51 +21,36 @@ import java.util.List;
 @Setter
 @Table(name = "Electric_Vehicle")
 public class ElectricVehicle {
-
     @Id
-    @Column(name = "Vehicle_ID")
-    private String vehicleId;
+    @Column(name = "Vehicle_VIN_ID", length = 50)
+    private String id;
 
-    @Column(name = "Vehicle_Name")
-    private String vehicleName;
+    @Column(name = "Vehicle_Name", length = 100)
+    private String name;
 
-    @Column(name = "Total_KM")
     private Float totalKm;
 
-    @Column(name = "VIN", unique = true, nullable = false)
-    @Pattern(regexp = "^[A-HJ-NPR-Z0-9]{17}$", message = "Invalid VIN format")
+    @Column(length = 50, unique = true)
     private String vin;
 
-    @Column(name = "Picture")
+    @Column(length = 255)
     private String picture;
 
-    @Column(name = "Production_Date")
     private LocalDate productionDate;
 
-    @Column(name = "Owner")
+    @Column(length = 100)
     private String owner;
 
-    @Column(name = "Phone_Number", unique = true)
-    @Pattern(regexp = "^[0-9]{10}$", message = "Phone number must be exactly 10 digits")
+    @Column(name = "Phone_Number", length = 20)
     private String phoneNumber;
 
-    @Column(name = "Email", unique = true)
-    @Email(message = "Invalid email format")
+    @Column(length = 100)
     private String email;
 
-    @Column(name = "Status")
+    @Column(length = 50)
     private String status;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "ID_Electric_Vehicle_Type")
-    private ElectricVehicleType electricVehicleType;
-
-    @OneToMany(mappedBy = "electricVehicle")
-    private List<WarrantyClaim> warrantyClaims = new ArrayList<>();
-
-    @OneToMany(mappedBy = "electricVehicle")
-    private List<WorkAssign> workAssigns = new ArrayList<>();
-
-    @ManyToMany(mappedBy = "electricVehicles")
-    private List<Recall> recalls = new ArrayList<>();
+    private ElectricVehicleType vehicleType;
 }

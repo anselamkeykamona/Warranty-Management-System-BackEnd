@@ -1,5 +1,7 @@
 package com.warrantyclaim.warrantyclaim_api.service;
 
+import com.warrantyclaim.warrantyclaim_api.dto.LoginRequest;
+import com.warrantyclaim.warrantyclaim_api.dto.LoginResponse;
 import com.warrantyclaim.warrantyclaim_api.dto.RegisterRequest;
 import com.warrantyclaim.warrantyclaim_api.dto.RegisterResponse;
 import com.warrantyclaim.warrantyclaim_api.entity.Role;
@@ -7,6 +9,9 @@ import com.warrantyclaim.warrantyclaim_api.entity.User;
 import com.warrantyclaim.warrantyclaim_api.exception.ResourceAlreadyExistsException;
 import com.warrantyclaim.warrantyclaim_api.repository.UserRepository;
 
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,10 +23,17 @@ import java.util.stream.Collectors;
 public class AuthService {
 
     private final UserRepository userRepo;
+    private final AuthenticationManager authManager;
+    private final JwtService jwtService;
 
-    public AuthService(UserRepository userRepo) {
+    public AuthService(UserRepository userRepo,
+                       AuthenticationManager authManager,
+                       JwtService jwtService) {
         this.userRepo = userRepo;
+        this.authManager = authManager;
+        this.jwtService = jwtService;
     }
+
 
     // REGISTER
     @Transactional
@@ -98,4 +110,16 @@ public class AuthService {
         }
         userRepo.deleteById(id);
     }
+// login
+    public LoginResponse login(LoginRequest request) {
+        Authentication auth = authManager.authenticate(
+                new UsernamePasswordAuthenticationToken(request.email(), request.password())
+        );
+
+        User user = (User) auth.getPrincipal();
+        String token = jwtService.generateToken(user);
+
+        return new LoginResponse(token, user.getUsernameDisplay(), user.getRoles());
+    }
+
 }

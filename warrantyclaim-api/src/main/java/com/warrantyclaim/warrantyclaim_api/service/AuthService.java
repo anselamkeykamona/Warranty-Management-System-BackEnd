@@ -1,10 +1,10 @@
 package com.warrantyclaim.warrantyclaim_api.service;
+import com.warrantyclaim.warrantyclaim_api.enums.Role;
 
 import com.warrantyclaim.warrantyclaim_api.dto.LoginRequest;
 import com.warrantyclaim.warrantyclaim_api.dto.LoginResponse;
 import com.warrantyclaim.warrantyclaim_api.dto.RegisterRequest;
 import com.warrantyclaim.warrantyclaim_api.dto.RegisterResponse;
-import com.warrantyclaim.warrantyclaim_api.entity.Role;
 import com.warrantyclaim.warrantyclaim_api.entity.User;
 import com.warrantyclaim.warrantyclaim_api.exception.ResourceAlreadyExistsException;
 import com.warrantyclaim.warrantyclaim_api.repository.UserRepository;

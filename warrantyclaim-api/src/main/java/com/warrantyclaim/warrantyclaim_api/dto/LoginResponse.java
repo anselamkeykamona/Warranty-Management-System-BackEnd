@@ -1,6 +1,6 @@
 package com.warrantyclaim.warrantyclaim_api.dto;
 
-import com.warrantyclaim.warrantyclaim_api.entity.Role;
+import com.warrantyclaim.warrantyclaim_api.enums.Role;
 
 import java.util.Set;
 

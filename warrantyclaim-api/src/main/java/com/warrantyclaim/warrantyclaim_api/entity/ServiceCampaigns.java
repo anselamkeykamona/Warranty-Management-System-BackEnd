@@ -17,24 +17,43 @@ import java.util.List;
 @Setter
 @Table(name = "Service_Campaigns")
 public class ServiceCampaigns {
+
     @Id
-    @Column(name = "CampaignsID", length = 50)
-    private String id;
+    @Column(name = "CampaignsID")
+    private String campaignsId;
 
-    @Column(name = "CampaignsTypeName", length = 100)
-    private String typeName;
+    @Column(name = "CampaignsTypeName")
+    private String campaignsTypeName;
 
+    @Column(name = "StartDate")
     private LocalDate startDate;
+
+    @Column(name = "EndDate")
     private LocalDate endDate;
 
-    @Column(length = 45)
+    @Column(name = "RequiredParts")
     private String requiredParts;
 
-    @Column(length = 45)
+    @Column(name = "Description")
     private String description;
 
-    @Column(length = 50)
+    @Column(name = "Status")
     private String status;
 
+    @Column(name = "NotificationSent")
     private Boolean notificationSent;
+
+    @OneToMany(mappedBy = "serviceCampaigns")
+    private List<Report> reports = new ArrayList<>();
+
+    @OneToMany(mappedBy = "serviceCampaigns")
+    private List<WorkAssign> workAssigns = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "Electric_Vehicle_Type_Service_Campaigns",
+            joinColumns = @JoinColumn(name = "CampaignsID"),
+            inverseJoinColumns = @JoinColumn(name = "ID_Electric_Vehicle_Type")
+    )
+    private List<ElectricVehicleType> electricVehicleTypes = new ArrayList<>();
 }

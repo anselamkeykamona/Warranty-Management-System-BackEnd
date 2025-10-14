@@ -16,38 +16,39 @@ import lombok.Setter;
 @Setter
 @Table(name = "Report")
 public class Report {
-    @Id
-    @Column(name = "ID_Report", length = 50)
-    private String id;
 
-    @Column(length = 45)
+    @Id
+    @Column(name = "ID_Report")
+    private String idReport;
+
+    @Column(name = "Description")
     private String description;
 
-    @Column(length = 255)
+    @Column(name = "Image")
     private String image;
 
-    @Column(length = 45)
+    @Column(name = "Error")
     private String error;
 
-    @Column(length = 50)
+    @Column(name = "Status")
     private String status;
 
-    @Column(name = "ReportName", length = 100)
+    @Column(name = "ReportName")
     private String reportName;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CampaignsID")
-    private ServiceCampaigns campaign;
+    private ServiceCampaigns serviceCampaigns;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Recall_ID")
     private Recall recall;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "SC_StaffID")
-    private SCStaff staff;
+    private ScStaff scStaff;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "EVM_Staff_ID")
-    private EVMStaff evm;
+    private EVMStaff evmStaff;
 }

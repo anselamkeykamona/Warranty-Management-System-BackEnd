@@ -6,36 +6,33 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "EVM_Staff")
-public class EVMStaff {
+@Table(name = "SC_Staff")
+public class SCStaff {
     @Id
-    @Column(name = "EVM_Staff_ID", length = 50)
+    @Column(name = "SC_StaffID", length = 50)
     private String id;
 
-    @Column(length = 100)
-    private String name;
+    @Column(name = "Account_Name", length = 100)
+    private String accountName;
+
+    private Integer age;
 
     @Column(length = 100)
     private String email;
 
-    @Column(length = 20)
+    @Column(name = "Phone_Number", length = 20)
     private String phoneNumber;
+
+    @Column(name = "Date_of_Birth")
+    private LocalDate dateOfBirth;
 
     @Column(length = 100)
     private String password;
-
-    @Column(length = 100)
-    private String department;
-
-    private LocalDate dateOfBirth;
 }

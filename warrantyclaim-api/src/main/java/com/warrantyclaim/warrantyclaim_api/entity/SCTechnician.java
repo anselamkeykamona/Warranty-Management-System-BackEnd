@@ -6,20 +6,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "EVM_Staff")
-public class EVMStaff {
+@Table(name = "SC_Technician")
+public class SCTechnician {
     @Id
-    @Column(name = "EVM_Staff_ID", length = 50)
+    @Column(name = "SC_TechnicianID", length = 50)
     private String id;
 
     @Column(length = 100)
@@ -28,14 +25,14 @@ public class EVMStaff {
     @Column(length = 100)
     private String email;
 
-    @Column(length = 20)
+    @Column(name = "Phone_Number", length = 20)
     private String phoneNumber;
+
+    private LocalDate dateOfBirth;
 
     @Column(length = 100)
     private String password;
 
     @Column(length = 100)
-    private String department;
-
-    private LocalDate dateOfBirth;
+    private String specialty;
 }

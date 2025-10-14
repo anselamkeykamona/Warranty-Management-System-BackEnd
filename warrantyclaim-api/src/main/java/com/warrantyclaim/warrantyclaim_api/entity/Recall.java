@@ -18,54 +18,29 @@ import java.util.List;
 @Setter
 @Table(name = "Recall")
 public class Recall {
-
     @Id
-    @Column(name = "Recall_ID")
-    private String recallId;
+    @Column(name = "Recall_ID", length = 50)
+    private String id;
 
-    @Column(name = "RecallName")
-    private String recallName;
+    @Column(name = "RecallName", length = 100)
+    private String name;
 
-    @Column(name = "IssueDescription")
+    @Column(length = 255)
     private String issueDescription;
 
-    @Column(name = "StartDate")
     private LocalDate startDate;
 
-    @Column(name = "RequiredAction")
+    @Column(length = 255)
     private String requiredAction;
 
-    @Column(name = "PartsRequired")
+    @Column(length = 255)
     private String partsRequired;
 
-    @Column(name = "Status")
+    @Column(length = 50)
     private String status;
 
-    @Column(name = "NotificationSent")
     private Boolean notificationSent;
 
-    @Column(name = "EVMApprovalStatus")
+    @Column(length = 50)
     private String evmApprovalStatus;
-
-    @OneToMany(mappedBy = "recall")
-    private List<Report> reports = new ArrayList<>();
-
-    @OneToMany(mappedBy = "recall")
-    private List<WorkAssign> workAssigns = new ArrayList<>();
-
-    @ManyToMany
-    @JoinTable(
-            name = "Electric_Vehicle_Type_Recall",
-            joinColumns = @JoinColumn(name = "Recall_ID"),
-            inverseJoinColumns = @JoinColumn(name = "ID_Electric_Vehicle_Type")
-    )
-    private List<ElectricVehicleType> electricVehicleTypes = new ArrayList<>();
-
-    @ManyToMany
-    @JoinTable(
-            name = "Recall_Electric_Vehicle",
-            joinColumns = @JoinColumn(name = "Recall_ID"),
-            inverseJoinColumns = @JoinColumn(name = "Vehicle_ID")
-    )
-    private List<ElectricVehicle> electricVehicles = new ArrayList<>();
 }

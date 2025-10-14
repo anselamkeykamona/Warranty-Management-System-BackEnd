@@ -1,6 +1,5 @@
 package com.warrantyclaim.warrantyclaim_api.dto;
 
-import com.warrantyclaim.warrantyclaim_api.entity.ElectricVehicle;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;

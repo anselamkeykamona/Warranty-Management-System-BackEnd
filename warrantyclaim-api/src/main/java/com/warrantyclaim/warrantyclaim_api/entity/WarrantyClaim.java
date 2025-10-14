@@ -14,41 +14,36 @@ import java.util.List;
 @Setter
 @Table(name = "Warranty_Claim")
 public class WarrantyClaim {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "ClaimID")
-    private String claimId;
+    @Column(name = "ClaimID", length = 50)
+    private String id;
 
-    @Column(name = "CustomerName")
+    @Column(length = 100)
     private String customerName;
 
-    @Column(name = "CustomerPhone")
+    @Column(length = 20)
     private String customerPhone;
 
-    @Column(name = "ClaimDate")
     private LocalDate claimDate;
 
-    @Column(name = "IssueDescription")
+    @Column(length = 100)
     private String issueDescription;
 
-    @Column(name = "Status")
+    @Column(length = 50)
     private String status;
 
-    @Column(name = "Email")
+    @Column(length = 100)
     private String email;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "Vehicle_ID")
-    private ElectricVehicle electricVehicle;
+    @ManyToOne
+    @JoinColumn(name = "Vehicle_VIN_ID")
+    private ElectricVehicle vehicle;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "SC_StaffID")
-    private ScStaff scStaff;
+    private SCStaff staff;
 
-    @OneToMany(mappedBy = "warrantyClaim")
-    private List<ProductsSparePartsSC> productsSparePartsSCList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "warrantyClaim")
-    private List<WorkAssign> workAssigns = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "SC_TechnicianID")
+    private SCTechnician technician;
 }

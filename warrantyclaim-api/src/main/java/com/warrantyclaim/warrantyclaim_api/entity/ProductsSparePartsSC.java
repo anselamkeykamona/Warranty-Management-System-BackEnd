@@ -16,36 +16,27 @@ import java.time.LocalDate;
 @Table(name = "Products_Spare_Parts_SC")
 public class ProductsSparePartsSC {
     @Id
-    @Column(name = "ID_Products_Part_SC")
-    private String idProductsPartSc;
+    @Column(name = "ID_Product_Serial_SC", length = 50)
+    private String id;
 
-    @Column(name = "Description")
-    private String description;
+    @Column(name = "Name_Product", length = 100)
+    private String name;
 
-    @Id
-    @Column(name = "ID_Product_Serial_SC")
-    private String idProductSerialSc;
-
-    @Column(name = "Name_Product")
-    private String nameProduct;
-
-    @Column(name = "Year_of_Manufacture")
     private LocalDate yearOfManufacture;
-
-    @Column(name = "Price")
     private Float price;
-
-    @Column(name = "Warranty_Period")
     private Integer warrantyPeriod;
 
-    @Column(name = "Brand")
+    @Column(length = 45)
+    private String description;
+
+    @Column(length = 100)
     private String brand;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "ID_Products_Part_Type_SC")
-    private ProductsSparePartsTypeSC productsSparePartsTypeSC;
+    private ProductsSparePartsTypeSC partType;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "ClaimID")
-    private WarrantyClaim warrantyClaim;
+    private WarrantyClaim claim;
 }

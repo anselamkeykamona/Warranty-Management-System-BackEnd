@@ -10,35 +10,35 @@ import lombok.Setter;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "Products_Spare_Parts_EVM")
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @Table(name = "Products_Spare_Parts_EVM")
 public class ProductsSparePartsEVM {
 
     @Id
-    @Column(name = "ID_Product_Serial_EVM")
+    @Column(name = "ID_Product_Serial_EVM", length = 50)
     private String id;
 
-    @Column(name = "Name_Product")
-    private String nameProduct;
+    @Column(name = "Name_Product", length = 100)
+    private String name;
 
     @Column(name = "Year_of_Manufacture")
     private LocalDate yearOfManufacture;
 
-    @Column(name = "Brand")
+    @Column(length = 100)
     private String brand;
 
-    @Column(name = "Price")
     private Float price;
 
     @Column(name = "Warranty_Period")
     private Integer warrantyPeriod;
 
-    @Column(name = "Description")
+    @Column(length = 45)
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "ID_Products_Part_Type_EVM")
-    private ProductsSparePartsTypeEVM productsSparePartsTypeEVM;
+    private ProductsSparePartsTypeEVM partType;
 }

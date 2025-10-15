@@ -1,6 +1,7 @@
 package com.warrantyclaim.warrantyclaim_api.service;
 
 import com.warrantyclaim.warrantyclaim_api.dto.*;
+import com.warrantyclaim.warrantyclaim_api.enums.WarrantyClaimStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -13,4 +14,8 @@ public interface WarrantyClaimService {
     public WarrantyClaimResponseDTO updateClaim(String claimId, WarrantyClaimUpdateRequestDTO request);
 
     public WarrantyClaimDetailResponseDTO getClaimById(String claimId);
+
+    public WarrantyClaimResponseDTO updateClaimStatus(String claimId, WarrantyClaimStatus status);
+
+    public WarrantyClaimResponseDTO updateRequiredPart(String claimId, String requiredPart);
 }

@@ -4,6 +4,7 @@ import com.warrantyclaim.warrantyclaim_api.dto.WarrantyClaimCreateRequestDTO;
 import com.warrantyclaim.warrantyclaim_api.dto.WarrantyClaimListResponseDTO;
 import com.warrantyclaim.warrantyclaim_api.dto.WarrantyClaimResponseDTO;
 import com.warrantyclaim.warrantyclaim_api.dto.WarrantyClaimUpdateRequestDTO;
+import com.warrantyclaim.warrantyclaim_api.enums.WarrantyClaimStatus;
 import com.warrantyclaim.warrantyclaim_api.service.WarrantyClaimService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,8 @@ import org.springframework.http.HttpStatus;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -54,4 +57,28 @@ public class WarrantyClaimController {
         WarrantyClaimResponseDTO response = warrantyClaimService.updateClaim(claimId, request);
         return ResponseEntity.ok(response);
     }
+
+    @PatchMapping("/{claimId}/status")
+    public ResponseEntity<WarrantyClaimResponseDTO> updateClaimStatus(
+            @PathVariable String claimId,
+            @RequestParam WarrantyClaimStatus status) {
+        WarrantyClaimResponseDTO response = warrantyClaimService.updateClaimStatus(claimId, status);
+        return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/{claimId}/required_part")
+    public ResponseEntity<WarrantyClaimResponseDTO> updateClaimRequiredPart(
+            @PathVariable String claimId,
+            @RequestParam String requiredPart) {
+        WarrantyClaimResponseDTO response = warrantyClaimService.updateRequiredPart(claimId, requiredPart);
+        return ResponseEntity.ok(response);
+    }
+
+//    @PatchMapping("/{claimId}/assign-staff")
+//    public ResponseEntity<WarrantyClaimResponseDTO> assignStaffToClaim(
+//            @PathVariable String claimId,
+//            @RequestParam String staffId) {
+//        WarrantyClaimResponseDTO response = warrantyClaimService.assignStaffToClaim(claimId, staffId);
+//        return ResponseEntity.ok(response);
+//    }
 }

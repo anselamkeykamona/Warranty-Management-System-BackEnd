@@ -2,14 +2,15 @@ package com.warrantyclaim.warrantyclaim_api.service.Implement;
 
 import com.warrantyclaim.warrantyclaim_api.dto.*;
 import com.warrantyclaim.warrantyclaim_api.entity.ElectricVehicle;
+import com.warrantyclaim.warrantyclaim_api.entity.SCTechnician;
 import com.warrantyclaim.warrantyclaim_api.entity.WarrantyClaim;
 import com.warrantyclaim.warrantyclaim_api.enums.WarrantyClaimStatus;
 import com.warrantyclaim.warrantyclaim_api.exception.ResourceNotFoundException;
 import com.warrantyclaim.warrantyclaim_api.mapper.WarrantyClaimMapper;
 import com.warrantyclaim.warrantyclaim_api.repository.ElectricVehicleRepository;
+import com.warrantyclaim.warrantyclaim_api.repository.ScTechnicianRepository;
 import com.warrantyclaim.warrantyclaim_api.repository.WarrantyClaimRepository;
 import com.warrantyclaim.warrantyclaim_api.service.WarrantyClaimService;
-import lombok.Generated;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +27,7 @@ public class WarrantyClaimServiceImp implements WarrantyClaimService {
 
     private final WarrantyClaimRepository warrantyClaimRepository;
     private final ElectricVehicleRepository electricVehicleRepository;
-
+    private final ScTechnicianRepository scTechnicianRepository;
     private final WarrantyClaimMapper warrantyClaimMapper;
 
     @Override
@@ -112,5 +113,18 @@ public class WarrantyClaimServiceImp implements WarrantyClaimService {
         WarrantyClaim updatedClaim = warrantyClaimRepository.save(claim);
 
         return warrantyClaimMapper.toResponseWarrantyClaim(updatedClaim);
+    }
+
+    @Override
+    public WarrantyClaimResponseDTO assignScTech(String claimId, String scTechId) {
+        WarrantyClaim claim = warrantyClaimRepository.findById(claimId)
+                .orElseThrow(() -> new ResourceNotFoundException("Warranty claim not found with ID: " + claimId));
+
+        SCTechnician scTechnician = scTechnicianRepository.findById(scTechId)
+                .orElseThrow(() -> new ResourceNotFoundException("SC Tech not found with ID: " + scTechId));
+
+        claim.setTechnician(scTechnician);
+        WarrantyClaim updatedWarrantyClaim = warrantyClaimRepository.save(claim);
+        return warrantyClaimMapper.toResponseWarrantyClaim(claim);
     }
 }

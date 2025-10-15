@@ -18,4 +18,6 @@ public interface WarrantyClaimService {
     public WarrantyClaimResponseDTO updateClaimStatus(String claimId, WarrantyClaimStatus status);
 
     public WarrantyClaimResponseDTO updateRequiredPart(String claimId, String requiredPart);
+
+    public WarrantyClaimResponseDTO assignScTech(String claimId, String scTechId);
 }

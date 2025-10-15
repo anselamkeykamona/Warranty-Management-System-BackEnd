@@ -74,11 +74,11 @@ public class WarrantyClaimController {
         return ResponseEntity.ok(response);
     }
 
-//    @PatchMapping("/{claimId}/assign-staff")
-//    public ResponseEntity<WarrantyClaimResponseDTO> assignStaffToClaim(
-//            @PathVariable String claimId,
-//            @RequestParam String staffId) {
-//        WarrantyClaimResponseDTO response = warrantyClaimService.assignStaffToClaim(claimId, staffId);
-//        return ResponseEntity.ok(response);
-//    }
+    @PatchMapping("/{claimId}/assign-tech")
+    public ResponseEntity<WarrantyClaimResponseDTO> assignStaffToClaim(
+            @PathVariable String claimId,
+            @RequestParam String scTechId) {
+        WarrantyClaimResponseDTO response = warrantyClaimService.assignScTech(claimId, scTechId);
+        return ResponseEntity.ok(response);
+    }
 }

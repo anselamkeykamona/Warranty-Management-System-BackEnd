@@ -40,7 +40,7 @@ public class WarrantyClaim {
     @Column(length = 100)
     private String email;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "Vehicle_VIN_ID")
     private ElectricVehicle vehicle;
 

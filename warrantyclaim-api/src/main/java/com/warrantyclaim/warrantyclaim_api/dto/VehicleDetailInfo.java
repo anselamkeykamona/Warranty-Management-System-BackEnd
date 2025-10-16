@@ -1,5 +1,7 @@
 package com.warrantyclaim.warrantyclaim_api.dto;
 
+import com.warrantyclaim.warrantyclaim_api.entity.ElectricVehicleType;
+import com.warrantyclaim.warrantyclaim_api.enums.VehicleStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +16,10 @@ public class VehicleDetailInfo {
     private String owner;
     private String phoneNumber;
     private String email;
-    private String status;
+    private VehicleStatus status;
     private String vehicleTypeName;
     private String modelName;
+
+    private ElectricVehicleType electricVehicleType;
+
 }

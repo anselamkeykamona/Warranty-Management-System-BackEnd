@@ -27,6 +27,7 @@ public class ElectricVehicleType {
     @Column(name = "Model_Name", length = 100)
     private String modelName;
 
+    @Column(name = "Year_Model_Year")
     private Integer yearModelYear;
 
     @Column(name = "Battery_Type", length = 100)

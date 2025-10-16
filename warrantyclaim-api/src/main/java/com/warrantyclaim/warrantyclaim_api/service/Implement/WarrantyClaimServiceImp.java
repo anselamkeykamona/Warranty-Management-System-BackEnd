@@ -4,6 +4,7 @@ import com.warrantyclaim.warrantyclaim_api.dto.*;
 import com.warrantyclaim.warrantyclaim_api.entity.ElectricVehicle;
 import com.warrantyclaim.warrantyclaim_api.entity.SCTechnician;
 import com.warrantyclaim.warrantyclaim_api.entity.WarrantyClaim;
+import com.warrantyclaim.warrantyclaim_api.enums.VehicleStatus;
 import com.warrantyclaim.warrantyclaim_api.enums.WarrantyClaimStatus;
 import com.warrantyclaim.warrantyclaim_api.exception.ResourceNotFoundException;
 import com.warrantyclaim.warrantyclaim_api.mapper.WarrantyClaimMapper;
@@ -31,6 +32,7 @@ public class WarrantyClaimServiceImp implements WarrantyClaimService {
     private final WarrantyClaimMapper warrantyClaimMapper;
 
     @Override
+    @Transactional
     public WarrantyClaimResponseDTO createWarrantyClaim(WarrantyClaimCreateRequestDTO warrantyClaimRequest) {
 
         ElectricVehicle electricVehicle = electricVehicleRepository.findById(warrantyClaimRequest.getVehicleId()) // for testing exception
@@ -46,6 +48,9 @@ public class WarrantyClaimServiceImp implements WarrantyClaimService {
         warrantyClaim.setId(generateClaimId());
         warrantyClaim.setVehicle(electricVehicle);
         warrantyClaim.setStatus(WarrantyClaimStatus.PENDING);
+
+        warrantyClaim.getVehicle().setStatus(VehicleStatus.IN_WARRANTY);
+
         warrantyClaimRepository.save(warrantyClaim);
 
         return warrantyClaimMapper.toResponseWarrantyClaim(warrantyClaim);

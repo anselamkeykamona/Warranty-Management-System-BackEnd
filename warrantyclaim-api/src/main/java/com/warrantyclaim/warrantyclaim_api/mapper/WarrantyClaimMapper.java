@@ -3,6 +3,8 @@ package com.warrantyclaim.warrantyclaim_api.mapper;
 
 import com.warrantyclaim.warrantyclaim_api.dto.*;
 import com.warrantyclaim.warrantyclaim_api.entity.*;
+import com.warrantyclaim.warrantyclaim_api.enums.VehicleStatus;
+import com.warrantyclaim.warrantyclaim_api.enums.WarrantyClaimStatus;
 import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
@@ -20,6 +22,9 @@ public class WarrantyClaimMapper {
         response.setClaimDate(claim.getClaimDate());
         response.setIssueDescription(claim.getIssueDescription());
         response.setEmail(claim.getEmail());
+        response.setStatus(claim.getStatus());
+        response.setRequiredPart(claim.getRequiredParts());
+
 
         // Map vehicle
         if (claim.getVehicle() != null){
@@ -83,6 +88,7 @@ public class WarrantyClaimMapper {
         response.setCustomerPhone(warrantyClaim.getCustomerPhone());
         response.setStatus(warrantyClaim.getStatus());
         response.setRequiredPart(warrantyClaim.getRequiredParts());
+        response.setStatus(warrantyClaim.getStatus());
 
         // Map vehicle
         if (warrantyClaim.getVehicle() != null) {
@@ -105,8 +111,10 @@ public class WarrantyClaimMapper {
         response.setCustomerName(claim.getCustomerName());
         response.setCustomerPhone(claim.getCustomerPhone());
         response.setClaimDate(claim.getClaimDate());
+        response.setStatus(claim.getStatus());
 
         if (claim.getVehicle() != null) {
+            response.setVehicleName(claim.getVehicle().getName());
             response.setVehicleName(claim.getVehicle().getName());
         }
 
@@ -125,6 +133,10 @@ public class WarrantyClaimMapper {
         }
         if (request.getIssueDescription() != null) {
             claim.setIssueDescription(request.getIssueDescription());
+        }
+
+        if (request.getStatus() != null) {
+            claim.setStatus(request.getStatus());
         }
 
         if (request.getEmail() != null) {

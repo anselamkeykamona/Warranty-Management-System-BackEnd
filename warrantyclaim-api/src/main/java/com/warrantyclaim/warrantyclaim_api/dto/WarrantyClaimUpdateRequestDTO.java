@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,6 +26,8 @@ public class WarrantyClaimUpdateRequestDTO {
     @Pattern(regexp = "^(PENDING|IN_PROGRESS|APPROVED|REJECTED|COMPLETED)$",
             message = "Status must be one of: PENDING, IN_PROGRESS, APPROVED, REJECTED, COMPLETED")
     private WarrantyClaimStatus status;
+
+    private LocalDate ClaimDate;
 
     @Email(message = "Invalid email format")
     private String email;

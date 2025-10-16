@@ -1,9 +1,8 @@
 package com.warrantyclaim.warrantyclaim_api.mapper;
 
-import com.warrantyclaim.warrantyclaim_api.dto.VehicleBasicInfoDTO;
-import com.warrantyclaim.warrantyclaim_api.dto.VehicleCreateDTO;
-import com.warrantyclaim.warrantyclaim_api.dto.VehicleDetailInfo;
+import com.warrantyclaim.warrantyclaim_api.dto.*;
 import com.warrantyclaim.warrantyclaim_api.entity.ElectricVehicle;
+import com.warrantyclaim.warrantyclaim_api.entity.ElectricVehicleType;
 import com.warrantyclaim.warrantyclaim_api.enums.VehicleStatus;
 import org.springframework.stereotype.Component;
 
@@ -29,16 +28,81 @@ public class ElectricVehicleMapper {
         return electricVehicle;
      }
 
-    public VehicleBasicInfoDTO toVehicleBasicInfoDTO(ElectricVehicle vehicle) {
-        if (vehicle == null) return null;
+    public ElectricVehicleResponseDTO toResponseDTO(ElectricVehicle vehicle) {
+        if (vehicle == null) {
+            return null;
+        }
 
-        VehicleBasicInfoDTO info = new VehicleBasicInfoDTO();
-        info.setVehicleId(vehicle.getId());
-        info.setVehicleName(vehicle.getName());
-        info.setOwner(vehicle.getOwner());
-        info.setEmail(vehicle.getEmail());
-        info.setPhoneNumber(vehicle.getPhoneNumber());
-        return info;
+        ElectricVehicleResponseDTO dto = new ElectricVehicleResponseDTO();
+        dto.setId(vehicle.getId());
+        dto.setName(vehicle.getName());
+        dto.setTotalKm(vehicle.getTotalKm());
+        dto.setPicture(vehicle.getPicture());
+        dto.setProductionDate(vehicle.getProductionDate());
+        dto.setOwner(vehicle.getOwner());
+        dto.setPhoneNumber(vehicle.getPhoneNumber());
+        dto.setEmail(vehicle.getEmail());
+        dto.setStatus(vehicle.getStatus());
+
+        // Map vehicle type
+        if (vehicle.getVehicleType() != null) {
+            dto.setVehicleType(toVehicleTypeInfo(vehicle.getVehicleType()));
+        }
+
+        return dto;
+    }
+
+
+
+    private VehicleTypeInfoDTO toVehicleTypeInfo(ElectricVehicleType vehicleType) {
+        if (vehicleType == null) {
+            return null;
+        }
+
+        VehicleTypeInfoDTO dto = new VehicleTypeInfoDTO();
+        dto.setId(vehicleType.getId());
+        dto.setDescription(vehicleType.getDescription());
+        dto.setModelName(vehicleType.getModelName());
+        dto.setYearModelYear(vehicleType.getYearModelYear());
+        dto.setBatteryType(vehicleType.getBatteryType());
+        dto.setPrice(vehicleType.getPrice());
+
+        return dto;
+    }
+
+    public void updateEntityElectricVehicle(ElectricVehicleUpdateRequestDTO updatedVehicle, ElectricVehicle electricVehicle) {
+        if(updatedVehicle.getName() != null) {
+            electricVehicle.setName(updatedVehicle.getName());
+        }
+
+        if(updatedVehicle.getPicture() != null) {
+            electricVehicle.setPicture(updatedVehicle.getPicture());
+        }
+
+        if(updatedVehicle.getEmail() != null) {
+            electricVehicle.setEmail(updatedVehicle.getEmail());
+        }
+
+        if(updatedVehicle.getOwner() != null) {
+            electricVehicle.setOwner(updatedVehicle.getOwner());
+        }
+
+        if(updatedVehicle.getPhoneNumber() != null) {
+            electricVehicle.setPhoneNumber(electricVehicle.getPhoneNumber());
+        }
+
+        if(updatedVehicle.getTotalKm() != null) {
+            electricVehicle.setTotalKm(electricVehicle.getTotalKm());
+        }
+
+        if(updatedVehicle.getStatus() != null) {
+            electricVehicle.setStatus(electricVehicle.getStatus());
+        }
+
+        if(updatedVehicle.getProductionDate() != null) {
+            electricVehicle.setProductionDate(electricVehicle.getProductionDate());
+        }
+        //Type Electric should be in vehicle service
     }
 
     public VehicleDetailInfo toVehicleDetailInfo(ElectricVehicle vehicle) {

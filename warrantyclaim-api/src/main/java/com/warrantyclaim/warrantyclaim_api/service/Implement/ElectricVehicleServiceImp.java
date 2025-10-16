@@ -82,4 +82,25 @@ public class ElectricVehicleServiceImp implements ElectricVehicleService {
         electricVehicleRepository.deleteById(id);
     }
 
+
+@Service
+@RequiredArgsConstructor
+public class ElectricVehicleServiceImp implements ElectricVehicleService {
+    private final ElectricVehicleRepository electricVehicleRepository;
+    private final ElectricVehicleMapper mapper;
+    private final ScStaffRepository scStaffRepository;
+    private final ElectricVehicleTypeRepository electricVehicleTypeRepository;
+
+    @Override
+    public VehicleDetailInfo addElectricVehicle(VehicleCreateDTO vehicleCreateDTO) {
+        ElectricVehicleType electricVehicleType = electricVehicleTypeRepository.findById(vehicleCreateDTO.getElectricVehicleTypeId())
+                .orElseThrow(() -> new ResourceNotFoundException("No vehicle type with this Id"));
+        ElectricVehicle electricVehicle = mapper.toEntityElectricVehicle(vehicleCreateDTO);
+        electricVehicle.setVehicleType(electricVehicleType);
+        electricVehicle.setStatus(VehicleStatus.ACTIVE);
+        electricVehicleRepository.save(electricVehicle);
+        return mapper.toVehicleDetailInfo(electricVehicle);
+    }
+
+    
 }

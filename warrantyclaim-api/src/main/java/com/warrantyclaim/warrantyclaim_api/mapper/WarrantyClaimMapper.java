@@ -111,7 +111,6 @@ public class WarrantyClaimMapper {
         response.setCustomerName(claim.getCustomerName());
         response.setCustomerPhone(claim.getCustomerPhone());
         response.setClaimDate(claim.getClaimDate());
-        response.setStatus(claim.getStatus());
 
         if (claim.getVehicle() != null) {
             response.setVehicleName(claim.getVehicle().getName());

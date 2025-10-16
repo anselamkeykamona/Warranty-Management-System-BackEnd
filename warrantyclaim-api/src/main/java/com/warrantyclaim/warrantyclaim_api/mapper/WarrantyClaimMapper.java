@@ -142,7 +142,9 @@ public class WarrantyClaimMapper {
             claim.setEmail(request.getEmail());
         }
 
-
+        if(request.getClaimDate() != null) {
+            claim.setClaimDate(request.getClaimDate());
+        }
         // Staff should be updated in service layer
     }
 

@@ -28,12 +28,12 @@ public class ElectricVehicleServiceImp implements ElectricVehicleService {
     public VehicleDetailInfo addElectricVehicle(VehicleCreateDTO vehicleCreateDTO) {
         ElectricVehicleType electricVehicleType = electricVehicleTypeRepository.findById(vehicleCreateDTO.getElectricVehicleTypeId())
                 .orElseThrow(() -> new ResourceNotFoundException("No vehicle type with this Id"));
-
-        System.out.println("---------------" + vehicleCreateDTO.getTotalKm() + "-----------" +  vehicleCreateDTO.getProductionDate());
         ElectricVehicle electricVehicle = mapper.toEntityElectricVehicle(vehicleCreateDTO);
         electricVehicle.setVehicleType(electricVehicleType);
         electricVehicle.setStatus(VehicleStatus.ACTIVE);
         electricVehicleRepository.save(electricVehicle);
         return mapper.toVehicleDetailInfo(electricVehicle);
     }
+
+    
 }

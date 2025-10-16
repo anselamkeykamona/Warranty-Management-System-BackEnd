@@ -33,6 +33,7 @@ public class WarrantyClaim {
     @Column(length = 100)
     private String issueDescription;
 
+    @Enumerated(EnumType.STRING)
     @Column(length = 50)
     private WarrantyClaimStatus status;
 

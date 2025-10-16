@@ -107,7 +107,6 @@ public class WarrantyClaimMapper {
         response.setClaimDate(claim.getClaimDate());
 
         if (claim.getVehicle() != null) {
-            response.setVehicleVin(claim.getVehicle().getVin());
             response.setVehicleName(claim.getVehicle().getName());
         }
 
@@ -145,7 +144,6 @@ public class WarrantyClaimMapper {
         VehicleDetailInfo info = new VehicleDetailInfo();
         info.setVehicleId(vehicle.getId());
         info.setVehicleName(vehicle.getName());
-        info.setVin(vehicle.getVin());
         info.setTotalKm(vehicle.getTotalKm());
         info.setOwner(vehicle.getOwner());
         info.setPhoneNumber(vehicle.getPhoneNumber());
@@ -165,7 +163,6 @@ public class WarrantyClaimMapper {
         VehicleBasicInfoDTO info = new VehicleBasicInfoDTO();
         info.setVehicleId(vehicle.getId());
         info.setVehicleName(vehicle.getName());
-        info.setVin(vehicle.getVin());
         info.setOwner(vehicle.getOwner());
         info.setEmail(vehicle.getEmail());
         info.setPhoneNumber(vehicle.getPhoneNumber());

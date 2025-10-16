@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 public class VehicleDetailInfo {
     private String vehicleId;
     private String vehicleName;
-    private String vin;
     private Float totalKm;
     private String owner;
     private String phoneNumber;

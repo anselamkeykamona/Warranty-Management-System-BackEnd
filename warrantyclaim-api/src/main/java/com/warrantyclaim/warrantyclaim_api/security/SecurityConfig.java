@@ -35,6 +35,9 @@ public class SecurityConfig {
     @Autowired
     private RestAuthHandlers restAuthHandlers;
 
+    @Autowired
+    private UserDetailsService userDetailsService;
+
     @Bean
     public UserDetailsService userDetailsService(UserRepository userRepository) {
         return new AppUserDetailsService(userRepository);
@@ -59,7 +62,8 @@ public class SecurityConfig {
                         .authenticationEntryPoint(restAuthHandlers)
                         .accessDeniedHandler(restAuthHandlers)
                 )
-                .authenticationProvider(authenticationProvider(userDetailsService(null)))
+//                .authenticationProvider(authenticationProvider(userDetailsService(null)))
+                .authenticationProvider(authenticationProvider(userDetailsService))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

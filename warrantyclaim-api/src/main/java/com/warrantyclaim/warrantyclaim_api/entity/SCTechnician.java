@@ -33,6 +33,9 @@ public class SCTechnician {
     @Column(length = 100)
     private String password;
 
+    @Column(name = "BranchOffice", length = 150)
+    private String branchOffice;
+
     @Column(length = 100)
     private String specialty;
 }

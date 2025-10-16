@@ -62,12 +62,24 @@
 			<artifactId>mysql-connector-j</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+<!--
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
-		</dependency>
-		<dependency>
+		</dependency> -->
+
+        <!-- SỬA LẠI  -->
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.28</version> <!-- hoặc bản mới nhất -->
+            <scope>provided</scope>
+        </dependency>
+
+
+        <dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
@@ -137,10 +149,10 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<excludes>
-						<exclude>
+						<!--<exclude>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
-						</exclude>
+						</exclude> -->
 					</excludes>
 				</configuration>
 			</plugin>

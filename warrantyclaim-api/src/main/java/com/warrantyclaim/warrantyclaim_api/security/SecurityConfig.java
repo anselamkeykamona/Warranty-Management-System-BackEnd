@@ -51,16 +51,23 @@ public class SecurityConfig {
                                 "/api/auth/**",
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
-                                "/swagger-ui.html"
+                                "/swagger-ui.html",
+                                "/api/WarrantyClaim/**",
+                                "/api/ElectricVehicle/**"
                         ).permitAll()
                         .anyRequest().authenticated()
+
                 )
                 .exceptionHandling(ex -> ex
                         .authenticationEntryPoint(restAuthHandlers)
                         .accessDeniedHandler(restAuthHandlers)
                 )
                 .authenticationProvider(authenticationProvider(userDetailsService(null)))
+
+
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+
+
 
         return http.build();
     }

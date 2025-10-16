@@ -39,4 +39,8 @@ public class ProductsSparePartsSC {
     @ManyToOne
     @JoinColumn(name = "ClaimID")
     private WarrantyClaim claim;
+
+    @ManyToOne
+    @JoinColumn(name = "Vehicle_VIN_ID")
+    private ElectricVehicle electricVehicle;
 }

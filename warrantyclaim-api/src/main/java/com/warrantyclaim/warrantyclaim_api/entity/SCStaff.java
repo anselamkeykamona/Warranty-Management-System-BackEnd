@@ -33,6 +33,9 @@ public class SCStaff {
     @Column(name = "Date_of_Birth")
     private LocalDate dateOfBirth;
 
+    @Column(name = "BranchOffice", length = 150)
+    private String branchOffice;
+
     @Column(length = 100)
     private String password;
 }

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="622dda86-696d-4992-97bc-3d7ae05b6e69" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/controller/ElectricVehicleController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/dto/ElectricVehicleResponseDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/dto/ElectricVehicleUpdateRequestDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/dto/VehicleTypeInfoDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/enums/VehicleStatus.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/enums/WarrantyClaimStatus.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/mapper/ElectricVehicleMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/service/ElectricVehicleService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/service/Implement/ElectricVehicleServiceImp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/warrantyclaim-api/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/warrantyclaim-api/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/controller/WarrantyClaimController.java" beforeDir="false" afterPath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/controller/WarrantyClaimController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/dto/VehicleCreateDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/dto/VehicleCreateDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/dto/VehicleDetailInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/dto/VehicleDetailInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/dto/WarrantyClaimCreateRequestDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/dto/WarrantyClaimCreateRequestDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/dto/WarrantyClaimDetailResponseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/dto/WarrantyClaimDetailResponseDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/dto/WarrantyClaimListResponseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/dto/WarrantyClaimListResponseDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/dto/WarrantyClaimResponseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/dto/WarrantyClaimResponseDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/dto/WarrantyClaimUpdateRequestDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/dto/WarrantyClaimUpdateRequestDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/entity/ElectricVehicle.java" beforeDir="false" afterPath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/entity/ElectricVehicle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/entity/ElectricVehicleType.java" beforeDir="false" afterPath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/entity/ElectricVehicleType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/entity/ProductsSparePartsSC.java" beforeDir="false" afterPath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/entity/ProductsSparePartsSC.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/entity/SCStaff.java" beforeDir="false" afterPath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/entity/SCStaff.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/entity/SCTechnician.java" beforeDir="false" afterPath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/entity/SCTechnician.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/entity/WarrantyClaim.java" beforeDir="false" afterPath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/entity/WarrantyClaim.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/mapper/WarrantyClaimMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/mapper/WarrantyClaimMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/repository/ElectricVehicleRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/repository/ElectricVehicleRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/repository/ElectricVehicleTypeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/repository/ElectricVehicleTypeRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/repository/ScStaffRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/repository/ScStaffRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/repository/ScTechnicianRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/repository/ScTechnicianRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/security/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/service/Implement/WarrantyClaimServiceImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/service/Implement/WarrantyClaimServiceImp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/service/WarrantyClaimService.java" beforeDir="false" afterPath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/service/WarrantyClaimService.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Enum" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GithubProjectSettings">
+    <option name="branchProtectionPatterns">
+      <list>
+        <option value="1" />
+      </list>
+    </option>
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.WarrantyclaimApiApplication.executor": "Run",
+    "git-widget-placeholder": "Merging feature/login"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="WarrantyclaimApiApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.warrantyclaim.warrantyclaim_api.WarrantyclaimApiApplication" />
+      <module name="warrantyclaim-api" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.warrantyclaim.warrantyclaim_api.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.WarrantyclaimApiApplication" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="TaskManager">
+    <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/controller/ElectricVehicleController.java</url>
+          <line>26</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

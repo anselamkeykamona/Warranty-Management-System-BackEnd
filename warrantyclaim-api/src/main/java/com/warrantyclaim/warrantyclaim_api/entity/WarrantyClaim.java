@@ -25,7 +25,6 @@ public class WarrantyClaim {
     @Column(length = 20)
     private String customerPhone;
 
-    @Column(name = "ClaimDate")
     private LocalDate claimDate;
 
     @Column(name = "RequiredParts")

@@ -5,8 +5,45 @@ import com.warrantyclaim.warrantyclaim_api.dto.*;
 import com.warrantyclaim.warrantyclaim_api.entity.*;
 import org.springframework.stereotype.Component;
 
+import java.util.stream.Collectors;
+
 @Component
 public class WarrantyClaimMapper {
+
+    public WarrantyClaimDetailResponseDTO toDetailResponse(WarrantyClaim claim) {
+        if (claim == null) return null;
+
+        WarrantyClaimDetailResponseDTO response = new WarrantyClaimDetailResponseDTO();
+        response.setClaimId(claim.getId());
+        response.setCustomerName(claim.getCustomerName());
+        response.setCustomerPhone(claim.getCustomerPhone());
+        response.setClaimDate(claim.getClaimDate());
+        response.setIssueDescription(claim.getIssueDescription());
+        response.setEmail(claim.getEmail());
+
+        // Map vehicle
+        if (claim.getVehicle() != null){
+            response.setVehicle(toVehicleDetailInfo(claim.getVehicle()));
+        }
+
+        //Map staff
+        if (claim.getStaff() != null) {
+            response.setAssignedStaff(toStaffBasicInfoDTO(claim.getTechnician()));
+        }
+
+        if (claim.getStaff() != null) {
+            response.setAssignedStaff(toStaffBasicInfoDTO(claim.getTechnician()));
+        }
+
+
+
+        // Map spare parts
+
+        // Map work assignments
+
+
+        return response;
+    }
 
     // Mapper for Warranty Claim Create Request
     public WarrantyClaim toEntityWarrantyClaim(WarrantyClaimCreateRequestDTO requestDTO) {
@@ -14,14 +51,18 @@ public class WarrantyClaimMapper {
             return null;
         }
 
-
         WarrantyClaim warrantyClaim = new WarrantyClaim();
         warrantyClaim.setCustomerName(requestDTO.getCustomerName());
         warrantyClaim.setCustomerPhone(requestDTO.getPhoneNumber());
         warrantyClaim.setClaimDate(requestDTO.getClaimDate());
         warrantyClaim.setIssueDescription(requestDTO.getIssueDescription());
         warrantyClaim.setEmail(requestDTO.getEmail());
-        warrantyClaim.setStatus("Pending"); // default status
+
+        if(requestDTO.getRequiredPart() != null) {
+            warrantyClaim.setRequiredParts(requestDTO.getRequiredPart());
+        }
+
+
 
         //  Vehicle and Staff relationships should be set in the service layer
 
@@ -37,10 +78,11 @@ public class WarrantyClaimMapper {
         response.setClaimId(warrantyClaim.getId());
         response.setClaimDate(warrantyClaim.getClaimDate());
         response.setIssueDescription(warrantyClaim.getIssueDescription());
-        response.setStatus(warrantyClaim.getStatus());
         response.setEmail(warrantyClaim.getEmail());
         response.setCustomerName(warrantyClaim.getCustomerName());
         response.setCustomerPhone(warrantyClaim.getCustomerPhone());
+        response.setStatus(warrantyClaim.getStatus());
+        response.setRequiredPart(warrantyClaim.getRequiredParts());
 
         // Map vehicle
         if (warrantyClaim.getVehicle() != null) {
@@ -63,10 +105,8 @@ public class WarrantyClaimMapper {
         response.setCustomerName(claim.getCustomerName());
         response.setCustomerPhone(claim.getCustomerPhone());
         response.setClaimDate(claim.getClaimDate());
-        response.setStatus(claim.getStatus());
 
         if (claim.getVehicle() != null) {
-            response.setVehicleVin(claim.getVehicle().getVin());
             response.setVehicleName(claim.getVehicle().getName());
         }
 
@@ -86,9 +126,7 @@ public class WarrantyClaimMapper {
         if (request.getIssueDescription() != null) {
             claim.setIssueDescription(request.getIssueDescription());
         }
-        if (request.getStatus() != null) {
-            claim.setStatus(request.getStatus());
-        }
+
         if (request.getEmail() != null) {
             claim.setEmail(request.getEmail());
         }
@@ -100,25 +138,43 @@ public class WarrantyClaimMapper {
     //------------------------------------------------------------------------------------------
     //Helper for info nested object
 
+    private VehicleDetailInfo toVehicleDetailInfo(ElectricVehicle vehicle) {
+        if (vehicle == null) return null;
+
+        VehicleDetailInfo info = new VehicleDetailInfo();
+        info.setVehicleId(vehicle.getId());
+        info.setVehicleName(vehicle.getName());
+        info.setTotalKm(vehicle.getTotalKm());
+        info.setOwner(vehicle.getOwner());
+        info.setPhoneNumber(vehicle.getPhoneNumber());
+        info.setEmail(vehicle.getEmail());
+        info.setStatus(vehicle.getStatus());
+
+        if (vehicle.getVehicleType() != null) {
+            info.setModelName(vehicle.getVehicleType().getModelName());
+        }
+
+        return info;
+    }
+
     public VehicleBasicInfoDTO toVehicleBasicInfoDTO(ElectricVehicle vehicle) {
         if (vehicle == null) return null;
 
         VehicleBasicInfoDTO info = new VehicleBasicInfoDTO();
         info.setVehicleId(vehicle.getId());
         info.setVehicleName(vehicle.getName());
-        info.setVin(vehicle.getVin());
         info.setOwner(vehicle.getOwner());
         info.setEmail(vehicle.getEmail());
         info.setPhoneNumber(vehicle.getPhoneNumber());
         return info;
     }
 
-    public StaffBasicInfoDTO toStaffBasicInfoDTO(SCStaff staff) {
+    public StaffBasicInfoDTO toStaffBasicInfoDTO(SCTechnician staff) {
         if (staff == null) return null;
 
         StaffBasicInfoDTO info = new StaffBasicInfoDTO();
         info.setStaffId(staff.getId());
-        info.setAccountName(staff.getAccountName());
+        info.setAccountName(staff.getName());
         info.setEmail(staff.getEmail());
         info.setPhoneNumber(staff.getPhoneNumber());
         return info;

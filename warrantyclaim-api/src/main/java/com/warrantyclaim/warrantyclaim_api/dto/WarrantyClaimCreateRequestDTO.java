@@ -33,10 +33,7 @@ public class WarrantyClaimCreateRequestDTO { // this information for creating   
     @Size(max = 100, message = "Customer name must not exceed 100 characters")
     private String customerName;
 
-    @NotBlank(message = "Status for warranty claim is needed!!!")
-    @Pattern(regexp = "^(PENDING|IN_PROGRESS|APPROVED|REJECTED|COMPLETED)$",
-            message = "Status must be one of: PENDING, IN_PROGRESS, APPROVED, REJECTED, COMPLETED")
-    private String status;
+    private String requiredPart;
 
     @Email(message = "Invalid email format")
     private String email;

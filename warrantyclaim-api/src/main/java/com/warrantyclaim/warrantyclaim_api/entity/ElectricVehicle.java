@@ -30,10 +30,10 @@ public class ElectricVehicle {
 
     private Float totalKm;
 
-    @Column(length = 50, unique = true)
-    private String vin;
+    @Column(name = "Required_Part", length = 250)
+    private String requiredPart;
 
-    @Column(length = 255)
+    @Column(length = 250)
     private String picture;
 
     private LocalDate productionDate;

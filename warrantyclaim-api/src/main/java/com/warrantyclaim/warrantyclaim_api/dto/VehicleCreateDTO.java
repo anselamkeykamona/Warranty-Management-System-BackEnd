@@ -13,12 +13,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class VehicleCreateDTO {
 
+    @Pattern(regexp = "^[A-HJ-NPR-Z0-9]{17}$", message = "Invalid VIN format")
+    @NotBlank(message = "Vehicle must have a VIN")
     private String vehicleId;
+
     private String vehicleName;
 
-    @Pattern(regexp = "^[A-HJ-NPR-Z0-9]{17}$", message = "Invalid VIN format")
-    private String vin;
-
+    @NotBlank(message = "Vehicle must have an owner")
     private String owner;
 
     @Email(message = "Invalid email Format!!!")
@@ -26,7 +27,11 @@ public class VehicleCreateDTO {
     private String email;
 
     @Pattern(regexp = "^[0-9]{10}$", message = "Phone number must be exactly 10 digits")
+    @NotBlank(message = "Vehicle owner must have a phone number for contact information")
     private String phoneNumber;
+
+    @NotBlank(message = "Vehicle must have a type")
+    private String electricVehicleTypeId;
 
     private ElectricVehicleType electricVehicleType;
 }

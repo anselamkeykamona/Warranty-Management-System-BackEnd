@@ -70,6 +70,11 @@ public class ElectricVehicleMapper {
         return dto;
     }
 
+    public VehicleBasicInfoDTO toListVehicle(ElectricVehicle electricVehicle) {
+
+        return null;
+    }
+
     public void updateEntityElectricVehicle(ElectricVehicleUpdateRequestDTO updatedVehicle, ElectricVehicle electricVehicle) {
         if(updatedVehicle.getName() != null) {
             electricVehicle.setName(updatedVehicle.getName());

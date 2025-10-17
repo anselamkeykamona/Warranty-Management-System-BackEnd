@@ -1,11 +1,13 @@
 package com.warrantyclaim.warrantyclaim_api.controller;
 
-
-import com.warrantyclaim.warrantyclaim_api.service.Implement.AuthService;
+import com.warrantyclaim.warrantyclaim_api.dto.*;
+import com.warrantyclaim.warrantyclaim_api.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+
 
 @RestController
 @RequestMapping("/api/auth")
@@ -41,5 +43,12 @@ public class AuthController {
         service.deleteUserById(id);
         return ResponseEntity.ok(new ApiResponse<>(true, "User deleted successfully", null, null));
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<ApiResponse<LoginResponse>> login(@Valid @RequestBody LoginRequest req) {
+        LoginResponse res = service.login(req);
+        return ResponseEntity.ok(ApiResponse.success("Login successful", res));
+    }
+
 
 }

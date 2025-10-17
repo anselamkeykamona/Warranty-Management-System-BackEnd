@@ -27,5 +27,7 @@ public class WarrantyClaimResponseDTO {
 
     // Nested objects for related entities
     private VehicleBasicInfoDTO vehicle;
+
     private StaffBasicInfoDTO assignedStaff;
 }
+

@@ -1,6 +1,7 @@
 package com.warrantyclaim.warrantyclaim_api.entity;
 
 import com.warrantyclaim.warrantyclaim_api.enums.Role;
+
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

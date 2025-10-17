@@ -1,10 +1,9 @@
-package com.warrantyclaim.warrantyclaim_api.controller;
+package com.warrantyclaim.warrantyclaim_api.dto;
 
+import com.warrantyclaim.warrantyclaim_api.enums.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-
-import com.warrantyclaim.warrantyclaim_api.enums.Role;
 
 import java.util.Set;
 

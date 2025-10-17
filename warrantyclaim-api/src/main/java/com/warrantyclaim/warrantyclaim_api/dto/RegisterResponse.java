@@ -1,4 +1,4 @@
-package com.warrantyclaim.warrantyclaim_api.controller;
+package com.warrantyclaim.warrantyclaim_api.dto;
 import java.util.Set;
 public class RegisterResponse {
 

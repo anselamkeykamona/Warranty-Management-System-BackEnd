@@ -1,10 +1,13 @@
 package com.warrantyclaim.warrantyclaim_api.controller;
 
+import com.warrantyclaim.warrantyclaim_api.dto.ChangePasswordRequest;
 import com.warrantyclaim.warrantyclaim_api.dto.UpdateUserRequest;
 import com.warrantyclaim.warrantyclaim_api.dto.UserResponse;
 import com.warrantyclaim.warrantyclaim_api.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -24,5 +27,13 @@ public class UserController {
     ) {
         UserResponse res = userService.updateUser(req, token);
         return ResponseEntity.ok(ApiResponse.success("User updated successfully", res));
+    }
+
+    @PutMapping("/change-password")
+    public ResponseEntity<ApiResponse<String>> changePassword(
+            @Valid @RequestBody ChangePasswordRequest request,
+            @AuthenticationPrincipal UserDetails userDetails
+    ) {
+        return ResponseEntity.ok(ApiResponse.success("Đổi mật khẩu thành công", null));
     }
 }

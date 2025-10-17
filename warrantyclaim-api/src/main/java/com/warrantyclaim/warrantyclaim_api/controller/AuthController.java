@@ -6,7 +6,8 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 
 
 @RestController
@@ -49,6 +50,25 @@ public class AuthController {
         LoginResponse res = service.login(req);
         return ResponseEntity.ok(ApiResponse.success("Login successful", res));
     }
+
+    @PutMapping("/change-password")
+    public ResponseEntity<ApiResponse<String>> changePassword(
+            @Valid @RequestBody ChangePasswordRequest request,
+            @AuthenticationPrincipal UserDetails userDetails
+    ) {
+        service.changePassword(userDetails.getUsername(), request);
+        return ResponseEntity.ok(ApiResponse.success("Đổi mật khẩu thành công", null));
+    }
+
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<ApiResponse<Void>> deleteUserById(
+            @PathVariable Long id,
+            @AuthenticationPrincipal UserDetails userDetails
+    ) {
+        service.deleteUserByIdWithRoleCheck(userDetails.getUsername(), id);
+        return ResponseEntity.ok(ApiResponse.success("Xóa tài khoản thành công", null));
+    }
+
 
 
 }

@@ -51,23 +51,16 @@ public class AuthController {
         return ResponseEntity.ok(ApiResponse.success("Login successful", res));
     }
 
-    @PutMapping("/change-password")
-    public ResponseEntity<ApiResponse<String>> changePassword(
-            @Valid @RequestBody ChangePasswordRequest request,
-            @AuthenticationPrincipal UserDetails userDetails
-    ) {
-        service.changePassword(userDetails.getUsername(), request);
-        return ResponseEntity.ok(ApiResponse.success("Đổi mật khẩu thành công", null));
-    }
+//    @PutMapping("/change-password")
+//    public ResponseEntity<ApiResponse<String>> changePassword(
+//            @Valid @RequestBody ChangePasswordRequest request,
+//            @AuthenticationPrincipal UserDetails userDetails
+//    ) {
+//        service.changePassword(userDetails.getUsername(), request);
+//        return ResponseEntity.ok(ApiResponse.success("Đổi mật khẩu thành công", null));
+//    }
+//
 
-    @DeleteMapping("/users/{id}")
-    public ResponseEntity<ApiResponse<Void>> deleteUserById(
-            @PathVariable Long id,
-            @AuthenticationPrincipal UserDetails userDetails
-    ) {
-        service.deleteUserByIdWithRoleCheck(userDetails.getUsername(), id);
-        return ResponseEntity.ok(ApiResponse.success("Xóa tài khoản thành công", null));
-    }
 
 
 

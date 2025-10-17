@@ -36,4 +36,16 @@ public class UserController {
     ) {
         return ResponseEntity.ok(ApiResponse.success("Đổi mật khẩu thành công", null));
     }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<ApiResponse<Void>> deleteUserById(
+            @PathVariable Long id,
+            @AuthenticationPrincipal UserDetails userDetails
+    ) {
+        userService.deleteUserByIdWithRoleCheck(userDetails.getUsername(), id);
+        return ResponseEntity.ok(ApiResponse.success("Xóa tài khoản thành công", null));
+    }
+
+
+
 }

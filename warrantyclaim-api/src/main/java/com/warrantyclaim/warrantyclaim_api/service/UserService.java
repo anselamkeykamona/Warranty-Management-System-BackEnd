@@ -45,4 +45,39 @@ public class UserService {
         );
     }
 
+    @Transactional
+    public void deleteUserByIdWithRoleCheck(String requesterEmail, Long targetUserId) {
+        User requester = userRepo.findByEmail(requesterEmail)
+                .orElseThrow(() -> new IllegalArgumentException("Người gọi không tồn tại"));
+
+        User target = userRepo.findById(targetUserId)
+                .orElseThrow(() -> new IllegalArgumentException("Người bị xóa không tồn tại"));
+
+        Set<String> requesterRoles = requester.getRoles().stream()
+                .map(Enum::name)
+                .collect(Collectors.toSet());
+
+        Set<String> targetRoles = target.getRoles().stream()
+                .map(Enum::name)
+                .collect(Collectors.toSet());
+
+
+        if (requesterRoles.contains("EVM_ADMIN")) {
+            if (targetRoles.contains("EVM_ADMIN")) {
+                throw new RuntimeException("Không thể xóa EVM_ADMIN khác");
+            }
+        } else if (requesterRoles.contains("SC_ADMIN")) {
+            for (String role : targetRoles) {
+                if (!role.equals("SC_STAFF") && !role.equals("SC_TECHNICAL")) {
+                    throw new RuntimeException("SC_ADMIN chỉ được xóa SC_STAFF hoặc SC_TECHNICAL");
+                }
+            }
+        } else {
+            throw new RuntimeException("Bạn không có quyền xóa tài khoản");
+        }
+
+        userRepo.deleteById(targetUserId);
+    }
+
+
 }

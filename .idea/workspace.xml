@@ -8,6 +8,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/controller/AuthController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/service/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/service/AuthService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/warrantyclaim-api/src/main/java/com/warrantyclaim/warrantyclaim_api/service/UserService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

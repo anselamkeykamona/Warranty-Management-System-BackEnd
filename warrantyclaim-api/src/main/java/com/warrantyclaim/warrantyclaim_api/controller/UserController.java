@@ -3,6 +3,7 @@ package com.warrantyclaim.warrantyclaim_api.controller;
 import com.warrantyclaim.warrantyclaim_api.dto.ChangePasswordRequest;
 import com.warrantyclaim.warrantyclaim_api.dto.UpdateUserRequest;
 import com.warrantyclaim.warrantyclaim_api.dto.UserResponse;
+import com.warrantyclaim.warrantyclaim_api.entity.User;
 import com.warrantyclaim.warrantyclaim_api.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -32,19 +33,22 @@ public class UserController {
     @PutMapping("/change-password")
     public ResponseEntity<ApiResponse<String>> changePassword(
             @Valid @RequestBody ChangePasswordRequest request,
-            @AuthenticationPrincipal UserDetails userDetails
+            @AuthenticationPrincipal User user
     ) {
+        userService.changePassword(user.getUsername(), request);
         return ResponseEntity.ok(ApiResponse.success("Đổi mật khẩu thành công", null));
     }
+
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<ApiResponse<Void>> deleteUserById(
             @PathVariable Long id,
-            @AuthenticationPrincipal UserDetails userDetails
+            @AuthenticationPrincipal User user // dùng entity trực tiếp
     ) {
-        userService.deleteUserByIdWithRoleCheck(userDetails.getUsername(), id);
+        userService.deleteUserByIdWithRoleCheck(user.getEmail(), id);
         return ResponseEntity.ok(ApiResponse.success("Xóa tài khoản thành công", null));
     }
+
 
 
 

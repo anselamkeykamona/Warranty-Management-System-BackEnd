@@ -1,9 +1,11 @@
 package com.warrantyclaim.warrantyclaim_api.service;
 
+import com.warrantyclaim.warrantyclaim_api.dto.ChangePasswordRequest;
 import com.warrantyclaim.warrantyclaim_api.dto.UpdateUserRequest;
 import com.warrantyclaim.warrantyclaim_api.dto.UserResponse;
 import com.warrantyclaim.warrantyclaim_api.entity.User;
 import com.warrantyclaim.warrantyclaim_api.repository.UserRepository;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +22,7 @@ public class UserService {
         this.userRepo = userRepo;
         this.jwtService = jwtService;
     }
-
+// update thong tin user
     @Transactional
     public UserResponse updateUser(UpdateUserRequest req, String token) {
         String emailFromToken = jwtService.extractUserName(token.replace("Bearer ", ""));
@@ -44,7 +46,7 @@ public class UserService {
                 roleNames
         );
     }
-
+// delete account by role check
     @Transactional
     public void deleteUserByIdWithRoleCheck(String requesterEmail, Long targetUserId) {
         User requester = userRepo.findByEmail(requesterEmail)
@@ -77,6 +79,21 @@ public class UserService {
         }
 
         userRepo.deleteById(targetUserId);
+    }
+
+    // đổi mk
+
+    @Transactional
+    public void changePassword(String email, ChangePasswordRequest request) {
+        User user = userRepo.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        if (!BCrypt.checkpw(request.getOldPassword(), user.getPassword())) {
+            throw new IllegalArgumentException("Old password is incorrect");
+        }
+
+        user.setPassword(BCrypt.hashpw(request.getNewPassword(), BCrypt.gensalt()));
+        userRepo.save(user);
     }
 
 

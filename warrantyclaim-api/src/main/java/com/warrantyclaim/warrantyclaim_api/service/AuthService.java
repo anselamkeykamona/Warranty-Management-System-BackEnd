@@ -122,55 +122,7 @@ public class AuthService {
         return new LoginResponse(token, user.getUsernameDisplay(), user.getRoles());
     }
 
-    // CHANGE PASSWORD
 
-    @Transactional
-    public void changePassword(String email, ChangePasswordRequest request) {
-        User user = userRepo.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
-
-        if (!BCrypt.checkpw(request.getOldPassword(), user.getPassword())) {
-            throw new IllegalArgumentException("Old password is incorrect");
-        }
-
-        user.setPassword(BCrypt.hashpw(request.getNewPassword(), BCrypt.gensalt()));
-        userRepo.save(user);
-    }
-
-    // xoa tk
-    public void deleteUserByIdWithRoleCheck(String requesterEmail, Long targetUserId) {
-        User requester = userRepo.findByEmail(requesterEmail)
-                .orElseThrow(() -> new ResourceNotFoundException("Người gọi không tồn tại"));
-
-        User target = userRepo.findById(targetUserId)
-                .orElseThrow(() -> new ResourceNotFoundException("Người bị xóa không tồn tại"));
-
-        Set<Role> requesterRoles = requester.getRoles();
-        Set<Role> targetRoles = target.getRoles();
-
-        if (requester.getId().equals(target.getId())) {
-            userRepo.deleteById(targetUserId); // Tự xóa
-            return;
-        }
-
-        if (requesterRoles.contains(Role.EVM_ADMIN)) {
-            for (Role role : targetRoles) {
-                if (role == Role.EVM_ADMIN) {
-                    throw new AccessDeniedException("Không thể xóa EVM_ADMIN khác");
-                }
-            }
-        } else if (requesterRoles.contains(Role.SC_ADMIN)) {
-            for (Role role : targetRoles) {
-                if (role != Role.SC_STAFF && role != Role.SC_TECHNICAL) {
-                    throw new AccessDeniedException("SC_ADMIN chỉ được xóa SC_STAFF hoặc SC_TECHNICAL");
-                }
-            }
-        } else {
-            throw new AccessDeniedException("Bạn không có quyền xóa tài khoản");
-        }
-
-        userRepo.deleteById(targetUserId);
-    }
 
 
 

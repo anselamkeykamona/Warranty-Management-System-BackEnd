@@ -51,6 +51,13 @@ public class AuthController {
         return ResponseEntity.ok(ApiResponse.success("Login successful", res));
     }
 
+
+
+//    @PostMapping("/logout")
+//    public ResponseEntity<ApiResponse<Void>> logout() {
+//        return ResponseEntity.ok(ApiResponse.success("Logout successful", null));
+//    }
+
 //    @PutMapping("/change-password")
 //    public ResponseEntity<ApiResponse<String>> changePassword(
 //            @Valid @RequestBody ChangePasswordRequest request,

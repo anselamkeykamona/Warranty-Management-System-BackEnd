@@ -1,9 +1,6 @@
 package com.warrantyclaim.warrantyclaim_api.service.Implement;
 
-import com.warrantyclaim.warrantyclaim_api.dto.ElectricVehicleResponseDTO;
-import com.warrantyclaim.warrantyclaim_api.dto.ElectricVehicleUpdateRequestDTO;
-import com.warrantyclaim.warrantyclaim_api.dto.VehicleCreateDTO;
-import com.warrantyclaim.warrantyclaim_api.dto.VehicleDetailInfo;
+import com.warrantyclaim.warrantyclaim_api.dto.*;
 import com.warrantyclaim.warrantyclaim_api.entity.ElectricVehicle;
 import com.warrantyclaim.warrantyclaim_api.entity.ElectricVehicleType;
 import com.warrantyclaim.warrantyclaim_api.entity.SCStaff;
@@ -15,6 +12,8 @@ import com.warrantyclaim.warrantyclaim_api.repository.ElectricVehicleTypeReposit
 import com.warrantyclaim.warrantyclaim_api.repository.ScStaffRepository;
 import com.warrantyclaim.warrantyclaim_api.service.ElectricVehicleService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -81,6 +80,12 @@ public class ElectricVehicleServiceImp implements ElectricVehicleService {
 
         // 2. Delete
         electricVehicleRepository.deleteById(id);
+    }
+
+    @Transactional
+    public Page<ElectricVehicleListResponseDTO> getAllVehicles(Pageable pageable) {
+        Page<ElectricVehicle> vehicles = electricVehicleRepository.findAll(pageable);
+        return vehicles.map(mapper::toListResponseDTO);
     }
 
 }

@@ -53,7 +53,8 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
                                 "/api/WarrantyClaim/**",
-                                "/api/ElectricVehicle/**"
+                                "/api/ElectricVehicle/**",
+                                "/api/ServiceCampaigns/**"
                         ).permitAll()
                         .anyRequest().authenticated()
 

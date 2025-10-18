@@ -54,7 +54,9 @@ public class SecurityConfig {
                                 "/api/auth/**",
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
-                                "/swagger-ui.html"
+                                "/swagger-ui.html",
+                                "/api/WarrantyClaim/**",
+                                "/api/ElectricVehicle/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
@@ -62,8 +64,7 @@ public class SecurityConfig {
                         .authenticationEntryPoint(restAuthHandlers)
                         .accessDeniedHandler(restAuthHandlers)
                 )
-//                .authenticationProvider(authenticationProvider(userDetailsService(null)))
-                .authenticationProvider(authenticationProvider(userDetailsService))
+                .authenticationProvider(authenticationProvider(userDetailsService(null)))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
@@ -90,10 +91,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        //config.setAllowedOrigins(List.of("*")); // Cho phép tất cả domain (có thể giới hạn sau)
-       // config.setAllowedOriginPatterns(List.of("*"));
-        config.setAllowedOrigins(List.of("http://localhost:3000"));
-
+        config.setAllowedOrigins(List.of("*")); // Cho phép tất cả domain (có thể giới hạn sau)
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);

@@ -1,5 +1,6 @@
 package com.warrantyclaim.warrantyclaim_api.entity;
 
+import com.warrantyclaim.warrantyclaim_api.enums.WarrantyClaimStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,16 +27,20 @@ public class WarrantyClaim {
 
     private LocalDate claimDate;
 
+    @Column(name = "RequiredParts")
+    private String requiredParts;
+
     @Column(length = 100)
     private String issueDescription;
 
+    @Enumerated(EnumType.STRING)
     @Column(length = 50)
-    private String status;
+    private WarrantyClaimStatus status;
 
     @Column(length = 100)
     private String email;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "Vehicle_VIN_ID")
     private ElectricVehicle vehicle;
 

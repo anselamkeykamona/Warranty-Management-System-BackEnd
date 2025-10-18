@@ -1,5 +1,6 @@
 package com.warrantyclaim.warrantyclaim_api.entity;
 
+import com.warrantyclaim.warrantyclaim_api.enums.VehicleStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
@@ -28,14 +29,13 @@ public class ElectricVehicle {
     @Column(name = "Vehicle_Name", length = 100)
     private String name;
 
+    @Column(name = "Total_KM")
     private Float totalKm;
 
-    @Column(length = 50, unique = true)
-    private String vin;
-
-    @Column(length = 255)
+    @Column(length = 250)
     private String picture;
 
+    @Column(name = "Production_Date")
     private LocalDate productionDate;
 
     @Column(length = 100)
@@ -47,8 +47,9 @@ public class ElectricVehicle {
     @Column(length = 100)
     private String email;
 
+    @Enumerated(EnumType.STRING)
     @Column(length = 50)
-    private String status;
+    private VehicleStatus status;
 
     @ManyToOne
     @JoinColumn(name = "ID_Electric_Vehicle_Type")

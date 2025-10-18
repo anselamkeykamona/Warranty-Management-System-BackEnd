@@ -1,11 +1,14 @@
 package com.warrantyclaim.warrantyclaim_api.dto;
 
+import com.warrantyclaim.warrantyclaim_api.enums.WarrantyClaimStatus;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
@@ -22,7 +25,9 @@ public class WarrantyClaimUpdateRequestDTO {
 
     @Pattern(regexp = "^(PENDING|IN_PROGRESS|APPROVED|REJECTED|COMPLETED)$",
             message = "Status must be one of: PENDING, IN_PROGRESS, APPROVED, REJECTED, COMPLETED")
-    private String status;
+    private WarrantyClaimStatus status;
+
+    private LocalDate ClaimDate;
 
     @Email(message = "Invalid email format")
     private String email;

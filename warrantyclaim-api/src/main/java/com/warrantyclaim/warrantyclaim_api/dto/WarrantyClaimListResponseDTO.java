@@ -1,6 +1,7 @@
 package com.warrantyclaim.warrantyclaim_api.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.warrantyclaim.warrantyclaim_api.enums.WarrantyClaimStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,7 +19,6 @@ public class WarrantyClaimListResponseDTO {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate claimDate;
 
-    private String status;
-    private String vehicleVin;
+    private WarrantyClaimStatus status;
     private String vehicleName;
 }

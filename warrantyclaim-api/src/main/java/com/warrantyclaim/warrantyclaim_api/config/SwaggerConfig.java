@@ -1,29 +1,54 @@
 package com.warrantyclaim.warrantyclaim_api.config;
 
-import io.swagger.v3.oas.models.Components;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.security.*;
-import org.springframework.context.annotation.Bean;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.info.Contact;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.info.License;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import io.swagger.v3.oas.annotations.servers.Server;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.List;
-
 @Configuration
+@OpenAPIDefinition(
+        info = @Info(
+                title = "VinFast EVM Warranty API",
+                version = "1.0",
+                description = "API documentation for VinFast Electric Vehicle Management Warranty System",
+                contact = @Contact(
+                        name = "VinFast API Support",
+                        email = "support@vinfast.vn",
+                        url = "https://vinfast.vn"
+                ),
+                license = @License(
+                        name = "Apache 2.0",
+                        url = "https://www.apache.org/licenses/LICENSE-2.0.html"
+                )
+        ),
+        servers = {
+                @Server(
+                        description = "Local Development Server",
+                        url = "http://localhost:8080"
+                ),
+                @Server(
+                        description = "Production Server",
+                        url = "https://api.vinfast.vn"
+                )
+        },
+        security = {
+                @SecurityRequirement(name = "bearerAuth")
+        }
+)
+@SecurityScheme(
+        name = "bearerAuth",
+        description = "JWT authentication",
+        scheme = "bearer",
+        type = SecuritySchemeType.HTTP,
+        bearerFormat = "JWT",
+        in = SecuritySchemeIn.HEADER
+)
 public class SwaggerConfig {
-
-    @Bean
-    public OpenAPI customOpenAPI() {
-        return new OpenAPI()
-                .info(new Info()
-                        .title("Warranty Claim API")
-                        .version("1.0")
-                        .description("API documentation for Warranty Claim System"))
-                .components(new Components()
-                        .addSecuritySchemes("BearerAuth", new SecurityScheme()
-                                .type(SecurityScheme.Type.HTTP)
-                                .scheme("bearer")
-                                .bearerFormat("JWT")))
-                .addSecurityItem(new SecurityRequirement().addList("BearerAuth", List.of()));
-    }
+    // No additional beans needed with SpringDoc
 }

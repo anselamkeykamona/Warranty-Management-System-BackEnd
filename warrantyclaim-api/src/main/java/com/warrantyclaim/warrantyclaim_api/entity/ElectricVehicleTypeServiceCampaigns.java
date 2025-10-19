@@ -5,10 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
-
-
-
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,11 +22,11 @@ public class ElectricVehicleTypeServiceCampaigns {
     @Column(name = "CampaignsID", length = 50)
     private String campaignId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_Electric_Vehicle_Type", insertable = false, updatable = false)
     private ElectricVehicleType vehicleType;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CampaignsID", insertable = false, updatable = false)
     private ServiceCampaigns campaign;
 }

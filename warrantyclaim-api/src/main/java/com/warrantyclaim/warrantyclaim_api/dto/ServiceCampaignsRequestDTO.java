@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -24,8 +25,12 @@ public class ServiceCampaignsRequestDTO {
     private LocalDate endDate;
 
     private String description;
+    private Boolean NotificationSent = false;
 
     @NotNull(message = "Status is required!!")
     private ServiceCampaignsStatus status;
+
+    private List<String> vehicleTypeIds;
+    private List<String> technicianIds;
 
 }

@@ -15,4 +15,5 @@ public class VehicleBasicInfoDTO {
     private String email;
     private String phoneNumber;
     private String model;
+    private String picture;
 }

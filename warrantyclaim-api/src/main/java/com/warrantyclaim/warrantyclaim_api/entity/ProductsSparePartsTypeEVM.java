@@ -42,4 +42,7 @@ public class ProductsSparePartsTypeEVM {
 
     @Column(name = "Condition", length = 50)
     private String condition;
+
+    @OneToMany(mappedBy = "partType")
+    private List<ProductsSparePartsEVM> productsSparePartsEVMS = new ArrayList<>();
 }

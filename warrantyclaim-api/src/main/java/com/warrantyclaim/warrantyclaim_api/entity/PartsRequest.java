@@ -1,5 +1,6 @@
 package com.warrantyclaim.warrantyclaim_api.entity;
 
+import com.warrantyclaim.warrantyclaim_api.enums.PartsRequestStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,14 +27,26 @@ public class PartsRequest {
     @Column(name = "PartName", length = 100)
     private String partName;
 
+    @Column(name = "Quantity")
     private Integer quantity;
+
+    @Column(name = "RequestDate")
     private LocalDate requestDate;
-    private String status;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "Status")
+    private PartsRequestStatus status;
+
+    @Column(name = "DeliveryDate")
     private LocalDate deliveryDate;
 
-    @ManyToOne
+    @ManyToOne  
     @JoinColumn(name = "ID_Products_Part_Type_SC")
     private ProductsSparePartsTypeSC partType;
+
+    @ManyToOne
+    @JoinColumn(name = "Vehicle_VIN_ID")
+    private ElectricVehicle electricVehicle;
 
     @ManyToOne
     @JoinColumn(name = "SC_StaffID")

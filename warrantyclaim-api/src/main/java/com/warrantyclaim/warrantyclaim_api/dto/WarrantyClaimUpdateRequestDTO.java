@@ -32,5 +32,9 @@ public class WarrantyClaimUpdateRequestDTO {
     @Email(message = "Invalid email format")
     private String email;
 
+    private String RequiredParts;
+
     private String electricVehicleId;
+
+    private String Vehicle_VIN_ID;
 }

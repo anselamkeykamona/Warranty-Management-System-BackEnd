@@ -1,9 +1,8 @@
 package com.warrantyclaim.warrantyclaim_api.service;
 
-import com.warrantyclaim.warrantyclaim_api.dto.ElectricVehicleResponseDTO;
-import com.warrantyclaim.warrantyclaim_api.dto.ElectricVehicleUpdateRequestDTO;
-import com.warrantyclaim.warrantyclaim_api.dto.VehicleCreateDTO;
-import com.warrantyclaim.warrantyclaim_api.dto.VehicleDetailInfo;
+import com.warrantyclaim.warrantyclaim_api.dto.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface ElectricVehicleService {
     public VehicleDetailInfo addElectricVehicle(VehicleCreateDTO vehicleCreateDTO);
@@ -13,4 +12,6 @@ public interface ElectricVehicleService {
     public ElectricVehicleResponseDTO getVehicleById(String id);
 
     public void deleteVehicle(String id);
+
+    public Page<ElectricVehicleListResponseDTO> getAllVehicles(Pageable pageable);
 }

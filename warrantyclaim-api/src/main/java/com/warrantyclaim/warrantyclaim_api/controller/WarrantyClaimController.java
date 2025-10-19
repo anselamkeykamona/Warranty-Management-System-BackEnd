@@ -1,9 +1,6 @@
 package com.warrantyclaim.warrantyclaim_api.controller;
 
-import com.warrantyclaim.warrantyclaim_api.dto.WarrantyClaimCreateRequestDTO;
-import com.warrantyclaim.warrantyclaim_api.dto.WarrantyClaimListResponseDTO;
-import com.warrantyclaim.warrantyclaim_api.dto.WarrantyClaimResponseDTO;
-import com.warrantyclaim.warrantyclaim_api.dto.WarrantyClaimUpdateRequestDTO;
+import com.warrantyclaim.warrantyclaim_api.dto.*;
 import com.warrantyclaim.warrantyclaim_api.enums.WarrantyClaimStatus;
 import com.warrantyclaim.warrantyclaim_api.service.WarrantyClaimService;
 import jakarta.validation.Valid;
@@ -47,6 +44,12 @@ public class WarrantyClaimController {
 
         Pageable pageable = PageRequest.of(page, size, sort);
         Page<WarrantyClaimListResponseDTO> response = warrantyClaimService.getAllClaims(pageable);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{claimId}")
+    public ResponseEntity<WarrantyClaimDetailResponseDTO> getClaimById(@PathVariable String claimId) {
+        WarrantyClaimDetailResponseDTO response = warrantyClaimService.getClaimById(claimId);
         return ResponseEntity.ok(response);
     }
 

@@ -51,4 +51,6 @@ public class WarrantyClaim {
     @ManyToOne
     @JoinColumn(name = "SC_TechnicianID")
     private SCTechnician technician;
+
+
 }

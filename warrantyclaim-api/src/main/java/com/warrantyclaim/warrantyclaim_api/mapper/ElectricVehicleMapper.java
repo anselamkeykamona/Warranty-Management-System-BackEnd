@@ -28,6 +28,28 @@ public class ElectricVehicleMapper {
         return electricVehicle;
      }
 
+    public ElectricVehicleListResponseDTO toListResponseDTO(ElectricVehicle vehicle) {
+        if (vehicle == null) {
+            return null;
+        }
+
+        ElectricVehicleListResponseDTO dto = new ElectricVehicleListResponseDTO();
+        dto.setId(vehicle.getId());
+        dto.setName(vehicle.getName());
+        dto.setTotalKm(vehicle.getTotalKm());
+        dto.setOwner(vehicle.getOwner());
+        dto.setPhoneNumber(vehicle.getPhoneNumber());
+        dto.setStatus(vehicle.getStatus());
+
+        // Simplified vehicle type info
+        if (vehicle.getVehicleType() != null) {
+            dto.setVehicleTypeId(vehicle.getVehicleType().getId());
+            dto.setModelName(vehicle.getVehicleType().getModelName());
+        }
+
+        return dto;
+    }
+
     public ElectricVehicleResponseDTO toResponseDTO(ElectricVehicle vehicle) {
         if (vehicle == null) {
             return null;
@@ -68,6 +90,11 @@ public class ElectricVehicleMapper {
         dto.setPrice(vehicleType.getPrice());
 
         return dto;
+    }
+
+    public VehicleBasicInfoDTO toListVehicle(ElectricVehicle electricVehicle) {
+
+        return null;
     }
 
     public void updateEntityElectricVehicle(ElectricVehicleUpdateRequestDTO updatedVehicle, ElectricVehicle electricVehicle) {

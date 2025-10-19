@@ -1,12 +1,11 @@
 package com.warrantyclaim.warrantyclaim_api.service;
+import com.warrantyclaim.warrantyclaim_api.dto.*;
 import com.warrantyclaim.warrantyclaim_api.enums.Role;
 
-import com.warrantyclaim.warrantyclaim_api.dto.LoginRequest;
-import com.warrantyclaim.warrantyclaim_api.dto.LoginResponse;
-import com.warrantyclaim.warrantyclaim_api.dto.RegisterRequest;
-import com.warrantyclaim.warrantyclaim_api.dto.RegisterResponse;
 import com.warrantyclaim.warrantyclaim_api.entity.User;
+import com.warrantyclaim.warrantyclaim_api.exception.AccessDeniedException;
 import com.warrantyclaim.warrantyclaim_api.exception.ResourceAlreadyExistsException;
+import com.warrantyclaim.warrantyclaim_api.exception.ResourceNotFoundException;
 import com.warrantyclaim.warrantyclaim_api.repository.UserRepository;
 
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -121,5 +121,9 @@ public class AuthService {
 
         return new LoginResponse(token, user.getUsernameDisplay(), user.getRoles());
     }
+
+
+
+
 
 }

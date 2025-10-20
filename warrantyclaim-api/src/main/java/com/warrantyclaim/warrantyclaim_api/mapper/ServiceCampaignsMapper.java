@@ -1,9 +1,7 @@
 package com.warrantyclaim.warrantyclaim_api.mapper;
 
-import com.warrantyclaim.warrantyclaim_api.dto.ServiceCampaignsRequestDTO;
-import com.warrantyclaim.warrantyclaim_api.dto.ServiceCampaignsResponseDTO;
-import com.warrantyclaim.warrantyclaim_api.dto.TechnicianBasicDTO;
-import com.warrantyclaim.warrantyclaim_api.entity.ElectricVehicle;
+import com.warrantyclaim.warrantyclaim_api.dto.*;
+import com.warrantyclaim.warrantyclaim_api.entity.ElectricVehicleType;
 import com.warrantyclaim.warrantyclaim_api.entity.SCTechnician;
 import com.warrantyclaim.warrantyclaim_api.entity.ServiceCampaigns;
 import org.springframework.stereotype.Component;
@@ -24,12 +22,10 @@ public class ServiceCampaignsMapper {
         serviceCampaigns.setTypeName(requestDTO.getTypeName());
         serviceCampaigns.setNotificationSent(requestDTO.getNotificationSent() != null ? requestDTO.getNotificationSent() : false);
         serviceCampaigns.setStatus(requestDTO.getStatus());
+        serviceCampaigns.setDescription(requestDTO.getDescription());
 
-        if(requestDTO.getDescription() != null) {
-            serviceCampaigns.setDescription(requestDTO.getDescription());
-        }
 
-        //List is handled in service layer
+        // Note: relationships will be set in service layer
 
         return serviceCampaigns;
     }
@@ -45,15 +41,92 @@ public class ServiceCampaignsMapper {
         responseDTO.setEndDate(serviceCampaigns.getEndDate());
         responseDTO.setTypeName(serviceCampaigns.getTypeName());
         responseDTO.setRequiredParts(serviceCampaigns.getRequiredParts());
+        responseDTO.setNotificationSent(responseDTO.getNotificationSent() != null ? serviceCampaigns.getNotificationSent() : false);
         responseDTO.setStatus(serviceCampaigns.getStatus());
+        responseDTO.setDescription(serviceCampaigns.getDescription());
 
-        if(responseDTO.getDescription() != null) {
-            serviceCampaigns.setDescription(responseDTO.getDescription());
+        if (serviceCampaigns.getVehicleTypeCampaigns() != null) {
+            responseDTO.setVehicleTypes(
+                    serviceCampaigns.getVehicleTypeCampaigns().stream()
+                            .map(junction -> toVehicleTypeBasic(junction.getVehicleType()))
+                            .collect(Collectors.toList())
+            );
         }
 
+        // Map technicians through junction entity
+        if (serviceCampaigns.getTechnicianCampaigns() != null) {
+            responseDTO.setTechnicians(
+                    serviceCampaigns.getTechnicianCampaigns().stream()
+                            .map(junction -> toTechnicianBasic(junction.getTechnician()))
+                            .collect(Collectors.toList())
+            );
+        }
 
         return responseDTO;
     }
+
+    public ServiceCampaignsListDTO toListDTO(ServiceCampaigns entity) {
+        if (entity == null) {
+            return null;
+        }
+
+        ServiceCampaignsListDTO dto = new ServiceCampaignsListDTO();
+        dto.setCampaignsId(entity.getId());
+        dto.setCampaignsTypeName(entity.getTypeName());
+        dto.setStartDate(entity.getStartDate());
+        dto.setEndDate(entity.getEndDate());
+        dto.setStatus(entity.getStatus());
+        dto.setNotificationSent(entity.getNotificationSent());
+
+        // Count relationships
+        dto.setVehicleTypeCount(entity.getVehicleTypeCampaigns() != null
+                ? entity.getVehicleTypeCampaigns().size()
+                : 0);
+
+        dto.setTechnicianCount(entity.getTechnicianCampaigns() != null
+                ? entity.getTechnicianCampaigns().size()
+                : 0);
+
+        return dto;
+    }
+
+    public void updateEntity(ServiceCampaigns entity, ServiceCampaignsUpdateDTO dto) {
+        if (entity == null || dto == null) {
+            return;
+        }
+
+        if (dto.getCampaignsTypeName() != null) {
+            entity.setTypeName(dto.getCampaignsTypeName());
+        }
+
+        if (dto.getStartDate() != null) {
+            entity.setStartDate(dto.getStartDate());
+        }
+
+        if (dto.getEndDate() != null) {
+            entity.setEndDate(dto.getEndDate());
+        }
+
+        if (dto.getRequiredParts() != null) {
+            entity.setRequiredParts(dto.getRequiredParts());
+        }
+
+        if (dto.getDescription() != null) {
+            entity.setDescription(dto.getDescription());
+        }
+
+        if (dto.getStatus() != null) {
+            entity.setStatus(dto.getStatus());
+        }
+
+        if (dto.getNotificationSent() != null) {
+            entity.setNotificationSent(dto.getNotificationSent());
+        }
+
+        // Note: relationships will be updated in service layer
+    }
+
+
 
     private TechnicianBasicDTO toTechnicianBasic(SCTechnician technician) {
         if (technician == null) {
@@ -65,6 +138,22 @@ public class ServiceCampaignsMapper {
         dto.setName(technician.getName());
         dto.setEmail(technician.getEmail());
         dto.setSpecialty(technician.getSpecialty());
+
+        return dto;
+    }
+
+    private VehicleTypeInfoDTO toVehicleTypeBasic(ElectricVehicleType vehicleType) {
+        if (vehicleType == null) {
+            return null;
+        }
+
+        VehicleTypeInfoDTO dto = new VehicleTypeInfoDTO();
+        dto.setId(vehicleType.getId());
+        dto.setModelName(vehicleType.getModelName());
+        dto.setDescription(vehicleType.getDescription());
+        dto.setYearModelYear(vehicleType.getYearModelYear());
+        dto.setBatteryType(vehicleType.getBatteryType());
+        dto.setPrice(vehicleType.getPrice());
 
         return dto;
     }

@@ -19,23 +19,24 @@ public class SCTechnician {
     @Column(name = "SC_TechnicianID", length = 50)
     private String id;
 
-    @Column(length = 100)
+    @Column(name = "Name",length = 100)
     private String name;
 
-    @Column(length = 100)
+    @Column(name = "Email", length = 100)
     private String email;
 
     @Column(name = "Phone_Number", length = 20)
     private String phoneNumber;
 
+    @Column(name = "Date_of_Birth")
     private LocalDate dateOfBirth;
 
-    @Column(length = 100)
+    @Column(name = "Password", length = 100)
     private String password;
 
     @Column(name = "BranchOffice", length = 150)
     private String branchOffice;
 
-    @Column(length = 100)
+    @Column(name = "Specialty", length = 100)
     private String specialty;
 }

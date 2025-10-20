@@ -6,30 +6,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class ServiceCampaignsResponseDTO {
+@NoArgsConstructor
+public class ServiceCampaignsListDTO {
 
-    private String id;
-
-    private String typeName;
-
+    private String campaignsId;
+    private String campaignsTypeName;
     private LocalDate startDate;
-
     private LocalDate endDate;
-
-    private String requiredParts;
-
-    private String description;
-
     private ServiceCampaignsStatus status;
-
     private Boolean notificationSent;
 
-    private List<VehicleTypeInfoDTO> vehicleTypes;
-    private List<TechnicianBasicDTO> technicians;
-
+    // Count of relationships
+    private Integer vehicleTypeCount;
+    private Integer technicianCount;
 }

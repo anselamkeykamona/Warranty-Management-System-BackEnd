@@ -15,6 +15,7 @@ public class ElectricVehicleTypeServiceCampaignsId implements Serializable {
         this.campaignId = campaignId;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -19,7 +19,7 @@ public class ElectricVehicleMapper {
         electricVehicle.setId(vehicleCreateDTO.getVehicleId());
         electricVehicle.setName(vehicleCreateDTO.getVehicleName());
         electricVehicle.setEmail(vehicleCreateDTO.getEmail());
-        electricVehicle.setProductionDate(vehicleCreateDTO.getProductionDate());
+        electricVehicle.setPurchaseDate(vehicleCreateDTO.getPurchaseDate());
         electricVehicle.setOwner(vehicleCreateDTO.getOwner());
         electricVehicle.setPhoneNumber(vehicleCreateDTO.getPhoneNumber());
         electricVehicle.setTotalKm(vehicleCreateDTO.getTotalKm());
@@ -60,7 +60,7 @@ public class ElectricVehicleMapper {
         dto.setName(vehicle.getName());
         dto.setTotalKm(vehicle.getTotalKm());
         dto.setPicture(vehicle.getPicture());
-        dto.setProductionDate(vehicle.getProductionDate());
+        dto.setPurchaseDate(vehicle.getPurchaseDate());
         dto.setOwner(vehicle.getOwner());
         dto.setPhoneNumber(vehicle.getPhoneNumber());
         dto.setEmail(vehicle.getEmail());
@@ -127,7 +127,7 @@ public class ElectricVehicleMapper {
         }
 
         if(updatedVehicle.getProductionDate() != null) {
-            electricVehicle.setProductionDate(electricVehicle.getProductionDate());
+            electricVehicle.setPurchaseDate(electricVehicle.getPurchaseDate());
         }
         //Type Electric should be in vehicle service
     }

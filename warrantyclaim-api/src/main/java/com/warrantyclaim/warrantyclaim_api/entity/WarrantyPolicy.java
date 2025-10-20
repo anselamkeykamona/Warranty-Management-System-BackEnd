@@ -23,4 +23,5 @@ public class WarrantyPolicy {
 
     @Column(length = 255)
     private String description;
+
 }

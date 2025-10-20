@@ -28,6 +28,12 @@ public class ServiceCampaignsController {
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }
 
+    @GetMapping("/{id}/Report")
+    public ResponseEntity<ReportInfoListDTO> getAllReportCampaign(@PathVariable String id) {
+        ReportInfoListDTO reportInfoListDTO = serviceCampaignsService.getAllReport(id);
+        return ResponseEntity.ok(reportInfoListDTO);
+    }
+
     @PutMapping("/{id}/dates")
     public ResponseEntity<ServiceCampaignsResponseDTO> updateCampaignDate(
             @PathVariable String id,

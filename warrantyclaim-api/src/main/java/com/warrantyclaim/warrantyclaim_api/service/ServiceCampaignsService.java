@@ -20,5 +20,6 @@ public interface ServiceCampaignsService {
     public ServiceCampaignsResponseDTO addTechnician(String campaignId, String technicianId);
     public ServiceCampaignsResponseDTO removeTechnician(String campaignId, String technicianId);
     public ServiceCampaignsResponseDTO updateDate(String campaignId, LocalDate startDate, LocalDate endDate);
+    public ReportInfoListDTO getAllReport(String campaignId);
 
 }

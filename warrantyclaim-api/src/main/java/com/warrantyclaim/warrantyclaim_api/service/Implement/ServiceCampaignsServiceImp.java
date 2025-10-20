@@ -35,6 +35,14 @@ public class ServiceCampaignsServiceImp implements ServiceCampaignsService {
 
 
     @Override
+    public ReportInfoListDTO getAllReport(String campaignId) {
+        ServiceCampaigns serviceCampaigns = repository.findById(campaignId)
+                .orElseThrow(() -> new ResourceNotFoundException("Service campaign not found with ID: " + campaignId));
+
+        return mapper.toListReportDTO(serviceCampaigns);
+    }
+
+    @Override
     public ServiceCampaignsResponseDTO createServiceCampaigns(ServiceCampaignsRequestDTO requestDTO) {
         ServiceCampaigns serviceCampaigns = mapper.toEntityServiceCampaigns(requestDTO);
 

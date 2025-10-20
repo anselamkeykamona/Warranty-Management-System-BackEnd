@@ -2,6 +2,7 @@ package com.warrantyclaim.warrantyclaim_api.mapper;
 
 import com.warrantyclaim.warrantyclaim_api.dto.*;
 import com.warrantyclaim.warrantyclaim_api.entity.ElectricVehicleType;
+import com.warrantyclaim.warrantyclaim_api.entity.Report;
 import com.warrantyclaim.warrantyclaim_api.entity.SCTechnician;
 import com.warrantyclaim.warrantyclaim_api.entity.ServiceCampaigns;
 import org.springframework.stereotype.Component;
@@ -63,6 +64,32 @@ public class ServiceCampaignsMapper {
         }
 
         return responseDTO;
+    }
+
+    public ReportInfoListDTO toListReportDTO(ServiceCampaigns serviceCampaigns) {
+        if(serviceCampaigns == null) {
+            return null;
+        }
+
+        ReportInfoListDTO reportInfoListDTO = new ReportInfoListDTO();
+
+        if(serviceCampaigns.getReports() != null) {
+            reportInfoListDTO.setReportInfoDTOList(
+                    serviceCampaigns.getReports().stream()
+                            .map(this::toReportDTO).toList()
+            );
+        }
+        return reportInfoListDTO;
+    }
+
+    public ReportInfoDTO toReportDTO(Report report) {
+        ReportInfoDTO reportListInfoDTO = new ReportInfoDTO();
+        reportListInfoDTO.setReportId(report.getId());
+        reportListInfoDTO.setReportName(report.getReportName());
+        reportListInfoDTO.setImage(report.getImage());
+        reportListInfoDTO.setDescription(report.getDescription());
+        reportListInfoDTO.setError(report.getError());
+        return reportListInfoDTO;
     }
 
     public ServiceCampaignsListDTO toListDTO(ServiceCampaigns entity) {

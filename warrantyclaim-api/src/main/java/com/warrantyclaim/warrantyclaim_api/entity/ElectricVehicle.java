@@ -35,8 +35,8 @@ public class ElectricVehicle {
     @Column(length = 250)
     private String picture;
 
-    @Column(name = "Production_Date")
-    private LocalDate productionDate;
+    @Column(name = "Purchase_Date")
+    private LocalDate purchaseDate;
 
     @Column(length = 100)
     private String owner;

@@ -39,8 +39,8 @@ public class VehicleCreateDTO {
     @NotBlank(message = "Vehicle owner must have a phone number for contact information")
     private String phoneNumber;
 
-    @NotNull(message = "Must have production date to apply Warranty Policy!")
-    private LocalDate productionDate;
+    @NotNull(message = "Must have purchase date to apply Warranty Policy!")
+    private LocalDate purchaseDate;
 
     private VehicleStatus status;
 

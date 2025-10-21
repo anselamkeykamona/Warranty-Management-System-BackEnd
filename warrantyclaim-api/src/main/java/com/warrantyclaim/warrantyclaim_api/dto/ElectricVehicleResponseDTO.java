@@ -16,7 +16,7 @@ public class ElectricVehicleResponseDTO {
     private String name;
     private Float totalKm;
     private String picture;
-    private LocalDate productionDate;
+    private LocalDate purchaseDate;
     private String owner;
     private String phoneNumber;
     private String email;

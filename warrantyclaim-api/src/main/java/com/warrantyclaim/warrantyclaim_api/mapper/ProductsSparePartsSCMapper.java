@@ -15,8 +15,8 @@ public class ProductsSparePartsSCMapper {
      * Convert CreateDTO to Entity
      */
     public ProductsSparePartsSC toEntity(ProductsSparePartsSCCreateDTO dto,
-                                          ProductsSparePartsTypeSC partType,
-                                          WarrantyClaim claim) {
+            ProductsSparePartsTypeSC partType,
+            WarrantyClaim claim) {
         ProductsSparePartsSC entity = new ProductsSparePartsSC();
         entity.setId(dto.getId());
         entity.setName(dto.getName());
@@ -50,24 +50,24 @@ public class ProductsSparePartsSCMapper {
 
         // Map part type info
         if (entity.getPartType() != null) {
-            ProductsSparePartsSCResponseDTO.PartTypeInfoDTO partTypeInfo =
-                    ProductsSparePartsSCResponseDTO.PartTypeInfoDTO.builder()
-                            .id(entity.getPartType().getId())
-                            .partName(entity.getPartType().getPartName())
-                            .description(entity.getPartType().getDescription())
-                            .manufacturer(entity.getPartType().getManufacturer())
-                            .build();
+            ProductsSparePartsSCResponseDTO.PartTypeInfoDTO partTypeInfo = ProductsSparePartsSCResponseDTO.PartTypeInfoDTO
+                    .builder()
+                    .id(entity.getPartType().getId())
+                    .partName(entity.getPartType().getPartName())
+                    .description(entity.getPartType().getDescription())
+                    .manufacturer(entity.getPartType().getManufacturer())
+                    .build();
             dto.setPartType(partTypeInfo);
         }
 
         // Map claim info
         if (entity.getClaim() != null) {
-            ProductsSparePartsSCResponseDTO.ClaimInfoDTO claimInfo =
-                    ProductsSparePartsSCResponseDTO.ClaimInfoDTO.builder()
-                            .claimId(entity.getClaim().getClaimId())
-                            .customerName(entity.getClaim().getCustomerName())
-                            .issueDescription(entity.getClaim().getIssueDescription())
-                            .build();
+            ProductsSparePartsSCResponseDTO.ClaimInfoDTO claimInfo = ProductsSparePartsSCResponseDTO.ClaimInfoDTO
+                    .builder()
+                    .claimId(entity.getClaim().getClaimId())
+                    .customerName(entity.getClaim().getCustomerName())
+                    .issueDescription(entity.getClaim().getIssueDescription())
+                    .build();
             dto.setClaim(claimInfo);
         }
 
@@ -78,9 +78,9 @@ public class ProductsSparePartsSCMapper {
      * Update Entity from UpdateDTO
      */
     public void updateEntityFromDTO(ProductsSparePartsSC entity,
-                                     ProductsSparePartsSCUpdateDTO dto,
-                                     ProductsSparePartsTypeSC partType,
-                                     WarrantyClaim claim) {
+            ProductsSparePartsSCUpdateDTO dto,
+            ProductsSparePartsTypeSC partType,
+            WarrantyClaim claim) {
         if (dto.getName() != null) {
             entity.setName(dto.getName());
         }

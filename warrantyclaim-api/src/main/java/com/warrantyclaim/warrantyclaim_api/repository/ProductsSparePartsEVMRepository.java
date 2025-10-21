@@ -8,12 +8,12 @@ import java.util.List;
 
 @Repository
 public interface ProductsSparePartsEVMRepository extends JpaRepository<ProductsSparePartsEVM, String> {
-    
+
     /**
      * Find all spare parts by part type ID
      */
     List<ProductsSparePartsEVM> findByPartTypeId(String partTypeId);
-    
+
     /**
      * Find spare parts by brand
      */

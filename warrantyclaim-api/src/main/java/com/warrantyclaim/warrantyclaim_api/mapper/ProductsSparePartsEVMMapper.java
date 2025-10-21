@@ -14,7 +14,7 @@ public class ProductsSparePartsEVMMapper {
      * Convert CreateDTO to Entity
      */
     public ProductsSparePartsEVM toEntity(ProductsSparePartsEVMCreateDTO dto,
-                                           ProductsSparePartsTypeEVM partType) {
+            ProductsSparePartsTypeEVM partType) {
         ProductsSparePartsEVM entity = new ProductsSparePartsEVM();
         entity.setId(dto.getId());
         entity.setName(dto.getName());
@@ -47,13 +47,13 @@ public class ProductsSparePartsEVMMapper {
 
         // Map part type info
         if (entity.getPartType() != null) {
-            ProductsSparePartsEVMResponseDTO.PartTypeInfoDTO partTypeInfo =
-                    ProductsSparePartsEVMResponseDTO.PartTypeInfoDTO.builder()
-                            .id(entity.getPartType().getId())
-                            .partName(entity.getPartType().getPartName())
-                            .description(entity.getPartType().getDescription())
-                            .manufacturer(entity.getPartType().getManufacturer())
-                            .build();
+            ProductsSparePartsEVMResponseDTO.PartTypeInfoDTO partTypeInfo = ProductsSparePartsEVMResponseDTO.PartTypeInfoDTO
+                    .builder()
+                    .id(entity.getPartType().getId())
+                    .partName(entity.getPartType().getPartName())
+                    .description(entity.getPartType().getDescription())
+                    .manufacturer(entity.getPartType().getManufacturer())
+                    .build();
             dto.setPartType(partTypeInfo);
         }
 
@@ -64,8 +64,8 @@ public class ProductsSparePartsEVMMapper {
      * Update Entity from UpdateDTO
      */
     public void updateEntityFromDTO(ProductsSparePartsEVM entity,
-                                     ProductsSparePartsEVMUpdateDTO dto,
-                                     ProductsSparePartsTypeEVM partType) {
+            ProductsSparePartsEVMUpdateDTO dto,
+            ProductsSparePartsTypeEVM partType) {
         if (dto.getName() != null) {
             entity.setName(dto.getName());
         }

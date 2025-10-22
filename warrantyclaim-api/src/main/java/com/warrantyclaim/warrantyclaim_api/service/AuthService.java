@@ -1,37 +1,42 @@
 package com.warrantyclaim.warrantyclaim_api.service;
-import com.warrantyclaim.warrantyclaim_api.dto.*;
-import com.warrantyclaim.warrantyclaim_api.enums.Role;
 
-import com.warrantyclaim.warrantyclaim_api.entity.User;
-import com.warrantyclaim.warrantyclaim_api.exception.AccessDeniedException;
+import com.warrantyclaim.warrantyclaim_api.dto.RegisterRequest;
+import com.warrantyclaim.warrantyclaim_api.dto.RegisterResponse;
+import com.warrantyclaim.warrantyclaim_api.entity.*;
 import com.warrantyclaim.warrantyclaim_api.exception.ResourceAlreadyExistsException;
-import com.warrantyclaim.warrantyclaim_api.exception.ResourceNotFoundException;
-import com.warrantyclaim.warrantyclaim_api.repository.UserRepository;
+import com.warrantyclaim.warrantyclaim_api.repository.*;
 
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
 public class AuthService {
 
     private final UserRepository userRepo;
-    private final AuthenticationManager authManager;
-    private final JwtService jwtService;
+    private final EVMStaffRepository evmStaffRepo;
+    private final SCAdminRepository scAdminRepo;
+    private final SCStaffRepository scStaffRepo;
+    private final SCTechnicianRepository scTechRepo;
+
+//    public AuthService(UserRepository userRepo) {
+//        this.userRepo = userRepo;
+//    }
 
     public AuthService(UserRepository userRepo,
-                       AuthenticationManager authManager,
-                       JwtService jwtService) {
+                       EVMStaffRepository evmStaffRepo,
+                       SCAdminRepository scAdminRepo,
+                       SCStaffRepository scStaffRepo,
+                       SCTechnicianRepository scTechRepo) {
         this.userRepo = userRepo;
-        this.authManager = authManager;
-        this.jwtService = jwtService;
+        this.evmStaffRepo = evmStaffRepo;
+        this.scAdminRepo = scAdminRepo;
+        this.scStaffRepo = scStaffRepo;
+        this.scTechRepo = scTechRepo;
     }
 
 
@@ -89,6 +94,67 @@ public class AuthService {
 
         User savedUser = userRepo.save(user);
 
+        for (Role role : roles) {
+            switch (role) {
+                case EVM_STAFF -> {
+                    EVMStaff evm = new EVMStaff();
+                    evm.setId(UUID.randomUUID().toString());
+                    evm.setName(req.getUsername());
+                    evm.setEmail(req.getEmail());
+                    evm.setPassword(savedUser.getPassword());
+                    evm.setPhoneNumber(req.getPhoneNumber());
+                    evm.setDepartment(req.getBranchOffice()); // dùng branchOffice làm department
+                    evm.setDateOfBirth(req.getDateOfBirth());
+                    evmStaffRepo.save(evm);
+
+                }
+                case SC_ADMIN -> {
+                    SCAdmin admin = new SCAdmin();
+                    admin.setId(UUID.randomUUID().toString());
+                    admin.setAccountName(req.getUsername());
+                    admin.setEmail(req.getEmail());
+                    admin.setPassword(savedUser.getPassword());
+                    admin.setPhoneNumber(req.getPhoneNumber());
+                    admin.setBranchOffice(req.getBranchOffice());
+                    admin.setDateOfBirth(req.getDateOfBirth());
+
+                    scAdminRepo.save(admin);
+
+                }
+                case SC_STAFF -> {
+                    SCStaff staff = new SCStaff();
+                    staff.setId(UUID.randomUUID().toString());
+                    staff.setAccountName(req.getUsername());
+                    staff.setEmail(req.getEmail());
+                    staff.setPassword(savedUser.getPassword());
+                    staff.setPhoneNumber(req.getPhoneNumber());
+                    staff.setDateOfBirth(req.getDateOfBirth());
+                    staff.setBranchOffice(req.getBranchOffice());
+
+                    scStaffRepo.save(staff);
+
+                }
+                case SC_TECHNICAL -> {
+                    if (req.getSpecialty() == null || req.getSpecialty().isBlank()) {
+                        throw new IllegalArgumentException("Specialty is required for SC_TECHNICAL");
+                    }
+                        SCTechnician tech = new SCTechnician();
+                    tech.setId(UUID.randomUUID().toString());
+                    tech.setName(req.getUsername());
+                    tech.setEmail(req.getEmail());
+                    tech.setPassword(savedUser.getPassword());
+                    tech.setPhoneNumber(req.getPhoneNumber());
+                    tech.setDateOfBirth(req.getDateOfBirth());
+                    tech.setSpecialty(req.getSpecialty());
+                    tech.setBranchOffice(req.getBranchOffice());
+
+                    scTechRepo.save(tech);
+
+                }
+            }
+        }
+
+
         // Chuyen roles de tra ve
         Set<String> roleNames = savedUser.getRoles().stream()
                 .map(Enum::name)
@@ -110,20 +176,4 @@ public class AuthService {
         }
         userRepo.deleteById(id);
     }
-// login
-    public LoginResponse login(LoginRequest request) {
-        Authentication auth = authManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.email(), request.password())
-        );
-
-        User user = (User) auth.getPrincipal();
-        String token = jwtService.generateToken(user);
-
-        return new LoginResponse(token, user.getUsernameDisplay(), user.getRoles());
-    }
-
-
-
-
-
 }

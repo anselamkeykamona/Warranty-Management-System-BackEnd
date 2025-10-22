@@ -13,10 +13,11 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "SC_Staff")
-public class SCStaff {
+@Table(name = "SC_Admin")
+public class SCAdmin {
+
     @Id
-    @Column(name = "SC_StaffID", length = 50)
+    @Column(name = "SC_AdminID", length = 50)
     private String id;
 
     @Column(name = "Account_Name", length = 100)
@@ -38,8 +39,4 @@ public class SCStaff {
 
     @Column(length = 100)
     private String password;
-
-    @Column(name = "BranchOffice", length = 150)
-    private String branchOffice;
-
 }

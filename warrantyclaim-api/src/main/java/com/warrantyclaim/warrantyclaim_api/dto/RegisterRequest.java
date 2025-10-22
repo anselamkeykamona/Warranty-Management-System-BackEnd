@@ -1,14 +1,17 @@
 package com.warrantyclaim.warrantyclaim_api.dto;
 
-import com.warrantyclaim.warrantyclaim_api.enums.Role;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import com.warrantyclaim.warrantyclaim_api.entity.Role;
+
+import java.time.LocalDate;
 import java.util.Set;
 
 public class RegisterRequest {
-
 
     @NotBlank(message = " Username is required")
     private String username;
@@ -20,12 +23,31 @@ public class RegisterRequest {
     @Email(message = "Invalid email format")
     private String email;
 
-    @Size(min = 1, message = "At least one role is required")// user ko gui null/set rong
+    @Size(min = 1, message = "At least one role is required") // user ko gui null/set rong
     private Set<Role> roles; // de ko trung role
 
     @NotBlank(message = "Email is required")
     @Email(message = "Invalid email format")
     private String createdByEmail;
+
+    // Các trường mới thêm
+
+    @jakarta.validation.constraints.Pattern(
+            regexp = "^\\d{10}$",
+            message = "Phone number must be exactly 10 digits"
+    )
+    private String phoneNumber;
+
+    @NotBlank(message = "Branch office is required")
+    private String branchOffice;
+
+
+    private String specialty;
+
+    @NotNull(message = "Date of birth is required")
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    private LocalDate dateOfBirth;
+
 
     public RegisterRequest() {
     }
@@ -79,4 +101,36 @@ public class RegisterRequest {
     }
 
 
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getBranchOffice() {
+        return branchOffice;
+    }
+
+    public void setBranchOffice(String branchOffice) {
+        this.branchOffice = branchOffice;
+    }
+
+    public String getSpecialty() {
+        return specialty;
+    }
+
+    public void setSpecialty(String specialty) {
+        this.specialty = specialty;
+    }
+
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
 }

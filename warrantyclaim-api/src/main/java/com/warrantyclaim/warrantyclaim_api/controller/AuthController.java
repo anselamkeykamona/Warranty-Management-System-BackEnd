@@ -10,6 +10,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 
 
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {

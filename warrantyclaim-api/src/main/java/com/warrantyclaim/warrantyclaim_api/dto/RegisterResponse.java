@@ -10,10 +10,10 @@ public class RegisterResponse {
     public RegisterResponse() {
     }
 
-    public RegisterResponse(Long id, String username, String emai, Set<String> roles) {
+    public RegisterResponse(Long id, String username, String email, Set<String> roles) {
         this.id = id;
         this.username = username;
-        this.email = emai;
+        this.email = email;
         this.roles = roles;
     }
 
@@ -37,8 +37,8 @@ public class RegisterResponse {
         return email;
     }
 
-    public void setEmail(String emai) {
-        this.email = emai;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Set<String> getRoles() {

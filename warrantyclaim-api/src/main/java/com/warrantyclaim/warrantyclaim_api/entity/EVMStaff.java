@@ -17,7 +17,9 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "EVM_Staff")
-public class EVMStaff {
+public class
+
+EVMStaff {
     @Id
     @Column(name = "EVM_Staff_ID", length = 50)
     private String id;

@@ -39,7 +39,5 @@ public class SCStaff {
     @Column(length = 100)
     private String password;
 
-    @Column(name = "BranchOffice", length = 150)
-    private String branchOffice;
 
 }

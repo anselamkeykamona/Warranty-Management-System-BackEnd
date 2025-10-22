@@ -2,9 +2,9 @@ package com.warrantyclaim.warrantyclaim_api.repository;
 
 import com.warrantyclaim.warrantyclaim_api.entity.SCTechnician;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 
-@Repository
-public interface ScTechnicianRepository extends JpaRepository<SCTechnician, String> {
+public interface SCTechnicianRepository extends JpaRepository<SCTechnician, String> {
+    Optional<SCTechnician> findByEmail(String email);
 }

@@ -4,7 +4,7 @@ import com.warrantyclaim.warrantyclaim_api.dto.ChangePasswordRequest;
 import com.warrantyclaim.warrantyclaim_api.dto.UpdateUserRequest;
 import com.warrantyclaim.warrantyclaim_api.dto.UserResponse;
 import com.warrantyclaim.warrantyclaim_api.entity.User;
-import com.warrantyclaim.warrantyclaim_api.repository.UserRepository;
+import com.warrantyclaim.warrantyclaim_api.repository.*;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,13 +15,25 @@ import java.util.stream.Collectors;
 @Service
 public class UserService {
 
-    private final UserRepository userRepo;
-    private final JwtService jwtService;
+    private final SCStaffRepository scStaffRepo;
+    private final SCTechnicianRepository scTechRepo;
+    private final SCAdminRepository scAdminRepo;
+    private final EVMStaffRepository evmStaffRepo;
 
-    public UserService(UserRepository userRepo, JwtService jwtService) {
+    public UserService(UserRepository userRepo,
+                       JwtService jwtService,
+                       SCStaffRepository scStaffRepo,
+                       SCTechnicianRepository scTechRepo,
+                       SCAdminRepository scAdminRepo,
+                       EVMStaffRepository evmStaffRepo) {
         this.userRepo = userRepo;
         this.jwtService = jwtService;
+        this.scStaffRepo = scStaffRepo;
+        this.scTechRepo = scTechRepo;
+        this.scAdminRepo = scAdminRepo;
+        this.evmStaffRepo = evmStaffRepo;
     }
+
 // update thong tin user
     @Transactional
     public UserResponse updateUser(UpdateUserRequest req, String token) {

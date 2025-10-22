@@ -13,14 +13,17 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "SC_Technician")
-public class SCTechnician {
+@Table(name = "SC_Admin")
+public class SCAdmin {
+
     @Id
-    @Column(name = "SC_TechnicianID", length = 50)
+    @Column(name = "SC_AdminID", length = 50)
     private String id;
 
-    @Column(length = 100)
-    private String name;
+    @Column(name = "Account_Name", length = 100)
+    private String accountName;
+
+    private Integer age;
 
     @Column(length = 100)
     private String email;
@@ -31,14 +34,9 @@ public class SCTechnician {
     @Column(name = "Date_of_Birth")
     private LocalDate dateOfBirth;
 
-
-    @Column(length = 100)
-    private String password;
-
-    @Column(length = 100)
-    private String specialty;
-
     @Column(name = "BranchOffice", length = 150)
     private String branchOffice;
 
+    @Column(length = 100)
+    private String password;
 }

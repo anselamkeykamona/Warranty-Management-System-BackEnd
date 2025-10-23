@@ -1,72 +1,51 @@
 package com.warrantyclaim.warrantyclaim_api.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-
-import com.warrantyclaim.warrantyclaim_api.entity.Role;
+import com.warrantyclaim.warrantyclaim_api.enums.Role;
+import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 import java.util.Set;
 
 public class RegisterRequest {
 
-    @NotBlank(message = " Username is required")
+    @NotBlank(message = "Username is required")
+    @Size(max = 100, message = "Username must not exceed 100 characters")
     private String username;
 
-    @Size(min = 8, message = "Pass word must be at least 8 characters long")
+    @NotBlank(message = "Password is required")
+    @Size(min = 8, max = 100, message = "Password must be between 8 and 100 characters")
     private String password;
 
     @NotBlank(message = "Email is required")
     @Email(message = "Invalid email format")
+    @Size(max = 100, message = "Email must not exceed 100 characters")
     private String email;
 
-    @Size(min = 1, message = "At least one role is required") // user ko gui null/set rong
-    private Set<Role> roles; // de ko trung role
+    @NotNull(message = "At least one role is required")
+    @Size(min = 1, message = "At least one role is required")
+    private Set<Role> roles;
 
-    @NotBlank(message = "Email is required")
-    @Email(message = "Invalid email format")
+    @NotBlank(message = "Creator email is required")
+    @Email(message = "Invalid creator email format")
+    @Size(max = 100, message = "Creator email must not exceed 100 characters")
     private String createdByEmail;
 
-    // Các trường mới thêm
-
-    @jakarta.validation.constraints.Pattern(
-            regexp = "^\\d{10}$",
-            message = "Phone number must be exactly 10 digits"
-    )
+    @NotBlank(message = "Phone number is required")
+    @Pattern(regexp = "^\\d{10}$", message = "Phone number must be exactly 10 digits")
     private String phoneNumber;
 
     @NotBlank(message = "Branch office is required")
+    @Size(max = 150, message = "Branch office must not exceed 150 characters")
     private String branchOffice;
 
-
+    @Size(max = 100, message = "Specialty must not exceed 100 characters")
     private String specialty;
 
     @NotNull(message = "Date of birth is required")
+    @Past(message = "Date of birth must be in the past")
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate dateOfBirth;
-
-
-    public RegisterRequest() {
-    }
-
-    public RegisterRequest(String username, String password, String email, Set<Role> roles, String createdByEmail) {
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.roles = roles;
-        this.createdByEmail = createdByEmail;
-    }
-
-    public String getCreatedByEmail() {
-        return createdByEmail;
-    }
-
-    public void setCreatedByEmail(String createdByEmail) {
-        this.createdByEmail = createdByEmail;
-    }
 
     public String getUsername() {
         return username;
@@ -100,7 +79,13 @@ public class RegisterRequest {
         this.roles = roles;
     }
 
+    public String getCreatedByEmail() {
+        return createdByEmail;
+    }
 
+    public void setCreatedByEmail(String createdByEmail) {
+        this.createdByEmail = createdByEmail;
+    }
 
     public String getPhoneNumber() {
         return phoneNumber;

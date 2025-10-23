@@ -7,5 +7,7 @@ import java.util.Optional;
 
 public interface SCAdminRepository extends JpaRepository<SCAdmin, String> {
     Optional<SCAdmin> findByEmail(String email);
+    void deleteByEmail(String email);
+
 }
 

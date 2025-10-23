@@ -24,6 +24,9 @@ EVMStaff {
     @Column(name = "EVM_Staff_ID", length = 50)
     private String id;
 
+    @Column(name = "UserID")
+    private Long userId;
+
     @Column(length = 100)
     private String name;
 
@@ -40,4 +43,5 @@ EVMStaff {
     private String department;
 
     private LocalDate dateOfBirth;
+
 }

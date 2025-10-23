@@ -1,6 +1,6 @@
 package com.warrantyclaim.warrantyclaim_api.service.Implement;
 import com.warrantyclaim.warrantyclaim_api.dto.*;
-import com.warrantyclaim.warrantyclaim_api.repository.ScTechnicianRepository;
+import com.warrantyclaim.warrantyclaim_api.repository.SCTechnicianRepository;
 import com.warrantyclaim.warrantyclaim_api.entity.*;
 import com.warrantyclaim.warrantyclaim_api.mapper.RecallMapper;
 import com.warrantyclaim.warrantyclaim_api.repository.*;
@@ -33,7 +33,7 @@ public class RecallServiceImp implements RecallService {
     private RecallSCTechnicianRepository technicianRepo;
 
     @Autowired
-    private ScTechnicianRepository scTechnicianRepo;
+    private SCTechnicianRepository scTechnicianRepo;
 
 
     @Override

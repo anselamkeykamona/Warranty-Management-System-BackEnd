@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -28,6 +29,18 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
+    @Column(name = "branch_office", nullable = true)
+    private String branchOffice;
+
+    @Column(name = "Phone_Number", length = 20)
+    private String phoneNumber;
+
+    @Column(name = "Date_of_Birth")
+    private LocalDate dateOfBirth;
+    @Column(name = "Specialty", length = 100)
+    private String specialty;
+
+
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
@@ -38,11 +51,12 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(Long id, String username, String email, String password, Set<Role> roles) {
+    public User(Long id, String username, String email, String password, String branchOffice, Set<Role> roles) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
+        this.branchOffice = branchOffice;
         this.roles = roles;
     }
 
@@ -86,6 +100,41 @@ public class User implements UserDetails {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
+    public String getBranchOffice() {
+        return branchOffice;
+    }
+
+    public void setBranchOffice(String branchOffice) {
+        this.branchOffice = branchOffice;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public String getSpecialty() {
+        return specialty;
+    }
+
+    public void setSpecialty(String specialty) {
+        this.specialty = specialty;
+    }
+
+
 
     // implement userDetails
     @Override

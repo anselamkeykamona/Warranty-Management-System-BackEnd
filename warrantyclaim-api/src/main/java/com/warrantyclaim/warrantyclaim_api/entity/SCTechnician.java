@@ -19,6 +19,9 @@ public class SCTechnician {
     @Column(name = "SC_TechnicianID", length = 50)
     private String id;
 
+    @Column(name = "UserID")
+    private Long userId;
+
     @Column(length = 100)
     private String name;
 

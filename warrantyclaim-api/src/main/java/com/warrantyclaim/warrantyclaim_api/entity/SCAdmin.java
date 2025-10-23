@@ -20,6 +20,9 @@ public class SCAdmin {
     @Column(name = "SC_AdminID", length = 50)
     private String id;
 
+    @Column(name = "UserID")
+    private Long userId;
+
     @Column(name = "Account_Name", length = 100)
     private String accountName;
 

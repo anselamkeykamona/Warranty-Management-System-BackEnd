@@ -19,6 +19,9 @@ public class SCStaff {
     @Column(name = "SC_StaffID", length = 50)
     private String id;
 
+    @Column(name = "UserID")
+    private Long userId;
+
     @Column(name = "Account_Name", length = 100)
     private String accountName;
 

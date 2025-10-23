@@ -1,12 +1,8 @@
 package com.warrantyclaim.warrantyclaim_api.service.Implement;
 
-import com.warrantyclaim.warrantyclaim_api.dto.PartsRequestCreateDTO;
-import com.warrantyclaim.warrantyclaim_api.dto.PartsRequestResponseDTO;
-import com.warrantyclaim.warrantyclaim_api.dto.PartsRequestUpdateDTO;
-import com.warrantyclaim.warrantyclaim_api.dto.PartsResponseListDTO;
-import com.warrantyclaim.warrantyclaim_api.entity.ElectricVehicle;
-import com.warrantyclaim.warrantyclaim_api.entity.PartsRequest;
-import com.warrantyclaim.warrantyclaim_api.entity.ProductsSparePartsTypeSC;
+import com.warrantyclaim.warrantyclaim_api.dto.*;
+import com.warrantyclaim.warrantyclaim_api.entity.*;
+import com.warrantyclaim.warrantyclaim_api.enums.RecallStatus;
 import com.warrantyclaim.warrantyclaim_api.exception.ResourceNotFoundException;
 import com.warrantyclaim.warrantyclaim_api.mapper.PartsRequestMapper;
 import com.warrantyclaim.warrantyclaim_api.repository.ElectricVehicleRepository;
@@ -146,7 +142,6 @@ public class PartsRequestServiceImp implements PartsRequestService {
 
         partsRequestRepository.deleteById(id);
     }
-
 
     /**
      * Generate unique request ID

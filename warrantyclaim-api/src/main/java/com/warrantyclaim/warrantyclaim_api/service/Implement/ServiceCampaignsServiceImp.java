@@ -32,9 +32,11 @@ public class ServiceCampaignsServiceImp implements ServiceCampaignsService {
     private final ServiceCampaignsRepository repository;
     private final ElectricVehicleTypeRepository electricVehicleTypeRepository;
     private final ScTechnicianRepository scTechnicianRepository;
+    // Need update status and notification send
 
 
     @Override
+    @Transactional
     public ReportInfoListDTO getAllReport(String campaignId) {
         ServiceCampaigns serviceCampaigns = repository.findById(campaignId)
                 .orElseThrow(() -> new ResourceNotFoundException("Service campaign not found with ID: " + campaignId));
@@ -43,6 +45,7 @@ public class ServiceCampaignsServiceImp implements ServiceCampaignsService {
     }
 
     @Override
+    @Transactional
     public ServiceCampaignsResponseDTO createServiceCampaigns(ServiceCampaignsRequestDTO requestDTO) {
         ServiceCampaigns serviceCampaigns = mapper.toEntityServiceCampaigns(requestDTO);
 
@@ -81,6 +84,8 @@ public class ServiceCampaignsServiceImp implements ServiceCampaignsService {
 
         return mapper.toResponseDTO(serviceCampaigns);
     }
+
+
 
     @Override
     @Transactional
@@ -265,6 +270,8 @@ public class ServiceCampaignsServiceImp implements ServiceCampaignsService {
         ServiceCampaigns updatedCampaign = repository.save(campaign);
         return mapper.toResponseDTO(updatedCampaign);
     }
+
+
 
     private String generateClaimId() {
         return "SCA-" + LocalDate.now().getYear() + "-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();

@@ -1,6 +1,7 @@
 package com.warrantyclaim.warrantyclaim_api.service;
 
 import com.warrantyclaim.warrantyclaim_api.dto.*;
+import com.warrantyclaim.warrantyclaim_api.enums.ServiceCampaignsStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -21,5 +22,7 @@ public interface ServiceCampaignsService {
     public ServiceCampaignsResponseDTO removeTechnician(String campaignId, String technicianId);
     public ServiceCampaignsResponseDTO updateDate(String campaignId, LocalDate startDate, LocalDate endDate);
     public ReportInfoListDTO getAllReport(String campaignId);
+    public ServiceCampaignsResponseDTO updateServiceCampaignStatus(String id, ServiceCampaignsStatus statusDTO);
+    public ServiceCampaignsResponseDTO updateNotificationSent(String id, Boolean notificationDTO);
 
 }

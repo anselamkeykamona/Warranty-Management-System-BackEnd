@@ -1,6 +1,8 @@
 package com.warrantyclaim.warrantyclaim_api.controller;
 
 import com.warrantyclaim.warrantyclaim_api.dto.*;
+import com.warrantyclaim.warrantyclaim_api.enums.RecallStatus;
+import com.warrantyclaim.warrantyclaim_api.enums.ServiceCampaignsStatus;
 import com.warrantyclaim.warrantyclaim_api.service.ServiceCampaignsService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -61,6 +63,22 @@ public class ServiceCampaignsController {
 
         Pageable pageable = PageRequest.of(page, size, sort);
         Page<ServiceCampaignsListDTO> response = serviceCampaignsService.getAllCampaigns(pageable);
+        return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<ServiceCampaignsResponseDTO> updateRecallStatus(
+            @PathVariable String id,
+            @RequestParam ServiceCampaignsStatus statusDTO) {
+        ServiceCampaignsResponseDTO response = serviceCampaignsService.updateServiceCampaignStatus(id, statusDTO);
+        return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/{id}/notification")
+    public ResponseEntity<ServiceCampaignsResponseDTO> updateNotificationSent(
+            @PathVariable String id,
+            @RequestParam Boolean notificationDTO) {
+        ServiceCampaignsResponseDTO response = serviceCampaignsService.updateNotificationSent(id, notificationDTO);
         return ResponseEntity.ok(response);
     }
 

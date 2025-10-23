@@ -2,8 +2,10 @@ package com.warrantyclaim.warrantyclaim_api.service.Implement;
 
 import com.warrantyclaim.warrantyclaim_api.dto.*;
 import com.warrantyclaim.warrantyclaim_api.entity.ElectricVehicleType;
+import com.warrantyclaim.warrantyclaim_api.entity.Recall;
 import com.warrantyclaim.warrantyclaim_api.entity.SCTechnician;
 import com.warrantyclaim.warrantyclaim_api.entity.ServiceCampaigns;
+import com.warrantyclaim.warrantyclaim_api.enums.RecallStatus;
 import com.warrantyclaim.warrantyclaim_api.enums.ServiceCampaignsStatus;
 import com.warrantyclaim.warrantyclaim_api.exception.ResourceNotFoundException;
 import com.warrantyclaim.warrantyclaim_api.mapper.ServiceCampaignsMapper;
@@ -85,7 +87,29 @@ public class ServiceCampaignsServiceImp implements ServiceCampaignsService {
         return mapper.toResponseDTO(serviceCampaigns);
     }
 
+    @Override
+    @Transactional
+    public ServiceCampaignsResponseDTO updateServiceCampaignStatus(String id, ServiceCampaignsStatus statusDTO) {
+        ServiceCampaigns serviceCampaigns = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Recall not found with ID: " + id));
 
+        serviceCampaigns.setStatus(statusDTO);
+        serviceCampaigns = repository.save(serviceCampaigns);
+
+        return mapper.toResponseDTO(serviceCampaigns);
+    }
+
+    @Override
+    @Transactional
+    public ServiceCampaignsResponseDTO updateNotificationSent(String id, Boolean notificationDTO) {
+        ServiceCampaigns serviceCampaigns = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Recall not found with ID: " + id));
+
+        serviceCampaigns.setNotificationSent(notificationDTO);
+        serviceCampaigns = repository.save(serviceCampaigns);
+
+        return mapper.toResponseDTO(serviceCampaigns);
+    }
 
     @Override
     @Transactional

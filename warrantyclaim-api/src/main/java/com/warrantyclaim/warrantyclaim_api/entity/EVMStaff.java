@@ -17,10 +17,15 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "EVM_Staff")
-public class EVMStaff {
+public class
+
+EVMStaff {
     @Id
     @Column(name = "EVM_Staff_ID", length = 50)
     private String id;
+
+    @Column(name = "UserID")
+    private Long userId;
 
     @Column(length = 100)
     private String name;
@@ -38,4 +43,5 @@ public class EVMStaff {
     private String department;
 
     private LocalDate dateOfBirth;
+
 }

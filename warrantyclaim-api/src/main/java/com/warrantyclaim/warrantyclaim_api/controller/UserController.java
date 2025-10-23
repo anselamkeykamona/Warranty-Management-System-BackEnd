@@ -4,12 +4,15 @@ import com.warrantyclaim.warrantyclaim_api.dto.ChangePasswordRequest;
 import com.warrantyclaim.warrantyclaim_api.dto.UpdateUserRequest;
 import com.warrantyclaim.warrantyclaim_api.dto.UserResponse;
 import com.warrantyclaim.warrantyclaim_api.entity.User;
+import com.warrantyclaim.warrantyclaim_api.enums.Role;
 import com.warrantyclaim.warrantyclaim_api.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/user")
@@ -49,6 +52,35 @@ public class UserController {
         return ResponseEntity.ok(ApiResponse.success("Xóa tài khoản thành công", null));
     }
 
+
+    @GetMapping("/evm-staff/{id}")
+    public ResponseEntity<UserResponse> getEvmStaffById(
+            @PathVariable Long id,
+            @AuthenticationPrincipal User requester
+    ) {
+        UserResponse user = userService.findEvmStaffById(id, requester.getEmail());
+        return ResponseEntity.ok(user);
+    }
+
+    @GetMapping("/sc-users")
+    public ResponseEntity<List<UserResponse>> getSCUsers(
+            @AuthenticationPrincipal User requester
+    ) {
+        List<UserResponse> users = userService.findSCUsersByBranch(requester.getEmail());
+        return ResponseEntity.ok(users);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<UserResponse>> getAllUsers(
+            @AuthenticationPrincipal User requester
+    ) {
+        if (!requester.getRoles().contains(Role.EVM_ADMIN)) {
+            return ResponseEntity.status(403).body(null); // hoặc dùng ApiResponse.error(...) nếu có wrapper
+        }
+
+        List<UserResponse> users = userService.getAllUsers();
+        return ResponseEntity.ok(users);
+    }
 
 
 

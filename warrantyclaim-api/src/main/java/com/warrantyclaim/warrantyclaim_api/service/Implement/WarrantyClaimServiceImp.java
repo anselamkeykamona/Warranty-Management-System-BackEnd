@@ -9,7 +9,7 @@ import com.warrantyclaim.warrantyclaim_api.enums.WarrantyClaimStatus;
 import com.warrantyclaim.warrantyclaim_api.exception.ResourceNotFoundException;
 import com.warrantyclaim.warrantyclaim_api.mapper.WarrantyClaimMapper;
 import com.warrantyclaim.warrantyclaim_api.repository.ElectricVehicleRepository;
-import com.warrantyclaim.warrantyclaim_api.repository.ScTechnicianRepository;
+import com.warrantyclaim.warrantyclaim_api.repository.SCTechnicianRepository;
 import com.warrantyclaim.warrantyclaim_api.repository.WarrantyClaimRepository;
 import com.warrantyclaim.warrantyclaim_api.service.WarrantyClaimService;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +28,7 @@ public class WarrantyClaimServiceImp implements WarrantyClaimService {
 
     private final WarrantyClaimRepository warrantyClaimRepository;
     private final ElectricVehicleRepository electricVehicleRepository;
-    private final ScTechnicianRepository scTechnicianRepository;
+    private final SCTechnicianRepository scTechnicianRepository;
     private final WarrantyClaimMapper warrantyClaimMapper;
 
     @Override

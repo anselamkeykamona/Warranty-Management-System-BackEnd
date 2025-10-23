@@ -9,7 +9,7 @@ import com.warrantyclaim.warrantyclaim_api.exception.ResourceNotFoundException;
 import com.warrantyclaim.warrantyclaim_api.mapper.ElectricVehicleMapper;
 import com.warrantyclaim.warrantyclaim_api.repository.ElectricVehicleRepository;
 import com.warrantyclaim.warrantyclaim_api.repository.ElectricVehicleTypeRepository;
-import com.warrantyclaim.warrantyclaim_api.repository.ScStaffRepository;
+import com.warrantyclaim.warrantyclaim_api.repository.SCStaffRepository;
 import com.warrantyclaim.warrantyclaim_api.service.ElectricVehicleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ElectricVehicleServiceImp implements ElectricVehicleService {
     private final ElectricVehicleRepository electricVehicleRepository;
     private final ElectricVehicleMapper mapper;
-    private final ScStaffRepository scStaffRepository;
+    private final SCStaffRepository scStaffRepository;
     private final ElectricVehicleTypeRepository electricVehicleTypeRepository;
 
     @Override

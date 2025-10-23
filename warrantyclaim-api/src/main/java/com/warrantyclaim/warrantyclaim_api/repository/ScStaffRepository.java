@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ScStaffRepository extends JpaRepository<SCStaff, String> {
+
 }

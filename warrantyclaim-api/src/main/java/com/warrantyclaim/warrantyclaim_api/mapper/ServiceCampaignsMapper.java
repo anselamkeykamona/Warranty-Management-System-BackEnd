@@ -25,7 +25,6 @@ public class ServiceCampaignsMapper {
         serviceCampaigns.setStatus(requestDTO.getStatus());
         serviceCampaigns.setDescription(requestDTO.getDescription());
 
-
         // Note: relationships will be set in service layer
 
         return serviceCampaigns;

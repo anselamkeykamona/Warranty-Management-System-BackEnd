@@ -2,8 +2,10 @@ package com.warrantyclaim.warrantyclaim_api.service.Implement;
 
 import com.warrantyclaim.warrantyclaim_api.dto.*;
 import com.warrantyclaim.warrantyclaim_api.entity.ElectricVehicleType;
+import com.warrantyclaim.warrantyclaim_api.entity.Recall;
 import com.warrantyclaim.warrantyclaim_api.entity.SCTechnician;
 import com.warrantyclaim.warrantyclaim_api.entity.ServiceCampaigns;
+import com.warrantyclaim.warrantyclaim_api.enums.RecallStatus;
 import com.warrantyclaim.warrantyclaim_api.enums.ServiceCampaignsStatus;
 import com.warrantyclaim.warrantyclaim_api.exception.ResourceNotFoundException;
 import com.warrantyclaim.warrantyclaim_api.mapper.ServiceCampaignsMapper;
@@ -32,9 +34,11 @@ public class ServiceCampaignsServiceImp implements ServiceCampaignsService {
     private final ServiceCampaignsRepository repository;
     private final ElectricVehicleTypeRepository electricVehicleTypeRepository;
     private final ScTechnicianRepository scTechnicianRepository;
+    // Need update status and notification send
 
 
     @Override
+    @Transactional
     public ReportInfoListDTO getAllReport(String campaignId) {
         ServiceCampaigns serviceCampaigns = repository.findById(campaignId)
                 .orElseThrow(() -> new ResourceNotFoundException("Service campaign not found with ID: " + campaignId));
@@ -43,6 +47,7 @@ public class ServiceCampaignsServiceImp implements ServiceCampaignsService {
     }
 
     @Override
+    @Transactional
     public ServiceCampaignsResponseDTO createServiceCampaigns(ServiceCampaignsRequestDTO requestDTO) {
         ServiceCampaigns serviceCampaigns = mapper.toEntityServiceCampaigns(requestDTO);
 
@@ -78,6 +83,30 @@ public class ServiceCampaignsServiceImp implements ServiceCampaignsService {
         serviceCampaigns.setStartDate(startDate);
         serviceCampaigns.setEndDate(endDate);
         repository.save(serviceCampaigns);
+
+        return mapper.toResponseDTO(serviceCampaigns);
+    }
+
+    @Override
+    @Transactional
+    public ServiceCampaignsResponseDTO updateServiceCampaignStatus(String id, ServiceCampaignsStatus statusDTO) {
+        ServiceCampaigns serviceCampaigns = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Recall not found with ID: " + id));
+
+        serviceCampaigns.setStatus(statusDTO);
+        serviceCampaigns = repository.save(serviceCampaigns);
+
+        return mapper.toResponseDTO(serviceCampaigns);
+    }
+
+    @Override
+    @Transactional
+    public ServiceCampaignsResponseDTO updateNotificationSent(String id, Boolean notificationDTO) {
+        ServiceCampaigns serviceCampaigns = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Recall not found with ID: " + id));
+
+        serviceCampaigns.setNotificationSent(notificationDTO);
+        serviceCampaigns = repository.save(serviceCampaigns);
 
         return mapper.toResponseDTO(serviceCampaigns);
     }
@@ -265,6 +294,8 @@ public class ServiceCampaignsServiceImp implements ServiceCampaignsService {
         ServiceCampaigns updatedCampaign = repository.save(campaign);
         return mapper.toResponseDTO(updatedCampaign);
     }
+
+
 
     private String generateClaimId() {
         return "SCA-" + LocalDate.now().getYear() + "-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();

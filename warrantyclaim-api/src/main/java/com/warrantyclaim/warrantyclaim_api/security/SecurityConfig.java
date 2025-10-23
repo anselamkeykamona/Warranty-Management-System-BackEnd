@@ -58,7 +58,8 @@ public class SecurityConfig {
                                 "/api/WarrantyClaim/**",
                                 "/api/ElectricVehicle/**",
                                 "/api/ServiceCampaigns/**",
-                                "/api/parts-requests/**"
+                                "/api/parts-requests/**",
+                                "/api/recalls/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
@@ -102,4 +103,6 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", config);
         return source;
     }
+
+
 }

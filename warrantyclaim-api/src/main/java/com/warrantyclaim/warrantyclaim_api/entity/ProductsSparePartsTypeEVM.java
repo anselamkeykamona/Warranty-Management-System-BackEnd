@@ -45,4 +45,6 @@ public class ProductsSparePartsTypeEVM {
 
     @OneToMany(mappedBy = "partType")
     private List<ProductsSparePartsEVM> productsSparePartsEVMS = new ArrayList<>();
+
+
 }

@@ -19,7 +19,7 @@ public class ElectricVehicleMapper {
         electricVehicle.setId(vehicleCreateDTO.getVehicleId());
         electricVehicle.setName(vehicleCreateDTO.getVehicleName());
         electricVehicle.setEmail(vehicleCreateDTO.getEmail());
-        electricVehicle.setProductionDate(vehicleCreateDTO.getProductionDate());
+        electricVehicle.setPurchaseDate(vehicleCreateDTO.getPurchaseDate());
         electricVehicle.setOwner(vehicleCreateDTO.getOwner());
         electricVehicle.setPhoneNumber(vehicleCreateDTO.getPhoneNumber());
         electricVehicle.setTotalKm(vehicleCreateDTO.getTotalKm());
@@ -27,6 +27,28 @@ public class ElectricVehicleMapper {
 
         return electricVehicle;
      }
+
+    public ElectricVehicleListResponseDTO toListResponseDTO(ElectricVehicle vehicle) {
+        if (vehicle == null) {
+            return null;
+        }
+
+        ElectricVehicleListResponseDTO dto = new ElectricVehicleListResponseDTO();
+        dto.setId(vehicle.getId());
+        dto.setName(vehicle.getName());
+        dto.setTotalKm(vehicle.getTotalKm());
+        dto.setOwner(vehicle.getOwner());
+        dto.setPhoneNumber(vehicle.getPhoneNumber());
+        dto.setStatus(vehicle.getStatus());
+
+        // Simplified vehicle type info
+        if (vehicle.getVehicleType() != null) {
+            dto.setVehicleTypeId(vehicle.getVehicleType().getId());
+            dto.setModelName(vehicle.getVehicleType().getModelName());
+        }
+
+        return dto;
+    }
 
     public ElectricVehicleResponseDTO toResponseDTO(ElectricVehicle vehicle) {
         if (vehicle == null) {
@@ -38,7 +60,7 @@ public class ElectricVehicleMapper {
         dto.setName(vehicle.getName());
         dto.setTotalKm(vehicle.getTotalKm());
         dto.setPicture(vehicle.getPicture());
-        dto.setProductionDate(vehicle.getProductionDate());
+        dto.setPurchaseDate(vehicle.getPurchaseDate());
         dto.setOwner(vehicle.getOwner());
         dto.setPhoneNumber(vehicle.getPhoneNumber());
         dto.setEmail(vehicle.getEmail());
@@ -68,6 +90,11 @@ public class ElectricVehicleMapper {
         dto.setPrice(vehicleType.getPrice());
 
         return dto;
+    }
+
+    public VehicleBasicInfoDTO toListVehicle(ElectricVehicle electricVehicle) {
+
+        return null;
     }
 
     public void updateEntityElectricVehicle(ElectricVehicleUpdateRequestDTO updatedVehicle, ElectricVehicle electricVehicle) {
@@ -100,7 +127,7 @@ public class ElectricVehicleMapper {
         }
 
         if(updatedVehicle.getProductionDate() != null) {
-            electricVehicle.setProductionDate(electricVehicle.getProductionDate());
+            electricVehicle.setPurchaseDate(electricVehicle.getPurchaseDate());
         }
         //Type Electric should be in vehicle service
     }

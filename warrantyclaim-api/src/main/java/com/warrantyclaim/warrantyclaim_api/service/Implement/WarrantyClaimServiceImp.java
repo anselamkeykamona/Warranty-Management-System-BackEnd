@@ -67,8 +67,14 @@ public class WarrantyClaimServiceImp implements WarrantyClaimService {
     public WarrantyClaimResponseDTO updateClaim(String claimId, WarrantyClaimUpdateRequestDTO request) {
         WarrantyClaim claim = warrantyClaimRepository.findById(claimId)
                 .orElseThrow(() -> new ResourceNotFoundException("Warranty claim not found with ID: " + claimId));
-        ElectricVehicle electricVehicle = electricVehicleRepository.findById(request.getElectricVehicleId()) // for testing exception
-                .orElseThrow(() -> new ResourceNotFoundException("There is no Electric Vehicle with this ID!!!"));
+
+        if(request.getElectricVehicleId() != null) {
+            ElectricVehicle electricVehicle = electricVehicleRepository.findById(request.getElectricVehicleId()) // for testing exception
+                    .orElseThrow(() -> new ResourceNotFoundException("There is no Electric Vehicle with this ID!!!"));
+
+            claim.setVehicle(electricVehicle);
+        }
+
 
 
         // Update staff if provided
@@ -80,8 +86,8 @@ public class WarrantyClaimServiceImp implements WarrantyClaimService {
 
         // Update other fields
         warrantyClaimMapper.updateEntity(claim, request);
-        claim.setVehicle(electricVehicle);
         WarrantyClaim updatedClaim = warrantyClaimRepository.save(claim);
+
         return warrantyClaimMapper.toResponseWarrantyClaim(updatedClaim);
     }
 

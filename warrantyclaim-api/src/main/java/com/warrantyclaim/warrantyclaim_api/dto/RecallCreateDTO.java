@@ -1,5 +1,9 @@
 package com.warrantyclaim.warrantyclaim_api.dto;
 
+import com.warrantyclaim.warrantyclaim_api.enums.EvmApprovalStatus;
+import com.warrantyclaim.warrantyclaim_api.enums.RecallStatus;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,15 +17,32 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RecallCreateDTO {
-    private String id;
+
+    @NotBlank(message = "Needed name for recall!!!")
     private String name;
+
+    @NotBlank(message = "Need to describe issue to solve!!!")
     private String issueDescription;
+
+    @NotNull(message = "Start date is required for recall!!!")
     private LocalDate startDate;
+
+    @NotBlank(message = "What need to be done for fixing!!!")
     private String requiredAction;
+
+    @NotBlank(message = "Part needed to fix the issue!!!")
     private String partsRequired;
-    private String status;
+
+
+    private RecallStatus status;
+
     private Boolean notificationSent;
-    private String evmApprovalStatus;
-    private List<String> vehicleTypeIds; // Gắn loại xe vào chiến dịch
+
+    private EvmApprovalStatus evmApprovalStatus;
+
+
+    private List<String> vehicleTypeIds;
+    private List<String> technicianIds;
+    private List<String> vehicleId;// Gắn loại xe vào chiến dịch
 }
 

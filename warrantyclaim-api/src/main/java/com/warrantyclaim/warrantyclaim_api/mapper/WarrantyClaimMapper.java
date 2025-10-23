@@ -12,6 +12,8 @@ import java.util.stream.Collectors;
 @Component
 public class WarrantyClaimMapper {
 
+
+
     public WarrantyClaimDetailResponseDTO toDetailResponse(WarrantyClaim claim) {
         if (claim == null) return null;
 
@@ -35,12 +37,6 @@ public class WarrantyClaimMapper {
         if (claim.getStaff() != null) {
             response.setAssignedStaff(toStaffBasicInfoDTO(claim.getTechnician()));
         }
-
-        if (claim.getStaff() != null) {
-            response.setAssignedStaff(toStaffBasicInfoDTO(claim.getTechnician()));
-        }
-
-
 
         // Map spare parts
 
@@ -145,6 +141,10 @@ public class WarrantyClaimMapper {
         if(request.getClaimDate() != null) {
             claim.setClaimDate(request.getClaimDate());
         }
+
+        if(request.getRequiredParts() != null) {
+            claim.setRequiredParts(request.getRequiredParts());
+        }
         // Staff should be updated in service layer
     }
 
@@ -177,8 +177,14 @@ public class WarrantyClaimMapper {
         info.setVehicleId(vehicle.getId());
         info.setVehicleName(vehicle.getName());
         info.setOwner(vehicle.getOwner());
+        info.setPicture(vehicle.getPicture());
         info.setEmail(vehicle.getEmail());
         info.setPhoneNumber(vehicle.getPhoneNumber());
+
+        if(vehicle.getVehicleType() != null) {
+            info.setModel(vehicle.getVehicleType().getModelName());
+        }
+
         return info;
     }
 

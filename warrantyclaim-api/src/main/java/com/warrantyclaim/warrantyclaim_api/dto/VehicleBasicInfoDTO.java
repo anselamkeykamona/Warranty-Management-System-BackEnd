@@ -11,9 +11,9 @@ public class VehicleBasicInfoDTO {
 
     private String vehicleId;
     private String vehicleName;
-    private String vin;
     private String owner;
     private String email;
     private String phoneNumber;
-
+    private String model;
+    private String picture;
 }

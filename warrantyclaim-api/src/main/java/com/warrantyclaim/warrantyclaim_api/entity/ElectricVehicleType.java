@@ -35,4 +35,5 @@ public class ElectricVehicleType {
 
     private Float price;
     private Integer quantity;
+
 }

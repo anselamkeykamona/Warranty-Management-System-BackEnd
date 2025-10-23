@@ -1,0 +1,10 @@
+package com.warrantyclaim.warrantyclaim_api.repository;
+
+import com.warrantyclaim.warrantyclaim_api.entity.WarrantyPolicyElectricVehicleType;
+import com.warrantyclaim.warrantyclaim_api.entity.WarrantyPolicyElectricVehicleTypeId;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface WarrantyPolicyElectricVehicleTypeRepository extends JpaRepository<WarrantyPolicyElectricVehicleType, WarrantyPolicyElectricVehicleTypeId> {
+}

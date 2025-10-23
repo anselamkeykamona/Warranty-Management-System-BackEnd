@@ -2,7 +2,7 @@ package com.warrantyclaim.warrantyclaim_api.service.Implement;
 import com.warrantyclaim.warrantyclaim_api.dto.*;
 import com.warrantyclaim.warrantyclaim_api.enums.RecallStatus;
 import com.warrantyclaim.warrantyclaim_api.exception.ResourceNotFoundException;
-import com.warrantyclaim.warrantyclaim_api.repository.ScTechnicianRepository;
+import com.warrantyclaim.warrantyclaim_api.repository.SCTechnicianRepository;
 import com.warrantyclaim.warrantyclaim_api.entity.*;
 import com.warrantyclaim.warrantyclaim_api.mapper.RecallMapper;
 import com.warrantyclaim.warrantyclaim_api.repository.*;
@@ -27,7 +27,7 @@ public class RecallServiceImp implements RecallService {
     private ElectricVehicleRepository vehicleRepo;
 
     @Autowired
-    private ScTechnicianRepository scTechnicianRepo;
+    private SCTechnicianRepository scTechnicianRepo;
 
     @Autowired
     private RecallMapper mapper;

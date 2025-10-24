@@ -1,6 +1,7 @@
 package com.warrantyclaim.warrantyclaim_api.entity;
 
 
+import com.warrantyclaim.warrantyclaim_api.enums.ReportStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,8 +30,9 @@ public class Report {
     @Column(length = 45)
     private String error;
 
+    @Enumerated(EnumType.STRING)
     @Column(length = 50)
-    private String status;
+    private ReportStatus status;
 
     @Column(name = "ReportName", length = 100)
     private String reportName;
@@ -38,6 +40,10 @@ public class Report {
     @ManyToOne
     @JoinColumn(name = "CampaignsID")
     private ServiceCampaigns campaign;
+
+    @OneToOne
+    @JoinColumn(name = "ClaimID")
+    private WarrantyClaim warrantyClaim;
 
     @ManyToOne
     @JoinColumn(name = "Recall_ID")

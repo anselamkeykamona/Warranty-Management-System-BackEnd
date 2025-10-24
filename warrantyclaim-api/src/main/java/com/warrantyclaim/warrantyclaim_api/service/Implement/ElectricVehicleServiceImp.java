@@ -39,6 +39,15 @@ public class ElectricVehicleServiceImp implements ElectricVehicleService {
         return mapper.toVehicleDetailInfo(electricVehicle);
     }
 
+    @Override
+    @Transactional
+    public ElectricVehicleResponseDTO updateImage(String id,String image) {
+        ElectricVehicle electricVehicle = electricVehicleRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No vehicle with this " + id));
+        electricVehicleRepository.save(electricVehicle);
+        return mapper.toResponseDTO(electricVehicle);
+    }
+
     @Transactional(readOnly = true)
     public ElectricVehicleResponseDTO getVehicleById(String id) {
         ElectricVehicle vehicle = electricVehicleRepository.findById(id)

@@ -24,4 +24,14 @@ public class WarrantyPolicy {
     @Column(length = 255)
     private String description;
 
+
+    @OneToMany(mappedBy = "warrantyPolicy")
+    private List<WarrantyPolicyElectricVehicleType> warrantyPolicy;
+
+    @OneToMany(mappedBy = "warrantyPolicy")
+    private List<WarrantyPolicyProductsSparePartsTypeSC> warrantyPolicyProductsSparePartsTypeSCs;
+
+    @OneToMany(mappedBy = "warrantyPolicy")
+    private List<ProductsSparePartsTypeEVMWarrantyPolicy> warrantyPoliciesEvmTypes;
+
 }

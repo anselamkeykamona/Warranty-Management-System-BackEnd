@@ -59,7 +59,8 @@ public class SecurityConfig {
                                 "/api/ElectricVehicle/**",
                                 "/api/ServiceCampaigns/**",
                                 "/api/parts-requests/**",
-                                "/api/recalls/**"
+                                "/api/recalls/**",
+                                "/api/reports/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )

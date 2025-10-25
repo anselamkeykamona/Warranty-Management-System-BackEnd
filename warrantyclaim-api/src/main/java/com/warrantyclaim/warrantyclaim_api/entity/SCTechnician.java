@@ -22,10 +22,10 @@ public class SCTechnician {
     @Column(name = "Name",length = 100)
     private String name;
 
-    @Column(name = "Email", length = 100)
+    @Column(name = "Email", length = 100, unique = true)
     private String email;
 
-    @Column(name = "Phone_Number", length = 20)
+    @Column(name = "Phone_Number", length = 20, unique = true)
     private String phoneNumber;
 
     @Column(name = "Date_of_Birth")

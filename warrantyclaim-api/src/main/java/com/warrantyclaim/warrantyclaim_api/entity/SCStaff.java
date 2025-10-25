@@ -24,10 +24,10 @@ public class SCStaff {
 
     private Integer age;
 
-    @Column(length = 100)
+    @Column(length = 100, unique = true)
     private String email;
 
-    @Column(name = "Phone_Number", length = 20)
+    @Column(name = "Phone_Number", length = 20, unique = true)
     private String phoneNumber;
 
     @Column(name = "Date_of_Birth")

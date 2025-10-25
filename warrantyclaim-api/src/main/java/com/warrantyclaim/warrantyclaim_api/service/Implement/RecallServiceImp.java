@@ -48,7 +48,7 @@ public class RecallServiceImp implements RecallService {
         if (recall.getNotificationSent() == null) {
             recall.setNotificationSent(false);
         }
-
+        recallRepository.save(recall);
         if(createDTO.getVehicleId() != null && !createDTO.getVehicleId().isEmpty()) {
             for(String vehicleId : createDTO.getVehicleId()) {
                 ElectricVehicle electricVehicle = vehicleRepo.findById(vehicleId)

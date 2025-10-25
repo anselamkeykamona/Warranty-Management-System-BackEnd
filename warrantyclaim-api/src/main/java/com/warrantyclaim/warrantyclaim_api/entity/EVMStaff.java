@@ -25,10 +25,10 @@ public class EVMStaff {
     @Column(length = 100)
     private String name;
 
-    @Column(length = 100)
+    @Column(length = 100, unique = true)
     private String email;
 
-    @Column(length = 20)
+    @Column(length = 20, unique = true)
     private String phoneNumber;
 
     @Column(length = 100)

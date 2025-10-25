@@ -41,10 +41,10 @@ public class ElectricVehicle {
     @Column(length = 100)
     private String owner;
 
-    @Column(name = "Phone_Number", length = 20)
+    @Column(name = "Phone_Number", length = 20, unique = true)
     private String phoneNumber;
 
-    @Column(length = 100)
+    @Column(length = 100, unique = true)
     private String email;
 
     @Enumerated(EnumType.STRING)

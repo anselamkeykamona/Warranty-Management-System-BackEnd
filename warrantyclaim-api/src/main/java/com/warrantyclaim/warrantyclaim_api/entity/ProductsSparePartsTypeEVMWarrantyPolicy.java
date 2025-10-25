@@ -35,5 +35,4 @@ public class ProductsSparePartsTypeEVMWarrantyPolicy {
     @ManyToOne
     @JoinColumn(name = "ID_Warranty_Policy", insertable = false, updatable = false)
     private WarrantyPolicy warrantyPolicy;
-
 }

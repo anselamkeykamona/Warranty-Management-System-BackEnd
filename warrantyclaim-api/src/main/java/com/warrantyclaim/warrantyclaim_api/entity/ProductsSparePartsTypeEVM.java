@@ -23,7 +23,7 @@ public class ProductsSparePartsTypeEVM {
     @Column(name = "ID_Products_Part_Type_EVM", length = 50)
     private String id;
 
-    @Column(name = "Description", length = 45)
+    @Column(length = 45)
     private String description;
 
     @Column(name = "Part_Name", length = 100)
@@ -35,10 +35,9 @@ public class ProductsSparePartsTypeEVM {
     @Column(name = "Total_Amount_Of_Product")
     private Integer totalAmountOfProduct;
 
-    @Column(name = "Price")
     private Float price;
 
-    @Column(name = "Manufacturer", length = 100)
+    @Column(length = 100)
     private String manufacturer;
 
     @Column(name = "Condition", length = 50)

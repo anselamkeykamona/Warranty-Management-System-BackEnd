@@ -26,7 +26,7 @@ public class ElectricVehicleMapper {
         electricVehicle.setStatus(vehicleCreateDTO.getStatus());
 
         return electricVehicle;
-     }
+    }
 
     public ElectricVehicleListResponseDTO toListResponseDTO(ElectricVehicle vehicle) {
         if (vehicle == null) {

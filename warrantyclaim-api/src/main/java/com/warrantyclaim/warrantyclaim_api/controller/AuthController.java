@@ -1,6 +1,7 @@
 package com.warrantyclaim.warrantyclaim_api.controller;
 
 import com.warrantyclaim.warrantyclaim_api.dto.*;
+import com.warrantyclaim.warrantyclaim_api.entity.User;
 import com.warrantyclaim.warrantyclaim_api.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -8,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
+
 
 
 @RestController
@@ -20,24 +22,17 @@ public class AuthController {
         this.service = service;
     }
 
-
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse<RegisterResponse>> register(
-            @Valid @RequestBody RegisterRequest req
+    public ResponseEntity<RegisterResponse> register(
+            @RequestBody RegisterRequest req,
+            @AuthenticationPrincipal User creator
     ) {
-
-
-        RegisterResponse res = service.register(req);
-
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(new ApiResponse<>(
-                        true,
-                        "Registration successful",
-                        res,
-                        null
-                ));
+        req.setCreatedByEmail(creator.getEmail()); // gán email từ token
+        RegisterResponse response = service.register(req); // ✅ dùng đúng biến
+        return ResponseEntity.ok(response);
     }
+
+
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<ApiResponse<Void>> deleteUser(@PathVariable Long id) {

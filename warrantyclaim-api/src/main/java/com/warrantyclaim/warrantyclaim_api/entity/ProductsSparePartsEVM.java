@@ -32,6 +32,9 @@ public class ProductsSparePartsEVM {
 
     private Float price;
 
+    @Column(name = "Warranty_Period")
+    private Integer warrantyPeriod;
+
     @Column(length = 45)
     private String description;
 

@@ -40,7 +40,7 @@ public class PartsRequest {
     @Column(name = "DeliveryDate")
     private LocalDate deliveryDate;
 
-    @ManyToOne  
+    @ManyToOne
     @JoinColumn(name = "ID_Products_Part_Type_SC")
     private ProductsSparePartsTypeSC partType;
 

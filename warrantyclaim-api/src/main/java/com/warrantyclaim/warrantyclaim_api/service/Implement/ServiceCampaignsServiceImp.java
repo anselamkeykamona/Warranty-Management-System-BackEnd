@@ -10,7 +10,7 @@ import com.warrantyclaim.warrantyclaim_api.enums.ServiceCampaignsStatus;
 import com.warrantyclaim.warrantyclaim_api.exception.ResourceNotFoundException;
 import com.warrantyclaim.warrantyclaim_api.mapper.ServiceCampaignsMapper;
 import com.warrantyclaim.warrantyclaim_api.repository.ElectricVehicleTypeRepository;
-import com.warrantyclaim.warrantyclaim_api.repository.ScTechnicianRepository;
+import com.warrantyclaim.warrantyclaim_api.repository.SCTechnicianRepository;
 import com.warrantyclaim.warrantyclaim_api.repository.ServiceCampaignsRepository;
 import com.warrantyclaim.warrantyclaim_api.service.ServiceCampaignsService;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +33,7 @@ public class ServiceCampaignsServiceImp implements ServiceCampaignsService {
     private final ServiceCampaignsMapper mapper;
     private final ServiceCampaignsRepository repository;
     private final ElectricVehicleTypeRepository electricVehicleTypeRepository;
-    private final ScTechnicianRepository scTechnicianRepository;
+    private final SCTechnicianRepository scTechnicianRepository;
     // Need update status and notification send
 
 

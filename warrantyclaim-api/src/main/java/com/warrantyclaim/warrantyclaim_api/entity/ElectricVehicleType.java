@@ -34,7 +34,6 @@ public class ElectricVehicleType {
     private String batteryType;
 
     private Float price;
-
     private Integer quantity;
 
 }

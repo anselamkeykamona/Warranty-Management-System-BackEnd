@@ -14,5 +14,4 @@ public interface ElectricVehicleService {
     public void deleteVehicle(String id);
 
     public Page<ElectricVehicleListResponseDTO> getAllVehicles(Pageable pageable);
-    public ElectricVehicleResponseDTO updateImage(String id, String image);
 }

@@ -19,15 +19,18 @@ public class SCStaff {
     @Column(name = "SC_StaffID", length = 50)
     private String id;
 
+    @Column(name = "UserID")
+    private Long userId;
+
     @Column(name = "Account_Name", length = 100)
     private String accountName;
 
     private Integer age;
 
-    @Column(length = 100, unique = true)
+    @Column(length = 100)
     private String email;
 
-    @Column(name = "Phone_Number", length = 20, unique = true)
+    @Column(name = "Phone_Number", length = 20)
     private String phoneNumber;
 
     @Column(name = "Date_of_Birth")
@@ -38,4 +41,6 @@ public class SCStaff {
 
     @Column(length = 100)
     private String password;
+
+
 }

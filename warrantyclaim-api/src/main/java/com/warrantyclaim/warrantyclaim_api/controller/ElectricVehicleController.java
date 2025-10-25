@@ -29,11 +29,6 @@ public class ElectricVehicleController {
         return ResponseEntity.status(HttpStatus.CREATED).body(vehicleCreateDetailInfo);
     }
 
-    @PatchMapping("/{id}/image")
-    public ResponseEntity<ElectricVehicleResponseDTO> updateImage(@PathVariable String id, @RequestParam String image) {
-        return ResponseEntity.ok(electricVehicleService.updateImage(id, image));
-    }
-
     @GetMapping
     public ResponseEntity<Page<ElectricVehicleListResponseDTO>> getAllVehicles(
             @RequestParam(defaultValue = "0") int page,

@@ -27,8 +27,9 @@ public class PartsRequestUpdateDTO {
 
     private String partTypeId;
 
-    private String staffId;
+    private String vin;
 
-    private String vehicleId;
+    private String requestedByStaffId;
 
+    private String branchOffice;
 }

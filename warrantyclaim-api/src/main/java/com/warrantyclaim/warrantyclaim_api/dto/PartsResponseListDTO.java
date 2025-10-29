@@ -1,5 +1,6 @@
 package com.warrantyclaim.warrantyclaim_api.dto;
 
+import com.warrantyclaim.warrantyclaim_api.enums.OfficeBranch;
 import com.warrantyclaim.warrantyclaim_api.enums.PartsRequestStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,6 +19,7 @@ public class PartsResponseListDTO {
     private Integer quantity;
     private LocalDate requestDate;
     private PartsRequestStatus status;
+    private OfficeBranch officeBranch;
 
     // Simplified nested info
     private String partTypeName;

@@ -27,8 +27,13 @@ public class ProductsSparePartsTypeSC {
     @Column(name = "Part_Name", length = 100)
     private String partName;
 
+    @Column(name = "Year_Model_Year")
     private Integer yearModelYear;
+
+    @Column(name = "Total_Amount_Of_Product")
     private Integer totalAmountOfProduct;
+
+    @Column(name = "Price")
     private Float price;
 
     @Column(length = 100)

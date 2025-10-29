@@ -43,6 +43,7 @@ public class SecurityConfig {
         return new AppUserDetailsService(userRepository);
     }
 
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -51,15 +52,18 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/api/auth/**",
-                                "/v3/api-docs/**",
+                                "/api/auth/login",
+                                "/v3/api-docs/roles",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
                                 "/api/WarrantyClaim/**",
                                 "/api/ElectricVehicle/**",
                                 "/api/ServiceCampaigns/**",
                                 "/api/parts-requests/**",
-                                "/api/recalls/**"
+                                "/api/recalls/**",
+                                "/api/reports/**",
+                                "/api/warranty-policies/**",
+                                "/api/shipping/tracking/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
@@ -97,7 +101,7 @@ public class SecurityConfig {
         config.setAllowedOrigins(List.of("*")); // Cho phép tất cả domain (có thể giới hạn sau)
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
-        config.setAllowCredentials(true);
+        config.setAllowCredentials(false);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);

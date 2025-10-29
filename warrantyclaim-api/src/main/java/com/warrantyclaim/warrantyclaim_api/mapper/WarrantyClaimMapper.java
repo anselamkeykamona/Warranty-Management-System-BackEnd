@@ -1,6 +1,5 @@
 package com.warrantyclaim.warrantyclaim_api.mapper;
 
-
 import com.warrantyclaim.warrantyclaim_api.dto.*;
 import com.warrantyclaim.warrantyclaim_api.entity.*;
 import com.warrantyclaim.warrantyclaim_api.enums.VehicleStatus;
@@ -12,10 +11,9 @@ import java.util.stream.Collectors;
 @Component
 public class WarrantyClaimMapper {
 
-
-
     public WarrantyClaimDetailResponseDTO toDetailResponse(WarrantyClaim claim) {
-        if (claim == null) return null;
+        if (claim == null)
+            return null;
 
         WarrantyClaimDetailResponseDTO response = new WarrantyClaimDetailResponseDTO();
         response.setClaimId(claim.getId());
@@ -27,13 +25,12 @@ public class WarrantyClaimMapper {
         response.setStatus(claim.getStatus());
         response.setRequiredPart(claim.getRequiredParts());
 
-
         // Map vehicle
-        if (claim.getVehicle() != null){
+        if (claim.getVehicle() != null) {
             response.setVehicle(toVehicleDetailInfo(claim.getVehicle()));
         }
 
-        //Map staff
+        // Map staff
         if (claim.getStaff() != null) {
             response.setAssignedStaff(toStaffBasicInfoDTO(claim.getTechnician()));
         }
@@ -42,13 +39,12 @@ public class WarrantyClaimMapper {
 
         // Map work assignments
 
-
         return response;
     }
 
     // Mapper for Warranty Claim Create Request
     public WarrantyClaim toEntityWarrantyClaim(WarrantyClaimCreateRequestDTO requestDTO) {
-        if(requestDTO == null) {
+        if (requestDTO == null) {
             return null;
         }
 
@@ -59,19 +55,17 @@ public class WarrantyClaimMapper {
         warrantyClaim.setIssueDescription(requestDTO.getIssueDescription());
         warrantyClaim.setEmail(requestDTO.getEmail());
 
-        if(requestDTO.getRequiredPart() != null) {
+        if (requestDTO.getRequiredPart() != null) {
             warrantyClaim.setRequiredParts(requestDTO.getRequiredPart());
         }
 
-
-
-        //  Vehicle and Staff relationships should be set in the service layer
+        // Vehicle and Staff relationships should be set in the service layer
 
         return warrantyClaim;
     }
 
     public WarrantyClaimResponseDTO toResponseWarrantyClaim(WarrantyClaim warrantyClaim) {
-        if(warrantyClaim == null) {
+        if (warrantyClaim == null) {
             return null;
         }
 
@@ -90,26 +84,27 @@ public class WarrantyClaimMapper {
         if (warrantyClaim.getVehicle() != null) {
             response.setVehicle(toVehicleBasicInfoDTO(warrantyClaim.getVehicle()));
         }
-//
-//        // Map staff
-//        if (warrantyClaim.getScStaff() != null) {
-//            response.setAssignedStaff(toStaffBasicInfoDTO(warrantyClaim.getScStaff()));
-//        }
+        //
+        // // Map staff
+        // if (warrantyClaim.getScStaff() != null) {
+        // response.setAssignedStaff(toStaffBasicInfoDTO(warrantyClaim.getScStaff()));
+        // }
 
         return response;
     }
 
     public WarrantyClaimListResponseDTO toListResponse(WarrantyClaim claim) {
-        if (claim == null) return null;
+        if (claim == null)
+            return null;
 
         WarrantyClaimListResponseDTO response = new WarrantyClaimListResponseDTO();
         response.setClaimId(claim.getId());
         response.setCustomerName(claim.getCustomerName());
         response.setCustomerPhone(claim.getCustomerPhone());
         response.setClaimDate(claim.getClaimDate());
+        response.setStatus(claim.getStatus()); // FIX: Thiếu set status
 
         if (claim.getVehicle() != null) {
-            response.setVehicleName(claim.getVehicle().getName());
             response.setVehicleName(claim.getVehicle().getName());
         }
 
@@ -138,21 +133,22 @@ public class WarrantyClaimMapper {
             claim.setEmail(request.getEmail());
         }
 
-        if(request.getClaimDate() != null) {
+        if (request.getClaimDate() != null) {
             claim.setClaimDate(request.getClaimDate());
         }
 
-        if(request.getRequiredParts() != null) {
+        if (request.getRequiredParts() != null) {
             claim.setRequiredParts(request.getRequiredParts());
         }
         // Staff should be updated in service layer
     }
 
-    //------------------------------------------------------------------------------------------
-    //Helper for info nested object
+    // ------------------------------------------------------------------------------------------
+    // Helper for info nested object
 
     private VehicleDetailInfo toVehicleDetailInfo(ElectricVehicle vehicle) {
-        if (vehicle == null) return null;
+        if (vehicle == null)
+            return null;
 
         VehicleDetailInfo info = new VehicleDetailInfo();
         info.setVehicleId(vehicle.getId());
@@ -171,7 +167,8 @@ public class WarrantyClaimMapper {
     }
 
     public VehicleBasicInfoDTO toVehicleBasicInfoDTO(ElectricVehicle vehicle) {
-        if (vehicle == null) return null;
+        if (vehicle == null)
+            return null;
 
         VehicleBasicInfoDTO info = new VehicleBasicInfoDTO();
         info.setVehicleId(vehicle.getId());
@@ -181,7 +178,7 @@ public class WarrantyClaimMapper {
         info.setEmail(vehicle.getEmail());
         info.setPhoneNumber(vehicle.getPhoneNumber());
 
-        if(vehicle.getVehicleType() != null) {
+        if (vehicle.getVehicleType() != null) {
             info.setModel(vehicle.getVehicleType().getModelName());
         }
 
@@ -189,7 +186,8 @@ public class WarrantyClaimMapper {
     }
 
     public StaffBasicInfoDTO toStaffBasicInfoDTO(SCTechnician staff) {
-        if (staff == null) return null;
+        if (staff == null)
+            return null;
 
         StaffBasicInfoDTO info = new StaffBasicInfoDTO();
         info.setStaffId(staff.getId());
@@ -199,10 +197,9 @@ public class WarrantyClaimMapper {
         return info;
     }
 
-
-
     public SparePartInfoDTO toSparePartInfo(ProductsSparePartsSC part) {
-        if (part == null) return null;
+        if (part == null)
+            return null;
 
         SparePartInfoDTO info = new SparePartInfoDTO();
         info.setPartId(part.getId());
@@ -212,6 +209,5 @@ public class WarrantyClaimMapper {
         info.setWarrantyPeriod(part.getWarrantyPeriod());
         return info;
     }
-
 
 }

@@ -11,6 +11,7 @@ import com.warrantyclaim.warrantyclaim_api.mapper.WarrantyClaimMapper;
 import com.warrantyclaim.warrantyclaim_api.repository.ElectricVehicleRepository;
 import com.warrantyclaim.warrantyclaim_api.repository.SCTechnicianRepository;
 import com.warrantyclaim.warrantyclaim_api.repository.WarrantyClaimRepository;
+import com.warrantyclaim.warrantyclaim_api.service.NotificationService;
 import com.warrantyclaim.warrantyclaim_api.service.WarrantyClaimService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,24 +31,34 @@ public class WarrantyClaimServiceImp implements WarrantyClaimService {
     private final ElectricVehicleRepository electricVehicleRepository;
     private final SCTechnicianRepository scTechnicianRepository;
     private final WarrantyClaimMapper warrantyClaimMapper;
+    private final NotificationService notificationService;
 
     @Override
     @Transactional
     public WarrantyClaimResponseDTO createWarrantyClaim(WarrantyClaimCreateRequestDTO warrantyClaimRequest) {
 
-        ElectricVehicle electricVehicle = electricVehicleRepository.findById(warrantyClaimRequest.getVehicleId()) // for testing exception
+        ElectricVehicle electricVehicle = electricVehicleRepository.findById(warrantyClaimRequest.getVehicleId()) // for
+                // testing
+                // exception
                 .orElseThrow(() -> new ResourceNotFoundException("There is no Electric Vehicle with this ID!!!"));
 
         // Validate staff if provided
-//        ScStaff staff = null;
-//        if (warrantyClaimRequest.getScStaffId() != null && !warrantyClaimRequest.getScStaffId().isEmpty()) {
-//            staff = scStaffRepository.findById(warrantyClaimRequest.getScStaffId())
-//                    .orElseThrow(() -> new ResourceNotFoundException("Staff not found with ID: " + warrantyClaimRequest.getScStaffId()));
-//        }
+        // ScStaff staff = null;
+        // if (warrantyClaimRequest.getScStaffId() != null &&
+        // !warrantyClaimRequest.getScStaffId().isEmpty()) {
+        // staff = scStaffRepository.findById(warrantyClaimRequest.getScStaffId())
+        // .orElseThrow(() -> new ResourceNotFoundException("Staff not found with ID: "
+        // + warrantyClaimRequest.getScStaffId()));
+        // }
         WarrantyClaim warrantyClaim = warrantyClaimMapper.toEntityWarrantyClaim(warrantyClaimRequest);
         warrantyClaim.setId(generateClaimId());
         warrantyClaim.setVehicle(electricVehicle);
         warrantyClaim.setStatus(WarrantyClaimStatus.PENDING);
+
+        // Lưu thông tin user tạo claim để gửi notification sau này
+        if (warrantyClaimRequest.getCreatedByUserId() != null) {
+            warrantyClaim.setCreatedByUserId(warrantyClaimRequest.getCreatedByUserId());
+        }
 
         warrantyClaim.getVehicle().setStatus(VehicleStatus.IN_WARRANTY);
 
@@ -68,21 +79,22 @@ public class WarrantyClaimServiceImp implements WarrantyClaimService {
         WarrantyClaim claim = warrantyClaimRepository.findById(claimId)
                 .orElseThrow(() -> new ResourceNotFoundException("Warranty claim not found with ID: " + claimId));
 
-        if(request.getElectricVehicleId() != null) {
-            ElectricVehicle electricVehicle = electricVehicleRepository.findById(request.getElectricVehicleId()) // for testing exception
+        if (request.getElectricVehicleId() != null) {
+            ElectricVehicle electricVehicle = electricVehicleRepository.findById(request.getElectricVehicleId()) // for
+                    // testing
+                    // exception
                     .orElseThrow(() -> new ResourceNotFoundException("There is no Electric Vehicle with this ID!!!"));
 
             claim.setVehicle(electricVehicle);
         }
 
-
-
         // Update staff if provided
-//        if (request.getScStaffId() != null && !request.getScStaffId().isEmpty()) {
-//            SCStaff staff = scStaffRepository.findById(request.getScStaffId())
-//                    .orElseThrow(() -> new ResourceNotFoundException("Staff not found with ID: " + request.getScStaffId()));
-//            claim.setScStaff(staff);
-//        }
+        // if (request.getScStaffId() != null && !request.getScStaffId().isEmpty()) {
+        // SCStaff staff = scStaffRepository.findById(request.getScStaffId())
+        // .orElseThrow(() -> new ResourceNotFoundException("Staff not found with ID: "
+        // + request.getScStaffId()));
+        // claim.setScStaff(staff);
+        // }
 
         // Update other fields
         warrantyClaimMapper.updateEntity(claim, request);
@@ -112,6 +124,59 @@ public class WarrantyClaimServiceImp implements WarrantyClaimService {
         claim.setStatus(status);
         WarrantyClaim updatedClaim = warrantyClaimRepository.save(claim);
 
+        return warrantyClaimMapper.toResponseWarrantyClaim(updatedClaim);
+    }
+
+    @Override
+    @Transactional
+    public WarrantyClaimResponseDTO approveOrRejectClaim(ApproveRejectClaimRequest request) {
+        WarrantyClaim claim = warrantyClaimRepository.findById(request.getClaimId())
+                .orElseThrow(
+                        () -> new ResourceNotFoundException(
+                                "Warranty claim not found with ID: " + request.getClaimId()));
+
+        // Kiểm tra claim phải ở trạng thái PENDING
+        if (claim.getStatus() != WarrantyClaimStatus.PENDING) {
+            throw new IllegalStateException(
+                    "Only PENDING claims can be approved or rejected. Current status: " + claim.getStatus());
+        }
+
+        if ("APPROVE".equalsIgnoreCase(request.getAction())) {
+            // Duyệt claim
+            claim.setStatus(WarrantyClaimStatus.APPROVED);
+            claim.setRejectionReason(null); // Clear rejection reason if any
+
+            // Gửi notification cho SC_STAFF tạo claim
+            if (claim.getCreatedByUserId() != null) {
+                notificationService.sendClaimApprovedNotificationToStaff(
+                        claim.getId(),
+                        claim.getCustomerName(),
+                        claim.getCreatedByUserId());
+            }
+
+        } else if ("REJECT".equalsIgnoreCase(request.getAction())) {
+            // Từ chối claim
+            if (request.getRejectionReason() == null || request.getRejectionReason().trim().isEmpty()) {
+                throw new IllegalArgumentException("Rejection reason is required when rejecting a claim");
+            }
+
+            claim.setStatus(WarrantyClaimStatus.REJECTED);
+            claim.setRejectionReason(request.getRejectionReason());
+
+            // Gửi notification cho SC_STAFF tạo claim
+            if (claim.getCreatedByUserId() != null) {
+                notificationService.sendClaimRejectedNotificationToStaff(
+                        claim.getId(),
+                        claim.getCustomerName(),
+                        request.getRejectionReason(),
+                        claim.getCreatedByUserId());
+            }
+
+        } else {
+            throw new IllegalArgumentException("Invalid action. Must be 'APPROVE' or 'REJECT'");
+        }
+
+        WarrantyClaim updatedClaim = warrantyClaimRepository.save(claim);
         return warrantyClaimMapper.toResponseWarrantyClaim(updatedClaim);
     }
 

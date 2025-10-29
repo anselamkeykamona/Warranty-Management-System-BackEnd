@@ -13,6 +13,7 @@ import com.warrantyclaim.warrantyclaim_api.repository.ElectricVehicleTypeReposit
 import com.warrantyclaim.warrantyclaim_api.repository.SCTechnicianRepository;
 import com.warrantyclaim.warrantyclaim_api.repository.ServiceCampaignsRepository;
 import com.warrantyclaim.warrantyclaim_api.service.ServiceCampaignsService;
+import com.warrantyclaim.warrantyclaim_api.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,8 +35,7 @@ public class ServiceCampaignsServiceImp implements ServiceCampaignsService {
     private final ServiceCampaignsRepository repository;
     private final ElectricVehicleTypeRepository electricVehicleTypeRepository;
     private final SCTechnicianRepository scTechnicianRepository;
-    // Need update status and notification send
-
+    private final NotificationService notificationService;
 
     @Override
     @Transactional
@@ -56,7 +56,8 @@ public class ServiceCampaignsServiceImp implements ServiceCampaignsService {
         if (requestDTO.getVehicleTypeIds() != null && !requestDTO.getVehicleTypeIds().isEmpty()) {
             for (String vehicleTypeId : requestDTO.getVehicleTypeIds()) {
                 ElectricVehicleType vehicleType = electricVehicleTypeRepository.findById(vehicleTypeId)
-                        .orElseThrow(() -> new ResourceNotFoundException("Vehicle type not found with ID: " + vehicleTypeId));
+                        .orElseThrow(() -> new ResourceNotFoundException(
+                                "Vehicle type not found with ID: " + vehicleTypeId));
                 serviceCampaigns.addVehicleType(vehicleType);
             }
         }
@@ -64,7 +65,8 @@ public class ServiceCampaignsServiceImp implements ServiceCampaignsService {
         if (requestDTO.getTechnicianIds() != null && !requestDTO.getTechnicianIds().isEmpty()) {
             for (String technicianId : requestDTO.getTechnicianIds()) {
                 SCTechnician technician = scTechnicianRepository.findById(technicianId)
-                        .orElseThrow(() -> new ResourceNotFoundException("Technician not found with ID: " + technicianId));
+                        .orElseThrow(
+                                () -> new ResourceNotFoundException("Technician not found with ID: " + technicianId));
                 serviceCampaigns.addTechnician(technician);
             }
         }
@@ -76,7 +78,7 @@ public class ServiceCampaignsServiceImp implements ServiceCampaignsService {
     }
 
     @Override
-    public ServiceCampaignsResponseDTO updateDate(String campaignId,LocalDate startDate, LocalDate endDate) {
+    public ServiceCampaignsResponseDTO updateDate(String campaignId, LocalDate startDate, LocalDate endDate) {
         ServiceCampaigns serviceCampaigns = repository.findById(campaignId)
                 .orElseThrow(() -> new ResourceNotFoundException("Service campaign not found with ID: " + campaignId));
 
@@ -103,12 +105,68 @@ public class ServiceCampaignsServiceImp implements ServiceCampaignsService {
     @Transactional
     public ServiceCampaignsResponseDTO updateNotificationSent(String id, Boolean notificationDTO) {
         ServiceCampaigns serviceCampaigns = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Recall not found with ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Service campaign not found with ID: " + id));
 
         serviceCampaigns.setNotificationSent(notificationDTO);
         serviceCampaigns = repository.save(serviceCampaigns);
 
+        // If notification is being sent and campaign is ACTIVE, create notifications
+        // for SC_STAFF
+        if (Boolean.TRUE.equals(notificationDTO) &&
+                serviceCampaigns.getStatus() == ServiceCampaignsStatus.ACTIVE) {
+            createCampaignNotifications(serviceCampaigns);
+        }
+
+        // If campaign is PAUSED, create pause notifications for SC_STAFF and SC_ADMIN
+        if (serviceCampaigns.getStatus() == ServiceCampaignsStatus.PAUSED) {
+            createPausedNotifications(serviceCampaigns);
+        }
+
         return mapper.toResponseDTO(serviceCampaigns);
+    }
+
+    /**
+     * Helper method to create notifications for SC_STAFF when campaign starts
+     */
+    private void createCampaignNotifications(ServiceCampaigns campaign) {
+        // TODO: Get all SC_STAFF user IDs from database
+        // For now, this is a placeholder - you need to implement user repository query
+        // List<String> scStaffUserIds = userRepository.findByRole("SC_STAFF")
+        // .stream()
+        // .map(User::getId)
+        // .collect(Collectors.toList());
+
+        // Example notification creation (uncomment when user repository is available)
+        // notificationService.createNotificationForUsers(
+        // scStaffUserIds,
+        // "SERVICE_CAMPAIGN",
+        // "Chiến dịch mới: " + campaign.getTypeName(),
+        // "Chiến dịch " + campaign.getTypeName() + " đã bắt đầu. Vui lòng kiểm tra chi
+        // tiết.",
+        // campaign.getId()
+        // );
+    }
+
+    /**
+     * Helper method to create notifications when campaign is paused
+     */
+    private void createPausedNotifications(ServiceCampaigns campaign) {
+        // TODO: Get all SC_STAFF and SC_ADMIN user IDs from database
+        // List<String> scUserIds = userRepository.findByRoleIn(List.of("SC_STAFF",
+        // "SC_ADMIN"))
+        // .stream()
+        // .map(User::getId)
+        // .collect(Collectors.toList());
+
+        // Example notification creation (uncomment when user repository is available)
+        // notificationService.createNotificationForUsers(
+        // scUserIds,
+        // "SERVICE_CAMPAIGN",
+        // "Chiến dịch kết thúc: " + campaign.getTypeName(),
+        // "Chiến dịch " + campaign.getTypeName() + " đã kết thúc. EVM_ADMIN đã dừng
+        // chiến dịch này.",
+        // campaign.getId()
+        // );
     }
 
     @Override
@@ -134,7 +192,8 @@ public class ServiceCampaignsServiceImp implements ServiceCampaignsService {
             List<ElectricVehicleType> vehicleTypes = new ArrayList<>();
             for (String vehicleTypeId : request.getVehicleTypeIds()) {
                 ElectricVehicleType vehicleType = electricVehicleTypeRepository.findById(vehicleTypeId)
-                        .orElseThrow(() -> new ResourceNotFoundException("Vehicle type not found with ID: " + vehicleTypeId));
+                        .orElseThrow(() -> new ResourceNotFoundException(
+                                "Vehicle type not found with ID: " + vehicleTypeId));
                 vehicleTypes.add(vehicleType);
             }
             campaign.setElectricVehicleTypes(vehicleTypes);
@@ -145,7 +204,8 @@ public class ServiceCampaignsServiceImp implements ServiceCampaignsService {
             List<SCTechnician> technicians = new ArrayList<>();
             for (String technicianId : request.getTechnicianIds()) {
                 SCTechnician technician = scTechnicianRepository.findById(technicianId)
-                        .orElseThrow(() -> new ResourceNotFoundException("Technician not found with ID: " + technicianId));
+                        .orElseThrow(
+                                () -> new ResourceNotFoundException("Technician not found with ID: " + technicianId));
                 technicians.add(technician);
             }
             campaign.setScTechnicians(technicians);
@@ -182,7 +242,8 @@ public class ServiceCampaignsServiceImp implements ServiceCampaignsService {
         List<ElectricVehicleType> vehicleTypes = new ArrayList<>();
         for (String vehicleTypeId : request.getVehicleTypeIds()) {
             ElectricVehicleType vehicleType = electricVehicleTypeRepository.findById(vehicleTypeId)
-                    .orElseThrow(() -> new ResourceNotFoundException("Vehicle type not found with ID: " + vehicleTypeId));
+                    .orElseThrow(
+                            () -> new ResourceNotFoundException("Vehicle type not found with ID: " + vehicleTypeId));
             vehicleTypes.add(vehicleType);
         }
 

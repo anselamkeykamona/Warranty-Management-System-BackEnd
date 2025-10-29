@@ -401,6 +401,7 @@ package com.warrantyclaim.warrantyclaim_api.service;
 
 import com.warrantyclaim.warrantyclaim_api.dto.ChangePasswordRequest;
 import com.warrantyclaim.warrantyclaim_api.dto.UpdateUserRequest;
+import com.warrantyclaim.warrantyclaim_api.dto.UpdateUserStatusRequest;
 import com.warrantyclaim.warrantyclaim_api.dto.UserResponse;
 import com.warrantyclaim.warrantyclaim_api.entity.SCStaff;
 import com.warrantyclaim.warrantyclaim_api.entity.SCAdmin;
@@ -412,6 +413,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -451,8 +453,8 @@ public class UserService {
         user.setPhoneNumber(req.getPhoneNumber());
         user.setDateOfBirth(req.getDateOfBirth());
 
-        if (user.getRoles().stream().anyMatch(role ->
-                role == Role.SC_ADMIN || role == Role.SC_STAFF || role == Role.SC_TECHNICAL)) {
+        if (user.getRoles().stream()
+                .anyMatch(role -> role == Role.SC_ADMIN || role == Role.SC_STAFF || role == Role.SC_TECHNICAL)) {
             user.setBranchOffice(req.getBranchOffice());
         }
 
@@ -493,6 +495,87 @@ public class UserService {
                             scAdminRepo.save(admin);
                         });
                 case EVM_STAFF -> evmStaffRepo.findByEmail(emailFromToken)
+                        .ifPresent(evm -> {
+                            evm.setName(req.getUsername());
+                            evm.setEmail(req.getEmail());
+                            evm.setPhoneNumber(req.getPhoneNumber());
+                            evm.setDateOfBirth(req.getDateOfBirth());
+                            evmStaffRepo.save(evm);
+                        });
+            }
+        }
+
+        return toUserResponse(updatedUser);
+    }
+
+    @Transactional
+    public UserResponse adminUpdateUser(Long userId, UpdateUserRequest req) {
+        User user = userRepo.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User không tồn tại"));
+
+        // Không cho phép update EVM_ADMIN
+        if (user.getRoles().contains(Role.EVM_ADMIN)) {
+            throw new IllegalArgumentException("Không thể cập nhật thông tin EVM_ADMIN");
+        }
+
+        // Validate branchOffice cho SC roles
+        boolean isSCRole = user.getRoles().stream()
+                .anyMatch(role -> role == Role.SC_ADMIN || role == Role.SC_STAFF || role == Role.SC_TECHNICAL);
+
+        if (isSCRole && (req.getBranchOffice() == null || req.getBranchOffice().trim().isEmpty())) {
+            throw new IllegalArgumentException("Branch office là bắt buộc cho vai trò SC");
+        }
+
+        String oldEmail = user.getEmail();
+
+        user.setUsername(req.getUsername());
+        user.setEmail(req.getEmail());
+        user.setPhoneNumber(req.getPhoneNumber());
+        user.setDateOfBirth(req.getDateOfBirth());
+
+        // Chỉ SC roles mới có branchOffice
+        if (isSCRole) {
+            user.setBranchOffice(req.getBranchOffice());
+        }
+
+        if (user.getRoles().contains(Role.SC_TECHNICAL)) {
+            user.setSpecialty(req.getSpecialty());
+        }
+
+        User updatedUser = userRepo.save(user);
+
+        // Cập nhật bảng phụ sử dụng email cũ
+        for (Role role : updatedUser.getRoles()) {
+            switch (role) {
+                case SC_STAFF -> scStaffRepo.findByEmail(oldEmail)
+                        .ifPresent(staff -> {
+                            staff.setAccountName(req.getUsername());
+                            staff.setEmail(req.getEmail());
+                            staff.setPhoneNumber(req.getPhoneNumber());
+                            staff.setDateOfBirth(req.getDateOfBirth());
+                            staff.setBranchOffice(req.getBranchOffice());
+                            scStaffRepo.save(staff);
+                        });
+                case SC_TECHNICAL -> scTechRepo.findByEmail(oldEmail)
+                        .ifPresent(tech -> {
+                            tech.setName(req.getUsername());
+                            tech.setEmail(req.getEmail());
+                            tech.setPhoneNumber(req.getPhoneNumber());
+                            tech.setDateOfBirth(req.getDateOfBirth());
+                            tech.setBranchOffice(req.getBranchOffice());
+                            tech.setSpecialty(req.getSpecialty());
+                            scTechRepo.save(tech);
+                        });
+                case SC_ADMIN -> scAdminRepo.findByEmail(oldEmail)
+                        .ifPresent(admin -> {
+                            admin.setAccountName(req.getUsername());
+                            admin.setEmail(req.getEmail());
+                            admin.setPhoneNumber(req.getPhoneNumber());
+                            admin.setDateOfBirth(req.getDateOfBirth());
+                            admin.setBranchOffice(req.getBranchOffice());
+                            scAdminRepo.save(admin);
+                        });
+                case EVM_STAFF -> evmStaffRepo.findByEmail(oldEmail)
                         .ifPresent(evm -> {
                             evm.setName(req.getUsername());
                             evm.setEmail(req.getEmail());
@@ -579,7 +662,8 @@ public class UserService {
                             .orElseThrow(() -> new RuntimeException("Không tìm thấy SC_STAFF để kiểm tra chi nhánh"));
                     case SC_TECHNICAL -> scTechRepo.findByEmail(target.getEmail())
                             .map(SCTechnician::getBranchOffice)
-                            .orElseThrow(() -> new RuntimeException("Không tìm thấy SC_TECHNICAL để kiểm tra chi nhánh"));
+                            .orElseThrow(
+                                    () -> new RuntimeException("Không tìm thấy SC_TECHNICAL để kiểm tra chi nhánh"));
                     default -> throw new RuntimeException("Không hỗ trợ kiểm tra chi nhánh cho role này");
                 };
 
@@ -631,15 +715,16 @@ public class UserService {
         if (roles.contains(Role.EVM_ADMIN)) {
             users = userRepo.findByRolesIn(Set.of(Role.SC_ADMIN, Role.SC_STAFF, Role.SC_TECHNICAL));
         } else if (roles.contains(Role.SC_ADMIN)) {
+            // SC_ADMIN: Lấy SC_STAFF và SC_TECHNICAL trong cùng chi nhánh
             users = userRepo.findByBranchOfficeAndRolesIn(
                     requester.getBranchOffice(),
-                    Set.of(Role.SC_STAFF, Role.SC_TECHNICAL)
-            );
+                    Set.of(Role.SC_STAFF, Role.SC_TECHNICAL));
+            // Thêm chính SC_ADMIN vào danh sách để frontend có thể lấy branchOffice
+            users.add(0, requester);
         } else if (roles.contains(Role.SC_STAFF)) {
             users = userRepo.findByBranchOfficeAndRolesIn(
                     requester.getBranchOffice(),
-                    Set.of(Role.SC_TECHNICAL)
-            );
+                    Set.of(Role.SC_TECHNICAL));
         } else {
             throw new IllegalArgumentException("You do not have permission to view SC users");
         }
@@ -652,21 +737,55 @@ public class UserService {
         return users.stream().map(this::toUserResponse).collect(Collectors.toList());
     }
 
-
-
-
     // ✅ Chuyển đổi từ User → UserResponse
     private UserResponse toUserResponse(User user) {
-        return new UserResponse(
+        UserResponse response = new UserResponse(
                 user.getId(),
                 user.getUsernameDisplay(),
                 user.getEmail(),
                 user.getPhoneNumber(),
                 user.getBranchOffice(),
                 user.getDateOfBirth(),
-                user.getRoles().stream().map(Enum::name).collect(Collectors.toSet())
-        );
+                user.getRoles().stream().map(Enum::name).collect(Collectors.toSet()),
+                user.getAccountStatus());
+
+        // Add status change metadata
+        response.setStatusChangedAt(user.getStatusChangedAt());
+        response.setStatusChangedBy(user.getStatusChangedBy());
+        response.setStatusChangeReason(user.getStatusChangeReason());
+
+        return response;
     }
 
+    // Cập nhật trạng thái user - CHỈ EVM_ADMIN
+    @Transactional
+    public UserResponse updateUserStatus(Long userId, UpdateUserStatusRequest request, User admin) {
+        // Kiểm tra quyền: Chỉ EVM_ADMIN mới được phép
+        if (!admin.getRoles().contains(Role.EVM_ADMIN)) {
+            throw new IllegalArgumentException("Chỉ EVM_ADMIN mới có quyền thay đổi trạng thái người dùng");
+        }
+
+        User targetUser = userRepo.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User không tồn tại"));
+
+        // Không cho phép thay đổi trạng thái EVM_ADMIN
+        if (targetUser.getRoles().contains(Role.EVM_ADMIN)) {
+            throw new IllegalArgumentException("Không thể thay đổi trạng thái của EVM_ADMIN");
+        }
+
+        // Không cho phép admin tự thay đổi trạng thái chính mình
+        if (targetUser.getId().equals(admin.getId())) {
+            throw new IllegalArgumentException("Không thể thay đổi trạng thái của chính mình");
+        }
+
+        // Cập nhật trạng thái
+        targetUser.setAccountStatus(request.getStatus());
+        targetUser.setStatusChangedAt(LocalDateTime.now());
+        targetUser.setStatusChangedBy(admin.getId());
+        targetUser.setStatusChangeReason(request.getReason());
+
+        User updatedUser = userRepo.save(targetUser);
+        return toUserResponse(updatedUser);
+    }
 
 }

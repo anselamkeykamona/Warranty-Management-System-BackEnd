@@ -25,9 +25,11 @@ public class WarrantyClaimController {
     private final WarrantyClaimService warrantyClaimService;
 
     @PostMapping
-    public ResponseEntity<WarrantyClaimResponseDTO> createWarrantyClaim(@RequestBody WarrantyClaimCreateRequestDTO warrantyClaimCreateRequestDTO) {
+    public ResponseEntity<WarrantyClaimResponseDTO> createWarrantyClaim(
+            @RequestBody WarrantyClaimCreateRequestDTO warrantyClaimCreateRequestDTO) {
         System.out.println("✅ Controller reached: ");
-        WarrantyClaimResponseDTO saveWarrantyClaim = warrantyClaimService.createWarrantyClaim(warrantyClaimCreateRequestDTO);
+        WarrantyClaimResponseDTO saveWarrantyClaim = warrantyClaimService
+                .createWarrantyClaim(warrantyClaimCreateRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(saveWarrantyClaim);
     }
 
@@ -66,6 +68,13 @@ public class WarrantyClaimController {
             @PathVariable String claimId,
             @RequestParam WarrantyClaimStatus status) {
         WarrantyClaimResponseDTO response = warrantyClaimService.updateClaimStatus(claimId, status);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/approve-reject")
+    public ResponseEntity<WarrantyClaimResponseDTO> approveOrRejectClaim(
+            @RequestBody ApproveRejectClaimRequest request) {
+        WarrantyClaimResponseDTO response = warrantyClaimService.approveOrRejectClaim(request);
         return ResponseEntity.ok(response);
     }
 

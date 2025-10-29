@@ -52,8 +52,8 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/api/auth/**",
-                                "/v3/api-docs/**",
+                                "/api/auth/login",
+                                "/v3/api-docs/roles",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
                                 "/api/WarrantyClaim/**",
@@ -62,7 +62,8 @@ public class SecurityConfig {
                                 "/api/parts-requests/**",
                                 "/api/recalls/**",
                                 "/api/reports/**",
-                                "/api/warranty-policies/**"
+                                "/api/warranty-policies/**",
+                                "/api/shipping/tracking/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )

@@ -40,15 +40,28 @@ public class PartsRequest {
     @Column(name = "DeliveryDate")
     private LocalDate deliveryDate;
 
+    @Column(name = "RequestedByStaffID", length = 50)
+    private String requestedByStaffId;
+
+    @Column(name = "BranchOffice", length = 100)
+    private String branchOffice;
+
+    // Link to EVM Part Type (Central warehouse/Master data)
     @ManyToOne
-    @JoinColumn(name = "ID_Products_Part_Type_SC")
-    private ProductsSparePartsTypeSC partType;
+    @JoinColumn(name = "ID_Products_Part_Type_EVM")
+    private ProductsSparePartsTypeEVM partType;
 
     @ManyToOne
     @JoinColumn(name = "Vehicle_VIN_ID")
     private ElectricVehicle electricVehicle;
 
+    // SC Staff who created the request
     @ManyToOne
     @JoinColumn(name = "SC_StaffID")
-    private SCStaff staff;
+    private SCStaff requestedBy;
+
+    // EVM Staff who approved/rejected the request
+    @ManyToOne
+    @JoinColumn(name = "EVM_StaffID")
+    private EVMStaff approvedBy;
 }

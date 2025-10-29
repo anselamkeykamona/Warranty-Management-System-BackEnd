@@ -3,7 +3,7 @@ package com.warrantyclaim.warrantyclaim_api.mapper;
 import com.warrantyclaim.warrantyclaim_api.dto.*;
 import com.warrantyclaim.warrantyclaim_api.entity.ElectricVehicle;
 import com.warrantyclaim.warrantyclaim_api.entity.PartsRequest;
-import com.warrantyclaim.warrantyclaim_api.entity.ProductsSparePartsTypeSC;
+import com.warrantyclaim.warrantyclaim_api.entity.ProductsSparePartsTypeEVM;
 import com.warrantyclaim.warrantyclaim_api.enums.PartsRequestStatus;
 import org.springframework.stereotype.Component;
 
@@ -21,8 +21,10 @@ public class PartsRequestMapper {
         entity.setRequestDate(dto.getRequestDate());
         entity.setDeliveryDate(dto.getDeliveryDate());
         entity.setStatus(PartsRequestStatus.PENDING); // Default status
+        entity.setRequestedByStaffId(dto.getRequestedByStaffId());
+        entity.setBranchOffice(dto.getBranchOffice());
 
-        // Note: partType and staff will be set in service layer
+        // Note: partType and electricVehicle will be set in service layer
 
         return entity;
     }
@@ -140,9 +142,9 @@ public class PartsRequestMapper {
     }
 
     /**
-     * Convert ProductsSparePartsTypeSC to PartTypeInfoDTO
+     * Convert ProductsSparePartsTypeEVM to PartTypeInfoDTO
      */
-    private PartTypeInfoDTO toPartTypeInfo(ProductsSparePartsTypeSC partType) {
+    private PartTypeInfoDTO toPartTypeInfo(ProductsSparePartsTypeEVM partType) {
         if (partType == null) {
             return null;
         }
@@ -152,7 +154,6 @@ public class PartsRequestMapper {
         dto.setPartName(partType.getPartName());
         dto.setManufacturer(partType.getManufacturer());
         dto.setPrice(partType.getPrice());
-
 
         return dto;
     }

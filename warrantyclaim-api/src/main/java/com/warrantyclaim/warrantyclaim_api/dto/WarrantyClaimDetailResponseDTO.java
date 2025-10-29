@@ -24,6 +24,8 @@ public class WarrantyClaimDetailResponseDTO {
     private WarrantyClaimStatus status;
     private String email;
     private String requiredPart;
+    private String rejectionReason;
+    private Long createdByUserId;
 
     // Related entities
     private VehicleDetailInfo vehicle;

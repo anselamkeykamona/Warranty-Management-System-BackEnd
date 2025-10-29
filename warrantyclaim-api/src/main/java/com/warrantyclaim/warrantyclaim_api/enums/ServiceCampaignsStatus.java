@@ -4,6 +4,7 @@ public enum ServiceCampaignsStatus {
     PLANNED("Planned"),
     ACTIVE("Active"),
     IN_PROGRESS("In Progress"),
+    PAUSED("Paused"),
     COMPLETED("Completed"),
     CANCELLED("Cancelled");
 

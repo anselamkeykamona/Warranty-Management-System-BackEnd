@@ -1,5 +1,6 @@
 package com.warrantyclaim.warrantyclaim_api.entity;
 
+import com.warrantyclaim.warrantyclaim_api.enums.AccountStatus;
 import com.warrantyclaim.warrantyclaim_api.enums.Role;
 
 import jakarta.persistence.*;
@@ -8,6 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -37,16 +39,28 @@ public class User implements UserDetails {
 
     @Column(name = "Date_of_Birth")
     private LocalDate dateOfBirth;
+
     @Column(name = "Specialty", length = 100)
     private String specialty;
 
+    @Column(name = "account_status", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private AccountStatus accountStatus = AccountStatus.ACTIVE;
+
+    @Column(name = "status_changed_at")
+    private LocalDateTime statusChangedAt;
+
+    @Column(name = "status_changed_by")
+    private Long statusChangedBy;
+
+    @Column(name = "status_change_reason", length = 500)
+    private String statusChangeReason;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "role")
     private Set<Role> roles;
-
 
     public User() {
     }
@@ -117,7 +131,6 @@ public class User implements UserDetails {
         this.phoneNumber = phoneNumber;
     }
 
-
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
@@ -134,7 +147,37 @@ public class User implements UserDetails {
         this.specialty = specialty;
     }
 
+    public AccountStatus getAccountStatus() {
+        return accountStatus;
+    }
 
+    public void setAccountStatus(AccountStatus accountStatus) {
+        this.accountStatus = accountStatus;
+    }
+
+    public LocalDateTime getStatusChangedAt() {
+        return statusChangedAt;
+    }
+
+    public void setStatusChangedAt(LocalDateTime statusChangedAt) {
+        this.statusChangedAt = statusChangedAt;
+    }
+
+    public Long getStatusChangedBy() {
+        return statusChangedBy;
+    }
+
+    public void setStatusChangedBy(Long statusChangedBy) {
+        this.statusChangedBy = statusChangedBy;
+    }
+
+    public String getStatusChangeReason() {
+        return statusChangeReason;
+    }
+
+    public void setStatusChangeReason(String statusChangeReason) {
+        this.statusChangeReason = statusChangeReason;
+    }
 
     // implement userDetails
     @Override
@@ -143,7 +186,6 @@ public class User implements UserDetails {
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role.name()))
                 .collect(Collectors.toSet());
     }
-
 
     @Override
     public String getUsername() {
@@ -157,7 +199,8 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        // Tài khoản bị khóa nếu status là LOCKED
+        return accountStatus != AccountStatus.LOCKED;
     }
 
     @Override
@@ -167,6 +210,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        // Tài khoản được kích hoạt nếu status là ACTIVE
+        return accountStatus == AccountStatus.ACTIVE;
     }
 }

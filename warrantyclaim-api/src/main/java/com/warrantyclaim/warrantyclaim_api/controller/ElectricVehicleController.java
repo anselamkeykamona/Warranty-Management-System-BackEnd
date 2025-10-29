@@ -1,6 +1,5 @@
 package com.warrantyclaim.warrantyclaim_api.controller;
 
-
 import com.warrantyclaim.warrantyclaim_api.dto.*;
 import com.warrantyclaim.warrantyclaim_api.service.ElectricVehicleService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -18,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*") // Configure as needed
 @RequestMapping("/api/ElectricVehicle")
-//@SecurityRequirement(name = "bearerAuth")
+// @SecurityRequirement(name = "bearerAuth")
 public class ElectricVehicleController {
     private final ElectricVehicleService electricVehicleService;
 
@@ -55,7 +54,11 @@ public class ElectricVehicleController {
     public ResponseEntity<ElectricVehicleResponseDTO> updateVehicle(
             @PathVariable String id,
             @Valid @RequestBody ElectricVehicleUpdateRequestDTO request) {
+        System.out.println("✅ Update Controller reached for vehicle: " + id);
+        System.out.println("📦 Update request data: " + request);
+        System.out.println("📅 ProductionDate in request: " + request.getProductionDate());
         ElectricVehicleResponseDTO response = electricVehicleService.updateVehicle(id, request);
+        System.out.println("📤 Update response purchaseDate: " + response.getPurchaseDate());
         return ResponseEntity.ok(response);
     }
 

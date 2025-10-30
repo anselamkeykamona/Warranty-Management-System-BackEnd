@@ -12,9 +12,7 @@ public interface SCPartTypeService {
      */
     Page<SCPartTypeDTO> getAllPartTypes(Pageable pageable);
 
-    /**
-     * Get all SC part types (without pagination)
-     */
+
     List<SCPartTypeDTO> getAllPartTypes();
 
     /**

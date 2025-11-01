@@ -106,15 +106,15 @@ public class RecallMapper {
         recallsListDTO.setEvmApprovalStatus(recall.getEvmApprovalStatus());
 
         recallsListDTO.setVehicleTypeCount(recall.getVehicleTypeRecalls() != null
-            ? recall.getVehicleTypeRecalls().size() : 0
+                ? recall.getVehicleTypeRecalls().size() : 0
         );
 
         recallsListDTO.setVehicleCount(recall.getRecallElectricVehicles() != null
-            ? recall.getRecallElectricVehicles().size() : 0
+                ? recall.getRecallElectricVehicles().size() : 0
         );
 
         recallsListDTO.setTechnicianCount(recall.getRecallElectricVehicles() != null
-            ? recall.getRecallElectricVehicles().size() : 0
+                ? recall.getRecallElectricVehicles().size() : 0
         );
 
         return recallsListDTO;

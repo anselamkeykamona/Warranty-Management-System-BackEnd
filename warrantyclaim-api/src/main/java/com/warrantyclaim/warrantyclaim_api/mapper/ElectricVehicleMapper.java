@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class ElectricVehicleMapper {
 
     public ElectricVehicle toEntityElectricVehicle(VehicleCreateDTO vehicleCreateDTO) {
-        if(vehicleCreateDTO == null) {
+        if (vehicleCreateDTO == null) {
             return null;
         }
 
@@ -26,7 +26,7 @@ public class ElectricVehicleMapper {
         electricVehicle.setStatus(vehicleCreateDTO.getStatus());
 
         return electricVehicle;
-     }
+    }
 
     public ElectricVehicleListResponseDTO toListResponseDTO(ElectricVehicle vehicle) {
         if (vehicle == null) {
@@ -39,6 +39,9 @@ public class ElectricVehicleMapper {
         dto.setTotalKm(vehicle.getTotalKm());
         dto.setOwner(vehicle.getOwner());
         dto.setPhoneNumber(vehicle.getPhoneNumber());
+        dto.setEmail(vehicle.getEmail());
+        dto.setPicture(vehicle.getPicture());
+        dto.setPurchaseDate(vehicle.getPurchaseDate());
         dto.setStatus(vehicle.getStatus());
 
         // Simplified vehicle type info
@@ -74,8 +77,6 @@ public class ElectricVehicleMapper {
         return dto;
     }
 
-
-
     private VehicleTypeInfoDTO toVehicleTypeInfo(ElectricVehicleType vehicleType) {
         if (vehicleType == null) {
             return null;
@@ -97,43 +98,45 @@ public class ElectricVehicleMapper {
         return null;
     }
 
-    public void updateEntityElectricVehicle(ElectricVehicleUpdateRequestDTO updatedVehicle, ElectricVehicle electricVehicle) {
-        if(updatedVehicle.getName() != null) {
+    public void updateEntityElectricVehicle(ElectricVehicleUpdateRequestDTO updatedVehicle,
+                                            ElectricVehicle electricVehicle) {
+        if (updatedVehicle.getName() != null) {
             electricVehicle.setName(updatedVehicle.getName());
         }
 
-        if(updatedVehicle.getPicture() != null) {
+        if (updatedVehicle.getPicture() != null) {
             electricVehicle.setPicture(updatedVehicle.getPicture());
         }
 
-        if(updatedVehicle.getEmail() != null) {
+        if (updatedVehicle.getEmail() != null) {
             electricVehicle.setEmail(updatedVehicle.getEmail());
         }
 
-        if(updatedVehicle.getOwner() != null) {
+        if (updatedVehicle.getOwner() != null) {
             electricVehicle.setOwner(updatedVehicle.getOwner());
         }
 
-        if(updatedVehicle.getPhoneNumber() != null) {
-            electricVehicle.setPhoneNumber(electricVehicle.getPhoneNumber());
+        if (updatedVehicle.getPhoneNumber() != null) {
+            electricVehicle.setPhoneNumber(updatedVehicle.getPhoneNumber());
         }
 
-        if(updatedVehicle.getTotalKm() != null) {
-            electricVehicle.setTotalKm(electricVehicle.getTotalKm());
+        if (updatedVehicle.getTotalKm() != null) {
+            electricVehicle.setTotalKm(updatedVehicle.getTotalKm());
         }
 
-        if(updatedVehicle.getStatus() != null) {
-            electricVehicle.setStatus(electricVehicle.getStatus());
+        if (updatedVehicle.getStatus() != null) {
+            electricVehicle.setStatus(updatedVehicle.getStatus());
         }
 
-        if(updatedVehicle.getProductionDate() != null) {
-            electricVehicle.setPurchaseDate(electricVehicle.getPurchaseDate());
+        if (updatedVehicle.getProductionDate() != null) {
+            electricVehicle.setPurchaseDate(updatedVehicle.getProductionDate());
         }
-        //Type Electric should be in vehicle service
+        // Type Electric should be in vehicle service
     }
 
     public VehicleDetailInfo toVehicleDetailInfo(ElectricVehicle vehicle) {
-        if (vehicle == null) return null;
+        if (vehicle == null)
+            return null;
 
         VehicleDetailInfo info = new VehicleDetailInfo();
         info.setVehicleId(vehicle.getId());
@@ -143,7 +146,6 @@ public class ElectricVehicleMapper {
         info.setPhoneNumber(vehicle.getPhoneNumber());
         info.setEmail(vehicle.getEmail());
         info.setStatus(vehicle.getStatus());
-
 
         if (vehicle.getVehicleType() != null) {
             info.setModelName(vehicle.getVehicleType().getModelName());

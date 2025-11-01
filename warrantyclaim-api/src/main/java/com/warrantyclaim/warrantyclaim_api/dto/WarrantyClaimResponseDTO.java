@@ -1,6 +1,5 @@
 package com.warrantyclaim.warrantyclaim_api.dto;
 
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.warrantyclaim.warrantyclaim_api.enums.WarrantyClaimStatus;
 import lombok.AllArgsConstructor;
@@ -24,10 +23,11 @@ public class WarrantyClaimResponseDTO {
     private WarrantyClaimStatus status;
     private String email;
     private String requiredPart;
+    private String rejectionReason;
+    private Long createdByUserId;
 
     // Nested objects for related entities
     private VehicleBasicInfoDTO vehicle;
 
     private StaffBasicInfoDTO assignedStaff;
 }
-

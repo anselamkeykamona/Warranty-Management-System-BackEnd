@@ -31,10 +31,10 @@ public class ServiceCampaigns {
     @Column(name = "EndDate")
     private LocalDate endDate;
 
-    @Column(name = "RequiredParts",length = 45)
+    @Column(name = "RequiredParts", length = 200)
     private String requiredParts;
 
-    @Column(name = "Description", length = 45)
+    @Column(name = "Description", length = 500)
     private String description;
 
     @Enumerated(EnumType.STRING)

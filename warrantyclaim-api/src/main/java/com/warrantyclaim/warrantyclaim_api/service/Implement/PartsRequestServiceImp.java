@@ -7,7 +7,9 @@ import com.warrantyclaim.warrantyclaim_api.exception.ResourceNotFoundException;
 import com.warrantyclaim.warrantyclaim_api.mapper.PartsRequestMapper;
 import com.warrantyclaim.warrantyclaim_api.repository.ElectricVehicleRepository;
 import com.warrantyclaim.warrantyclaim_api.repository.PartsRequestRepository;
-import com.warrantyclaim.warrantyclaim_api.repository.ProductsSparePartsTypeSCRepository;
+import com.warrantyclaim.warrantyclaim_api.repository.ProductsSparePartsTypeEVMRepository;
+import com.warrantyclaim.warrantyclaim_api.repository.UserRepository;
+import com.warrantyclaim.warrantyclaim_api.service.NotificationService;
 import com.warrantyclaim.warrantyclaim_api.service.PartsRequestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -26,40 +28,58 @@ import java.util.stream.Collectors;
 public class PartsRequestServiceImp implements PartsRequestService {
 
     private final PartsRequestRepository partsRequestRepository;
-    private final ProductsSparePartsTypeSCRepository partTypeRepository;
+    private final ProductsSparePartsTypeEVMRepository partTypeRepository;
     private final PartsRequestMapper partsRequestMapper;
     private final ElectricVehicleRepository electricVehicleRepository;
+    private final NotificationService notificationService;
+    private final UserRepository userRepository;
 
     @Transactional
     public PartsRequestResponseDTO createPartsRequest(PartsRequestCreateDTO request) {
-        // 1. Validate part type exists
-        ProductsSparePartsTypeSC partType = partTypeRepository.findById(request.getPartTypeId())
-                .orElseThrow(() -> new ResourceNotFoundException("Part type not found with ID: " + request.getPartTypeId()));
+        // 1. Validate EVM part type exists
+        ProductsSparePartsTypeEVM partType = partTypeRepository.findById(request.getPartTypeId())
+                .orElseThrow(
+                        () -> new ResourceNotFoundException("Part type not found with ID: " + request.getPartTypeId()));
 
-        //Create entity
+        // Create entity
         PartsRequest partsRequest = partsRequestMapper.toEntity(request);
 
-        if(request.getVehicleId() != null) {
-            ElectricVehicle electricVehicle = electricVehicleRepository.findById(request.getVehicleId())
-                    .orElseThrow(() -> new ResourceNotFoundException("This electric vehicle not existed with this ID" + request.getVehicleId()));
+        // 2. Validate and set vehicle using VIN
+        if (request.getVin() != null) {
+            ElectricVehicle electricVehicle = electricVehicleRepository.findById(request.getVin())
+                    .orElseThrow(() -> new ResourceNotFoundException(
+                            "Electric vehicle not found with VIN: " + request.getVin()));
             partsRequest.setElectricVehicle(electricVehicle);
         }
 
-
-
-
-//        // 2. Validate staff exists
-//        SCStaff staff = scStaffRepository.findById(request.getStaffId())
-//                .orElseThrow(() -> new ResourceNotFoundException("Staff not found with ID: " + request.getStaffId()));
-
         // 3. Update entity
-
         partsRequest.setId(generateRequestId());
         partsRequest.setPartType(partType);
-//        partsRequest.setStaff(staff);
 
         // 4. Save
         PartsRequest savedRequest = partsRequestRepository.save(partsRequest);
+
+        // 5. Send notification to EVM_STAFF
+        try {
+            // Get SC_ADMIN user name from requestedByStaffId
+            String scAdminName = "SC_ADMIN";
+            if (request.getRequestedByStaffId() != null) {
+                userRepository.findById(Long.parseLong(request.getRequestedByStaffId()))
+                        .ifPresent(user -> {
+                            // Use username or email as SC_ADMIN name
+                        });
+            }
+
+            notificationService.sendPartsRequestCreatedNotificationToEVMStaff(
+                    savedRequest.getId(),
+                    scAdminName,
+                    request.getBranchOffice(),
+                    request.getPartName(),
+                    request.getQuantity());
+        } catch (Exception e) {
+            // Log error but don't fail the request creation
+            System.err.println("Failed to send notification: " + e.getMessage());
+        }
 
         return partsRequestMapper.toResponseDTO(savedRequest);
     }
@@ -104,26 +124,21 @@ public class PartsRequestServiceImp implements PartsRequestService {
         PartsRequest partsRequest = partsRequestRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Parts request not found with ID: " + id));
 
-
         // 2. Update part type if changed
         if (request.getPartTypeId() != null) {
-            ProductsSparePartsTypeSC partType = partTypeRepository.findById(request.getPartTypeId())
-                    .orElseThrow(() -> new ResourceNotFoundException("Part type not found with ID: " + request.getPartTypeId()));
+            ProductsSparePartsTypeEVM partType = partTypeRepository.findById(request.getPartTypeId())
+                    .orElseThrow(() -> new ResourceNotFoundException(
+                            "Part type not found with ID: " + request.getPartTypeId()));
             partsRequest.setPartType(partType);
         }
 
-        if(request.getVehicleId() != null) {
-            ElectricVehicle electricVehicle = electricVehicleRepository.findById(request.getVehicleId())
-                    .orElseThrow(() -> new ResourceNotFoundException("This electric vehicle not existed with this ID" + request.getVehicleId()));
+        // Update vehicle if VIN changed
+        if (request.getVin() != null) {
+            ElectricVehicle electricVehicle = electricVehicleRepository.findById(request.getVin())
+                    .orElseThrow(() -> new ResourceNotFoundException(
+                            "Electric vehicle not found with VIN: " + request.getVin()));
             partsRequest.setElectricVehicle(electricVehicle);
         }
-
-        // 3. Update staff if changed
-//        if (request.getStaffId() != null) {
-//            SCStaff staff = scStaffRepository.findById(request.getStaffId())
-//                    .orElseThrow(() -> new ResourceNotFoundException("Staff not found with ID: " + request.getStaffId()));
-//            partsRequest.setStaff(staff);
-//        }
 
         partsRequestMapper.updateEntity(partsRequest, request);
         PartsRequest updatedRequest = partsRequestRepository.save(partsRequest);
@@ -141,6 +156,98 @@ public class PartsRequestServiceImp implements PartsRequestService {
         }
 
         partsRequestRepository.deleteById(id);
+    }
+
+    /**
+     * Approve parts request - automatically decrease stock
+     */
+    @Transactional
+    public PartsRequestResponseDTO approvePartsRequest(String id) {
+        // 1. Find parts request
+        PartsRequest request = partsRequestRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Parts request not found with ID: " + id));
+
+        // 2. Get the part type
+        ProductsSparePartsTypeEVM partType = request.getPartType();
+        if (partType == null) {
+            throw new IllegalStateException("Part type not associated with this request");
+        }
+
+        // 3. Check if enough stock
+        int currentStock = partType.getTotalAmountOfProduct() != null ? partType.getTotalAmountOfProduct() : 0;
+        int requestedQuantity = request.getQuantity() != null ? request.getQuantity() : 0;
+
+        if (currentStock < requestedQuantity) {
+            throw new IllegalStateException(
+                    String.format("Insufficient stock. Available: %d, Requested: %d", currentStock, requestedQuantity));
+        }
+
+        // 4. Decrease stock
+        int newStock = currentStock - requestedQuantity;
+        partType.setTotalAmountOfProduct(newStock);
+
+        // 5. Auto-update stock status based on quantity
+        String newStatus;
+        if (newStock == 0) {
+            newStatus = "OUT_OF_STOCK";
+        } else if (newStock <= 10) {
+            newStatus = "LOW_STOCK";
+        } else {
+            newStatus = "IN_STOCK";
+        }
+        partType.setStockStatus(newStatus);
+
+        // 6. Save part type with updated stock
+        partTypeRepository.save(partType);
+
+        // 7. Update request status to APPROVED
+        request.setStatus(com.warrantyclaim.warrantyclaim_api.enums.PartsRequestStatus.APPROVED);
+        PartsRequest approvedRequest = partsRequestRepository.save(request);
+
+        // 8. Send notification to SC_ADMIN
+        try {
+            if (approvedRequest.getRequestedByStaffId() != null) {
+                notificationService.sendPartsRequestApprovedNotificationToSCAdmin(
+                        approvedRequest.getId(),
+                        approvedRequest.getPartName(),
+                        approvedRequest.getRequestedByStaffId());
+            }
+        } catch (Exception e) {
+            // Log error but don't fail the approval
+            System.err.println("Failed to send approval notification: " + e.getMessage());
+        }
+
+        return partsRequestMapper.toResponseDTO(approvedRequest);
+    }
+
+    /**
+     * Reject parts request
+     */
+    @Transactional
+    public PartsRequestResponseDTO rejectPartsRequest(String id, String reason) {
+        PartsRequest request = partsRequestRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Parts request not found with ID: " + id));
+
+        request.setStatus(com.warrantyclaim.warrantyclaim_api.enums.PartsRequestStatus.REJECTED);
+        // TODO: Add rejection reason field if needed
+
+        PartsRequest rejectedRequest = partsRequestRepository.save(request);
+
+        // Send notification to SC_ADMIN
+        try {
+            if (rejectedRequest.getRequestedByStaffId() != null) {
+                notificationService.sendPartsRequestRejectedNotificationToSCAdmin(
+                        rejectedRequest.getId(),
+                        rejectedRequest.getPartName(),
+                        reason,
+                        rejectedRequest.getRequestedByStaffId());
+            }
+        } catch (Exception e) {
+            // Log error but don't fail the rejection
+            System.err.println("Failed to send rejection notification: " + e.getMessage());
+        }
+
+        return partsRequestMapper.toResponseDTO(rejectedRequest);
     }
 
     /**

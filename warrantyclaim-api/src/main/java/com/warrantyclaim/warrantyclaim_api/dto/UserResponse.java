@@ -1,6 +1,9 @@
 package com.warrantyclaim.warrantyclaim_api.dto;
 
+import com.warrantyclaim.warrantyclaim_api.enums.AccountStatus;
+
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 public class UserResponse {
@@ -11,10 +14,14 @@ public class UserResponse {
     private String branchOffice;
     private LocalDate dateOfBirth;
     private Set<String> roles;
+    private AccountStatus accountStatus;
+    private LocalDateTime statusChangedAt;
+    private Long statusChangedBy;
+    private String statusChangeReason;
 
     public UserResponse(Long id, String username, String email,
                         String phoneNumber, String branchOffice,
-                        LocalDate dateOfBirth, Set<String> roles) {
+                        LocalDate dateOfBirth, Set<String> roles, AccountStatus accountStatus) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -22,6 +29,7 @@ public class UserResponse {
         this.branchOffice = branchOffice;
         this.dateOfBirth = dateOfBirth;
         this.roles = roles;
+        this.accountStatus = accountStatus;
     }
 
     // Getters and setters
@@ -41,9 +49,67 @@ public class UserResponse {
     public String getBranchOffice() { return branchOffice; }
     public void setBranchOffice(String branchOffice) { this.branchOffice = branchOffice; }
 
-    public LocalDate getDateOfBirth() { return dateOfBirth; }
-    public void setDateOfBirth(LocalDate dateOfBirth) { this.dateOfBirth = dateOfBirth; }
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
 
-    public Set<String> getRoles() { return roles; }
-    public void setRoles(Set<String> roles) { this.roles = roles; }
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getBranchOffice() {
+        return branchOffice;
+    }
+
+    public void setBranchOffice(String branchOffice) {
+        this.branchOffice = branchOffice;
+    }
+
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public Set<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<String> roles) {
+        this.roles = roles;
+    }
+
+    public AccountStatus getAccountStatus() {
+        return accountStatus;
+    }
+
+    public void setAccountStatus(AccountStatus accountStatus) {
+        this.accountStatus = accountStatus;
+    }
+
+    public LocalDateTime getStatusChangedAt() {
+        return statusChangedAt;
+    }
+
+    public void setStatusChangedAt(LocalDateTime statusChangedAt) {
+        this.statusChangedAt = statusChangedAt;
+    }
+
+    public Long getStatusChangedBy() {
+        return statusChangedBy;
+    }
+
+    public void setStatusChangedBy(Long statusChangedBy) {
+        this.statusChangedBy = statusChangedBy;
+    }
+
+    public String getStatusChangeReason() {
+        return statusChangeReason;
+    }
+
+    public void setStatusChangeReason(String statusChangeReason) {
+        this.statusChangeReason = statusChangeReason;
+    }
 }

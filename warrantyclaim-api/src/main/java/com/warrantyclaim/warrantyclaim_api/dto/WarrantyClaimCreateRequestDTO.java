@@ -11,11 +11,10 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class WarrantyClaimCreateRequestDTO { // this information for creating   a Warranty Claim
+public class WarrantyClaimCreateRequestDTO { // this information for creating a Warranty Claim
 
     @NotBlank(message = "Require issue description to fix car!!!")
     private String issueDescription;
@@ -26,8 +25,8 @@ public class WarrantyClaimCreateRequestDTO { // this information for creating   
     @Pattern(regexp = "^[0-9]{10}$", message = "Phone number must be exactly 10 digits")
     private String phoneNumber;
 
-//    @NotBlank(message = "Require Picture for verification!!")
-//    private String picture;
+    // @NotBlank(message = "Require Picture for verification!!")
+    // private String picture;
 
     @NotBlank(message = "Customer name is required")
     @Size(max = 100, message = "Customer name must not exceed 100 characters")
@@ -40,5 +39,7 @@ public class WarrantyClaimCreateRequestDTO { // this information for creating   
 
     @NotBlank(message = "Vehicle ID is required")
     private String vehicleId;
+
+    private Long createdByUserId; // ID của SC_STAFF tạo claim
 
 }

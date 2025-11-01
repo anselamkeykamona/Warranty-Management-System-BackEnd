@@ -282,15 +282,15 @@ public class AuthService {
                     }
                 }
             } else if (creatorRoles.contains(Role.SC_ADMIN)) {
-                if (!targetRoles.stream().allMatch(role ->
-                        role == Role.SC_STAFF || role == Role.SC_TECHNICAL)) {
+                if (!targetRoles.stream().allMatch(role -> role == Role.SC_STAFF || role == Role.SC_TECHNICAL)) {
                     throw new IllegalArgumentException("SC_ADMIN can only create SC_STAFF or SC_TECHNICAL accounts");
                 }
 
                 // Sửa lỗi NullPointerException bằng cách kiểm tra null trước khi so sánh
                 if (creator.getBranchOffice() == null || req.getBranchOffice() == null ||
                         !creator.getBranchOffice().equals(req.getBranchOffice())) {
-                    throw new IllegalArgumentException("SC_ADMIN can only create accounts within the same branch office");
+                    throw new IllegalArgumentException(
+                            "SC_ADMIN can only create accounts within the same branch office");
                 }
             } else {
                 throw new IllegalArgumentException("You do not have permission to create an account!");
@@ -303,8 +303,8 @@ public class AuthService {
         user.setEmail(req.getEmail());
         user.setPassword(BCrypt.hashpw(req.getPassword(), BCrypt.gensalt()));
 
-        if (req.getRoles() != null && req.getRoles().stream().anyMatch(role ->
-                role == Role.SC_ADMIN || role == Role.SC_STAFF || role == Role.SC_TECHNICAL)) {
+        if (req.getRoles() != null && req.getRoles().stream()
+                .anyMatch(role -> role == Role.SC_ADMIN || role == Role.SC_STAFF || role == Role.SC_TECHNICAL)) {
             user.setBranchOffice(req.getBranchOffice());
         }
 
@@ -385,8 +385,7 @@ public class AuthService {
                 savedUser.getId(),
                 savedUser.getUsernameDisplay(),
                 savedUser.getEmail(),
-                roleNames
-        );
+                roleNames);
     }
 
 
@@ -402,12 +401,12 @@ public class AuthService {
     // LOGIN
     public LoginResponse login(LoginRequest request) {
         Authentication auth = authManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.email(), request.password())
-        );
+                new UsernamePasswordAuthenticationToken(request.email(), request.password()));
 
         User user = (User) auth.getPrincipal();
         String token = jwtService.generateToken(user);
 
-        return new LoginResponse(token, user.getUsernameDisplay(), user.getRoles());
+        return new LoginResponse(token, user.getId(), user.getUsernameDisplay(), user.getRoles(),
+                user.getBranchOffice());
     }
 }

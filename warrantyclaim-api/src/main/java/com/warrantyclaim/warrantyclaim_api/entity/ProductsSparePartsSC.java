@@ -22,14 +22,19 @@ public class ProductsSparePartsSC {
     @Column(name = "Name_Product", length = 100)
     private String name;
 
+    @Column(name = "Model_Year")
     private LocalDate yearOfManufacture;
-    private Float price;
+
+    @Column(name = "Price")
+    private float price;
+
+    @Column(name = "Warranty_Period")
     private Integer warrantyPeriod;
 
-    @Column(length = 45)
+    @Column(name = "Description", length = 45)
     private String description;
 
-    @Column(length = 100)
+    @Column(name = "Brand", length = 100)
     private String brand;
 
     @ManyToOne

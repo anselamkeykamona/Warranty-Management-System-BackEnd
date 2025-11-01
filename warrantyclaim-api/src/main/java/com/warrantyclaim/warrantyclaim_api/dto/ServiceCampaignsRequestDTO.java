@@ -24,6 +24,7 @@ public class ServiceCampaignsRequestDTO {
     @NotNull(message = "End date is required!!")
     private LocalDate endDate;
 
+    private String requiredParts;
     private String description;
     private Boolean NotificationSent = false;
 

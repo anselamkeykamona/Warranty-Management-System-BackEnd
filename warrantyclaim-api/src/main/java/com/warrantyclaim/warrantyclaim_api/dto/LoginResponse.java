@@ -6,6 +6,8 @@ import java.util.Set;
 
 public record LoginResponse(
         String token,
+        Long userId,
         String username,
-        Set<Role> roles
-) {}
+        Set<Role> roles,
+        String branchOffice) {
+}

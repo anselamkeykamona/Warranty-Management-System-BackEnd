@@ -20,7 +20,7 @@ public class UpdateUserRequest {
     @Pattern(regexp = "^\\d{10}$", message = "Phone number must be exactly 10 digits")
     private String phoneNumber;
 
-    @NotBlank(message = "Branch office is required")
+    // Branch office chỉ bắt buộc cho SC roles, validate trong service layer
     @Size(max = 150, message = "Branch office must not exceed 150 characters")
     private String branchOffice;
 

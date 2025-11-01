@@ -13,7 +13,7 @@ import java.time.LocalDate;
 public class PartsRequestResponseDTO {
     private String id;
     private String partNumber;
-    private String partName;
+    private String partName; // part number ko can thiet
     private Integer quantity;
     private LocalDate requestDate;
     private PartsRequestStatus status;

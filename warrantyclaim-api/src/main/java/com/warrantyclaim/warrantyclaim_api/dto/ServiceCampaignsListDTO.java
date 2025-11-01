@@ -16,10 +16,15 @@ public class ServiceCampaignsListDTO {
     private String campaignsTypeName;
     private LocalDate startDate;
     private LocalDate endDate;
+    private String requiredParts;
+    private String description;
     private ServiceCampaignsStatus status;
     private Boolean notificationSent;
 
     // Count of relationships
     private Integer vehicleTypeCount;
     private Integer technicianCount;
+
+    // Số xe đã sửa - tính từ reports hoặc technician progress
+    private Integer completedVehicles;
 }

@@ -34,16 +34,16 @@ public class SCTechnician {
     @Column(name = "Date_of_Birth")
     private LocalDate dateOfBirth;
 
-
     @Column(length = 100)
     private String password;
 
     @Column(name = "BranchOffice", length = 150)
     private String branchOffice;
 
+    @Column(name = "District", length = 100)
+    private String district;
+
     @Column(length = 100)
     private String specialty;
-
-
 
 }

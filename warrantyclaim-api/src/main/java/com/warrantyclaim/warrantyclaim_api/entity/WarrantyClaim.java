@@ -5,8 +5,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -37,6 +35,13 @@ public class WarrantyClaim {
     @Column(length = 50)
     private WarrantyClaimStatus status;
 
+
+    @Column(length = 500)
+    private String rejectionReason;
+
+    @Column(name = "CreatedByUserId")
+    private Long createdByUserId;
+
     @Column(length = 100)
     private String email;
 
@@ -51,6 +56,5 @@ public class WarrantyClaim {
     @ManyToOne
     @JoinColumn(name = "SC_TechnicianID")
     private SCTechnician technician;
-
 
 }

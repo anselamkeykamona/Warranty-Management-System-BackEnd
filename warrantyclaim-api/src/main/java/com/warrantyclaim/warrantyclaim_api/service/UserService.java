@@ -686,7 +686,8 @@ public class UserService {
                 user.getPhoneNumber(),
                 user.getBranchOffice(),
                 user.getDateOfBirth(),
-                user.getRoles().stream().map(Enum::name).collect(Collectors.toSet())
+                user.getRoles().stream().map(Enum::name).collect(Collectors.toSet()),
+                user.getAccountStatus()
         );
     }
 

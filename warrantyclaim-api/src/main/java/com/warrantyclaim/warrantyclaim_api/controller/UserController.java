@@ -27,11 +27,12 @@ public class UserController {
     @PutMapping("/update")
     public ResponseEntity<ApiResponse<UserResponse>> updateUser(
             @Valid @RequestBody UpdateUserRequest req,
-            @RequestHeader("Authorization") String token
+            @AuthenticationPrincipal User user
     ) {
-        UserResponse res = userService.updateUser(req, token);
+        UserResponse res = userService.updateUser(req, user.getEmail());
         return ResponseEntity.ok(ApiResponse.success("User updated successfully", res));
     }
+
 
     @PutMapping("/change-password")
     public ResponseEntity<ApiResponse<String>> changePassword(
@@ -79,6 +80,16 @@ public class UserController {
         }
 
         List<UserResponse> users = userService.getAllUsers();
+        return ResponseEntity.ok(users);
+    }
+
+
+    @GetMapping("/evm-admin/users-by-branch")
+    public ResponseEntity<List<UserResponse>> getUsersByBranchForEvmAdmin(
+            @AuthenticationPrincipal User requester,
+            @RequestParam String branchOffice
+    ) {
+        List<UserResponse> users = userService.findUsersByBranchForEvmAdmin(requester.getEmail(), branchOffice);
         return ResponseEntity.ok(users);
     }
 

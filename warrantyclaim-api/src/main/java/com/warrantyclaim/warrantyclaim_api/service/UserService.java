@@ -439,11 +439,15 @@ public class UserService {
         this.scAdminRepo = scAdminRepo;
         this.evmStaffRepo = evmStaffRepo;
     }
-
+// SỬA LẠI CHỔ NÀY INJEC USER THÔNG QUA AuthenticationPrincipal
     @Transactional
-    public UserResponse updateUser(UpdateUserRequest req, String token) {
-        String emailFromToken = jwtService.extractUserName(token.replace("Bearer ", ""));
-        User user = userRepo.findByEmail(emailFromToken)
+//    public UserResponse updateUser(UpdateUserRequest req, String token) {
+//        String emailFromToken = jwtService.extractUserName(token.replace("Bearer ", ""));
+//        User user = userRepo.findByEmail(emailFromToken)
+//                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+    public UserResponse updateUser(UpdateUserRequest req, String email) {
+        User user = userRepo.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
         user.setUsername(req.getUsername());
@@ -464,7 +468,7 @@ public class UserService {
 
         for (Role role : updatedUser.getRoles()) {
             switch (role) {
-                case SC_STAFF -> scStaffRepo.findByEmail(emailFromToken)
+                case SC_STAFF -> scStaffRepo.findByEmail(email)
                         .ifPresent(staff -> {
                             staff.setAccountName(req.getUsername());
                             staff.setEmail(req.getEmail());
@@ -473,7 +477,7 @@ public class UserService {
                             staff.setBranchOffice(req.getBranchOffice());
                             scStaffRepo.save(staff);
                         });
-                case SC_TECHNICAL -> scTechRepo.findByEmail(emailFromToken)
+                case SC_TECHNICAL -> scTechRepo.findByEmail(email)
                         .ifPresent(tech -> {
                             tech.setName(req.getUsername());
                             tech.setEmail(req.getEmail());
@@ -483,7 +487,7 @@ public class UserService {
                             tech.setSpecialty(req.getSpecialty());
                             scTechRepo.save(tech);
                         });
-                case SC_ADMIN -> scAdminRepo.findByEmail(emailFromToken)
+                case SC_ADMIN -> scAdminRepo.findByEmail(email)
                         .ifPresent(admin -> {
                             admin.setAccountName(req.getUsername());
                             admin.setEmail(req.getEmail());
@@ -492,7 +496,7 @@ public class UserService {
                             admin.setBranchOffice(req.getBranchOffice());
                             scAdminRepo.save(admin);
                         });
-                case EVM_STAFF -> evmStaffRepo.findByEmail(emailFromToken)
+                case EVM_STAFF -> evmStaffRepo.findByEmail(email)
                         .ifPresent(evm -> {
                             evm.setName(req.getUsername());
                             evm.setEmail(req.getEmail());
@@ -651,6 +655,24 @@ public class UserService {
         List<User> users = userRepo.findAll();
         return users.stream().map(this::toUserResponse).collect(Collectors.toList());
     }
+
+    public List<UserResponse> findUsersByBranchForEvmAdmin(String requesterEmail, String branchOffice) {
+        User requester = userRepo.findByEmail(requesterEmail)
+                .orElseThrow(() -> new IllegalArgumentException("Requester not found"));
+
+        if (!requester.getRoles().contains(Role.EVM_ADMIN)) {
+            throw new IllegalArgumentException("Only EVM_ADMIN can access this resource");
+        }
+
+        if (branchOffice == null || branchOffice.isBlank()) {
+            throw new IllegalArgumentException("Branch office must be provided");
+        }
+
+        List<User> users = userRepo.findByBranchOffice(branchOffice);
+        return users.stream().map(this::toUserResponse).collect(Collectors.toList());
+    }
+
+
 
 
 
